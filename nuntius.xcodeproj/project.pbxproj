@@ -26,6 +26,7 @@
 		2C2746751F2F4A7E008D530E /* TripleDHServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746721F2F4A7E008D530E /* TripleDHServiceSpec.m */; };
 		2C2746781F2F4ABF008D530E /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746761F2F4ABF008D530E /* Constants.h */; };
 		2C2746791F2F4ABF008D530E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746771F2F4ABF008D530E /* Constants.m */; };
+		2C29F8441F375A7500D5363C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2C29F8431F375A7500D5363C /* LICENSE */; };
 		2C54A9581F31EB8D003ABDF6 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91B1F31EB8D003ABDF6 /* core.h */; };
 		2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */; };
 		2C54A95A1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */; };
@@ -86,7 +87,6 @@
 		2C54A9911F31EB8D003ABDF6 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A9541F31EB8D003ABDF6 /* version.h */; };
 		2C54A9921F31EB8D003ABDF6 /* sodium.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A9551F31EB8D003ABDF6 /* sodium.h */; };
 		2C54A9931F31EB8D003ABDF6 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C54A9571F31EB8D003ABDF6 /* libsodium.a */; };
-		2C8FFB6A1F374F1000B7F852 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2C8FFB691F374F1000B7F852 /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,6 +122,7 @@
 		2C2746721F2F4A7E008D530E /* TripleDHServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripleDHServiceSpec.m; sourceTree = "<group>"; };
 		2C2746761F2F4ABF008D530E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		2C2746771F2F4ABF008D530E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		2C29F8431F375A7500D5363C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		2C54A91B1F31EB8D003ABDF6 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
 		2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_aes256gcm.h; sourceTree = "<group>"; };
 		2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_chacha20poly1305.h; sourceTree = "<group>"; };
@@ -182,7 +183,6 @@
 		2C54A9541F31EB8D003ABDF6 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		2C54A9551F31EB8D003ABDF6 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
 		2C54A9571F31EB8D003ABDF6 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsodium.a; sourceTree = "<group>"; };
-		2C8FFB691F374F1000B7F852 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,7 +232,7 @@
 				2C2746531F2F4A19008D530E /* Models */,
 				2C27463C1F2F49F2008D530E /* nuntius.h */,
 				2C27463D1F2F49F2008D530E /* Info.plist */,
-				2C8FFB691F374F1000B7F852 /* LICENSE */,
+				2C29F8431F375A7500D5363C /* LICENSE */,
 			);
 			path = nuntius;
 			sourceTree = "<group>";
@@ -550,7 +550,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C8FFB6A1F374F1000B7F852 /* LICENSE in Resources */,
+				2C29F8441F375A7500D5363C /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
