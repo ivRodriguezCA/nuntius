@@ -189,7 +189,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     NSData *cipherData = [self encryptData:plaintextData withKey:symmetricKey iv:iv];
     if (cipherData.length == 0) {
         NSString *description = NSLocalizedString(@"Invalid Ciphertext Size", nil);
-        NSError *err = [NSError errorWithDomain:@"com.ciphie.InvalidCiphertextSize" code:kInvalidCiphertextSize_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+        NSError *err = [NSError errorWithDomain:@"com.ivrodriguez.InvalidCiphertextSize" code:kInvalidCiphertextSize_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
         *error = err;
         return nil;
     }
@@ -234,7 +234,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     if (cipherData.length == 0) {
         if (error) {
             NSString *description = NSLocalizedString(@"Invalid Ciphertext Size", nil);
-            NSError *err = [NSError errorWithDomain:@"com.ciphie.InvalidCiphertextSize" code:kInvalidCiphertextSize_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+            NSError *err = [NSError errorWithDomain:@"com.ivrodriguez.InvalidCiphertextSize" code:kInvalidCiphertextSize_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
             *error = err;
         }
         return nil;
@@ -293,7 +293,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     }
 
     NSString *description = NSLocalizedString(@"Invalid Ciphertext", nil);
-    NSError *err = [NSError errorWithDomain:@"com.ciphie.InvalidCiphertext" code:kInvalidCiphertext_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+    NSError *err = [NSError errorWithDomain:@"com.ivrodriguez.InvalidCiphertext" code:kInvalidCiphertext_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
     *error = err;
 
     return nil;
@@ -321,7 +321,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
     NSString *description = NSLocalizedString(@"Invalid Ciphertext", nil);
     if (error != nil) {
-        NSError *err = [NSError errorWithDomain:@"com.ciphie.InvalidCiphertext" code:kInvalidCiphertext_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+        NSError *err = [NSError errorWithDomain:@"com.ivrodriguez.InvalidCiphertext" code:kInvalidCiphertext_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
         *error = err;
     }
 
