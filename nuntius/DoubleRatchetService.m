@@ -224,7 +224,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 - (NSError * _Nullable)addSkippedMessages:(NSUInteger)lastMessage {
     if (self.numberOfReceivedMessages + kSkippedMessagesLimit < lastMessage) {
         NSString *description = NSLocalizedString(@"Too many skipped messages", nil);
-        NSError *error = [NSError errorWithDomain:@"com.ciphie.SkippedMessagesError" code:kSkippedMessagesError_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
+        NSError *error = [NSError errorWithDomain:@"com.ivrodriguez.SkippedMessagesError" code:kSkippedMessagesError_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
         return error;
 
     }

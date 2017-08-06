@@ -723,7 +723,7 @@
 					"$(PROJECT_DIR)/nuntius",
 					"$(PROJECT_DIR)/nuntius/libsodium/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ciphie.nuntius;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivrodriguez.nuntius;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = include;
@@ -752,7 +752,7 @@
 					"$(PROJECT_DIR)/nuntius",
 					"$(PROJECT_DIR)/nuntius/libsodium/lib",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ciphie.nuntius;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivrodriguez.nuntius;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				USER_HEADER_SEARCH_PATHS = include;
@@ -765,7 +765,7 @@
 				DEVELOPMENT_TEAM = 5S2KV4J28S;
 				INFOPLIST_FILE = nuntiusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ciphie.nuntiusTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivrodriguez.nuntiusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -776,7 +776,7 @@
 				DEVELOPMENT_TEAM = 5S2KV4J28S;
 				INFOPLIST_FILE = nuntiusTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ciphie.nuntiusTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ivrodriguez.nuntiusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
