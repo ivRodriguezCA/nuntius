@@ -27,6 +27,7 @@
 		2C2746781F2F4ABF008D530E /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746761F2F4ABF008D530E /* Constants.h */; };
 		2C2746791F2F4ABF008D530E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746771F2F4ABF008D530E /* Constants.m */; };
 		2C29F8441F375A7500D5363C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2C29F8431F375A7500D5363C /* LICENSE */; };
+		2C29F8481F375D2800D5363C /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2C29F8471F375D2800D5363C /* README.md */; };
 		2C54A9581F31EB8D003ABDF6 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91B1F31EB8D003ABDF6 /* core.h */; };
 		2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */; };
 		2C54A95A1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */; };
@@ -123,6 +124,7 @@
 		2C2746761F2F4ABF008D530E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		2C2746771F2F4ABF008D530E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		2C29F8431F375A7500D5363C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		2C29F8471F375D2800D5363C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2C54A91B1F31EB8D003ABDF6 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
 		2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_aes256gcm.h; sourceTree = "<group>"; };
 		2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_chacha20poly1305.h; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 				2C27463C1F2F49F2008D530E /* nuntius.h */,
 				2C27463D1F2F49F2008D530E /* Info.plist */,
 				2C29F8431F375A7500D5363C /* LICENSE */,
+				2C29F8471F375D2800D5363C /* README.md */,
 			);
 			path = nuntius;
 			sourceTree = "<group>";
@@ -574,6 +577,7 @@
 				2C27466B1F2F4A61008D530E /* EncryptionService.m in Sources */,
 				2C27466F1F2F4A61008D530E /* DoubleRatchetService.m in Sources */,
 				2C2746791F2F4ABF008D530E /* Constants.m in Sources */,
+				2C29F8481F375D2800D5363C /* README.md in Sources */,
 				2C27465F1F2F4A55008D530E /* Curve25519KeyPair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
