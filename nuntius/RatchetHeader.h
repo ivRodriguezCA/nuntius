@@ -18,20 +18,21 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT double nuntiusVersionNumber;
-FOUNDATION_EXPORT const unsigned char nuntiusVersionString[];
+@class Curve25519KeyPair;
 
-//Services
-#import <nuntius/EncryptionService.h>
-#import <nuntius/TripleDHService.h>
-#import <nuntius/DoubleRatchetService.h>
+@interface RatchetHeader : NSObject
 
-//Models
-#import <nuntius/Curve25519KeyPair.h>
-#import <nuntius/RatchetHeader.h>
-#import <nuntius/AEADInfo.h>
+@property (nonnull, strong, readonly) Curve25519KeyPair *ratchetKey;
+@property (nonatomic, assign, readonly) NSUInteger numberOfSentMessages;
+@property (nonatomic, assign, readonly) NSUInteger numberOfPreviousChainSentMessages;
 
-//Common
-#import <nuntius/Constants.h>
++ (instancetype _Nonnull)headerWithKey:(NSData * _Nonnull)ratchetKey
+                          sentMessages:(NSUInteger)sentMessages
+             previousChainSentMessages:(NSUInteger)previousChainSentMessages;
+
+- (NSArray<NSObject *> * _Nullable)serialized;
+- (NSString * _Nullable)dictionaryKey;
+
+@end

@@ -18,20 +18,29 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT double nuntiusVersionNumber;
-FOUNDATION_EXPORT const unsigned char nuntiusVersionString[];
+@interface Curve25519KeyPair : NSObject
 
-//Services
-#import <nuntius/EncryptionService.h>
-#import <nuntius/TripleDHService.h>
-#import <nuntius/DoubleRatchetService.h>
+@property (nonatomic, strong, readonly) NSData * _Nonnull publicKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull privateKey;
+@property (nonatomic, strong, readonly) NSData * _Nullable signature;
+@property (nonatomic, copy, readonly) NSString * _Nullable keyID;
 
-//Models
-#import <nuntius/Curve25519KeyPair.h>
-#import <nuntius/RatchetHeader.h>
-#import <nuntius/AEADInfo.h>
++ (NSUInteger)keyLength;
++ (NSUInteger)signatureLength;
 
-//Common
-#import <nuntius/Constants.h>
++ (Curve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey
+                                        privateKey:(NSData * _Nonnull)privateKey;
+
++ (Curve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey;
+
++ (Curve25519KeyPair * _Nonnull)keyPairWithSerializedData:(NSDictionary<NSString *, NSString *> * _Nonnull)serializedData;
+
+- (void)addKeyPairSignature:(NSData * _Nonnull)signature;
+- (NSDictionary<NSString *, NSString *> * _Nullable)serializedForTransport;
+- (NSDictionary<NSString *, NSString *> * _Nullable)serialized;
+- (NSString * _Nullable)base64PublicKey;
+- (NSString * _Nullable)base64PrivateKey;
+
+@end

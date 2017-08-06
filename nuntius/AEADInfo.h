@@ -18,20 +18,18 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT double nuntiusVersionNumber;
-FOUNDATION_EXPORT const unsigned char nuntiusVersionString[];
+@interface AEADInfo : NSObject
 
-//Services
-#import <nuntius/EncryptionService.h>
-#import <nuntius/TripleDHService.h>
-#import <nuntius/DoubleRatchetService.h>
+@property (nonatomic, strong, readonly) NSData * _Nonnull aesKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull hmacKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull iv;
 
-//Models
-#import <nuntius/Curve25519KeyPair.h>
-#import <nuntius/RatchetHeader.h>
-#import <nuntius/AEADInfo.h>
++ (instancetype _Nonnull)infoWithRawData:(NSData * _Nonnull)data;
++ (instancetype _Nonnull)infoWithAESKey:(NSData * _Nonnull)aesKey
+                                HMACKey:(NSData * _Nonnull)hmacKey
+                                     iv:(NSData * _Nonnull)iv;
+- (NSData * _Nonnull)serialized;
 
-//Common
-#import <nuntius/Constants.h>
+@end
