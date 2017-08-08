@@ -24,11 +24,7 @@
 #import "Constants.h"
 #import "AEADInfo.h"
 
-#import "sodium/crypto_kdf.h"
-#import "sodium/crypto_sign.h"
-#import "sodium/crypto_scalarmult.h"
-#import "sodium/crypto_generichash.h"
-
+#include <sodium.h>
 #import <CommonCrypto/CommonCrypto.h>
 
 static char * const KDF_RootKey_Label = "KDF_RootKey_Label";
@@ -37,6 +33,16 @@ static char * const KDF_MesageKey_Label = "KDF_MesageKey_Label";
 static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
 @implementation EncryptionService
+
+#pragma mark - Init
+
+- (instancetype _Nonnull)init {
+    if (self = [super init]) {
+        __unused int result = sodium_init();
+    }
+
+    return self;
+}
 
 #pragma mark - Key Generation
 
