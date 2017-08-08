@@ -1,4 +1,4 @@
-# [WIP] nuntius
+# [alpha] nuntius
 Objc implementation of Extended Triple Diffie-Hellman (X3DH) and Double Ratchet protocols using [libsodium](https://github.com/jedisct1/libsodium) for most of the crypto operations.
 
 # Clarification
