@@ -1,14 +1,20 @@
 
 Pod::Spec.new do |s|
   s.name         = "nuntius"
-  s.version      = "0.0.2"
-  s.summary      = "Extended Triple Diffie-Hellman (X3DH) and Double Ratchet for iOS"
-  s.description  = "Objc implementation of Extended Triple Diffie-Hellman (X3DH) and Double Ratchet protocols using libsodium for most of the crypto operations."
+  s.version      = "0.0.3"
+  s.summary      = "iOS Framework for end-to-end encrypted messages"
+  s.description  = <<-DESC
+
+  nuntius is an iOS framework that helps iOS developers integrate end-to-end encryption (e2ee) into their apps with simple APIs.
+  It provides an objc implementation of the Extended Triple Diffie-Hellman (X3DH) and Double Ratchet protocols using libsodium for most of the crypto operations.
+  nuntius provides Authenticated Encryption with Associated Data (AEAD) via AES-CBC-HMAC-256, it uses Apple's CommonCrypto framework for this operations, but in the future I'll move to libsodium-only crypto and use ChaCha20-Poly1305 instead.
+  
+  DESC
   s.homepage     = "https://github.com/ivRodriguezCA/nuntius"
   s.license      = "MIT"
   s.author             = "Ivan E. Rodriguez"
   s.social_media_url   = "http://twitter.com/ivRodriguezCA"
-  s.source       = { :git => "https://github.com/ivRodriguezCA/nuntius.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/ivRodriguezCA/nuntius.git", :branch => "master", :tag => "#{s.version}" }
   s.source_files  = "nuntius/**/*.{h,m}"
   s.exclude_files = "nuntius/libsodium/**/*.{h,m}"
   s.platform     = :ios
