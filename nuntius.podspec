@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "nuntius"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "Extended Triple Diffie-Hellman (X3DH) and Double Ratchet for iOS"
   s.description  = "Objc implementation of Extended Triple Diffie-Hellman (X3DH) and Double Ratchet protocols using libsodium for most of the crypto operations."
   s.homepage     = "https://github.com/ivRodriguezCA/nuntius"
