@@ -2,4 +2,4 @@ language: objective-c
 xcode_project: nuntius.xcodeproj
 xcode_scheme: nuntius
 script:
-- xcodebuild -project nuntius.xcodeproj -scheme nuntius -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.0' build test
+- xcodebuild -project nuntius.xcodeproj -scheme nuntius -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7' build test
