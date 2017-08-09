@@ -1,4 +1,7 @@
-# [alpha] nuntius
+[![Build Status](https://travis-ci.org/ivRodriguezCA/nuntius.svg?branch=master)](https://travis-ci.org/ivRodriguezCA/nuntius)
+[![CocoaPods](https://img.shields.io/cocoapods/v/nuntius.svg)](https://cocoapods.org/pods/nuntius)
+
+# [beta] nuntius
 nuntius is an iOS framework that helps iOS developers integrate [end-to-end encryption (e2ee)](https://en.wikipedia.org/wiki/End-to-end_encryption) into their apps with simple APIs. It provides an objc implementation of the Extended Triple Diffie-Hellman (X3DH) and Double Ratchet protocols using [libsodium](https://github.com/jedisct1/libsodium) for most of the crypto operations. nuntius provides Authenticated Encryption with Associated Data (AEAD) via AES-CBC-HMAC-256, it uses Apple's CommonCrypto framework for these operations, but in the future I'll move to libsodium-only crypto and use [ChaCha20-Poly1305](https://en.wikipedia.org/wiki/Poly1305) instead.
 
 ## Extended Triple Diffie-Hellman (X3DH)
@@ -35,7 +38,7 @@ Do you want to contribute? awesome! I'd love to see some PRs opened here.
 ## TODO
 - [] Add examples
 - [] Add Documentation
-- [] Add project to Travis CI
+- [X] Add project to Travis CI
 
 ## Disclaimer
 - The Extended Triple Diffie-Hellman and Double Ratchet protocols' implementations where developed from scratch and do not share any source code with existing libraries.

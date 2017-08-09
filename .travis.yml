@@ -1,0 +1,7 @@
+language: objective-c
+osx_image: xcode8.3
+xcode_project: nuntius.xcodeproj
+xcode_scheme: nuntius
+xcode_sdk: iphonesimulator10.3
+script:
+- xcodebuild -project nuntius.xcodeproj -scheme nuntius -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' build test
