@@ -226,7 +226,6 @@ static uint64_t const crypto_kdf_iv_salt = 3;
         NSString *description = NSLocalizedString(@"Too many skipped messages", nil);
         NSError *error = [NSError errorWithDomain:@"com.ivrodriguez.SkippedMessagesError" code:kSkippedMessagesError_ErrorCode userInfo:@{NSLocalizedDescriptionKey: description}];
         return error;
-
     }
 
     if (self.chainKeyReceiver != nil) {

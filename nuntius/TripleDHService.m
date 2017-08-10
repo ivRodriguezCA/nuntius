@@ -151,7 +151,6 @@
     return [self.encryptionService sharedKeyKDFWithSecret:[kdfInput copy]
                                                   andSalt:0
                                              outputLength:32];
-
 }
 
 #pragma mark - Serialization
