@@ -226,7 +226,6 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     [aeCipherData appendData:hmacData];
 
     return [aeCipherData copy];
-
 }
 
 - (NSData * _Nullable)aeEncryptData:(NSData * _Nonnull)plaintextData
