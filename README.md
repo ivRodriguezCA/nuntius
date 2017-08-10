@@ -37,7 +37,7 @@ import nuntius
 ### Generate Curve25519 key pairs
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 Curve25519KeyPair *keyPair = [encryptionService generateKeyPair];
 NSLog(@"Public Key: %@", keyPair.publicKey);
 NSLog(@"Private Key: %@", keyPair.privateKey);
@@ -52,7 +52,7 @@ print("Private Key: \(keyPair.privateKey)")
 ### Sign Curve25519 public key
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 Curve25519KeyPair *signingKeyPair = [encryptionService generateKeyPair];
 Curve25519KeyPair *signedKeyPair = [encryptionService generateKeyPair];
 NSData *signature = [encryptionService signData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
@@ -73,7 +73,7 @@ print("Signature: \(signedKeyPair.signature!)")
 ### Verify Curve25519 Signature
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 Curve25519KeyPair *signingKeyPair = //get signing key pair
 Curve25519KeyPair *signedKeyPair = //get signed key pair
 BOOL valid = [encryptionService verifySignature:signedKeyPair.signature ofRawData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
@@ -98,7 +98,7 @@ if valid {
 ### Generate shared secret from 2 Curve25519 keys (ECDH)
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 //Alice is the sender
 Curve25519KeyPair *aliceKeyPair = [encryptionService generateKeyPair];
 //Bob is the receiver
@@ -128,7 +128,7 @@ print("Success!")
 ### Derive Keys
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 NSData *sharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 /* MIN outputLength: 16, MAX outputLength: 64, Salt: key id */
 NSData *key1 = [encryptionService sharedKeyKDFWithSecret:sharedSecret andSalt:1 outputLength:32];
@@ -162,7 +162,7 @@ All of these methods can be used for deriving keys, they are convenience methods
 ### Encrypt and Decrypt
 Objc
 ```Objc
-EncryptionService encryptionService = [EncryptionService new];
+EncryptionService *encryptionService = [EncryptionService new];
 NSData *data = [@"my-secret-data" dataUsingEncoding:NSUTF8StringEncoding];
 NSData *aesKey = //Random AES key, for example key = KDF(sharedSecret, 1, 32)
 NSData *hmacKey = //Random HMAC key, for example key = KDF(sharedSecret, 2, 32)
@@ -180,6 +180,7 @@ NSError *error = nil;
 NSData *ciphertext = [encryptionService aeEncryptData:data: symmetricKey:aesKey hmacKey:hmacKey iv:iv ratchetHeader:ratchetData error:&error];
 if (error == nil) {
     NSLog(@"Encrypted data: %@", ciphertext);
+    //Decrypting
     NSError *decryptionError = nil;
     NSData *plaintext = [encryptionService aeDecryptData:ciphertext symmetricKey:aesKey hmacKey:hmacKey iv:iv error:&decryptionError];
     if (decryptionError == nil) {
@@ -233,6 +234,60 @@ You can read more about what the `Ratchet Header` is and why is it needed [here]
                                   hmacKey:(NSData * _Nonnull)hmacKey
                                        iv:(NSData * _Nonnull)iv
                                     error:(NSError * _Nullable * _Nullable)error;
+```
+### Double Ratchet: setup, send and receive messages
+Objc
+```Objc
+//Alice is the sender and Bob is the receiver
+DoubleRatchetService *aliceDoubleRatchet = [DoubleRatchetService new];
+NSData *aliceSharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
+[aliceDoubleRatchet setupRatchetForSendingWithSharedKey:aliceSharedSecret andDHReceiverKey:bobKeyPair];
+
+DoubleRatchetService *bobDoubleRatchet = [DoubleRatchetService new];
+NSData *bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
+[bobDoubleRatchet setupRatchetForReceivingWithSharedKey:bobSharedSecret andSignedPreKeyPair:alice.signedPreKeyPair];
+
+//Sending messages
+NSData *message = //some message
+NSError *error = nil;
+NSData *ciphertext = [aliceDoubleRatchet encryptData:message error:&error];
+if (error == nil) {
+    NSLog(@"Ready to send message: %@", ciphertext);
+} else {
+    NSLog(@"Error %@",error);
+}
+
+//Receiving message
+NSData *plaintext = [bobDoubleRatchet decryptData:ciphertext error:&error];
+if (error == nil) {
+    NSLog(@"Message received: %@", plaintext);
+} else {
+    NSLog(@"Error %@",error);
+}
+```
+Swift
+```Swift
+let aliceDoubleRatchet = DoubleRatchetService()
+let aliceSharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
+aliceDoubleRatchet.setupRatchetForSending(withSharedKey: aliceSharedSecret, andDHReceiverKey: bobKeyPair)
+
+let bobDoubleRatchet = DoubleRatchetService()
+let bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
+bobDoubleRatchet.setupRatchetForReceiving(withSharedKey: bobSharedSecret, andSignedPreKeyPair: alice.signedPreKeyPair)
+
+//Sending messages
+let message = //some message
+do {
+    let ciphertext = try aliceDoubleRatchet.encryptData(message)
+    print("Ready to send message: \(ciphertext)")
+
+    //Receiving message
+    let plaintext = try bobDoubleRatchet.decryptData(ciphertext)
+    print("Message received \(plaintext)")
+} catch {
+    print("Error \(error)")
+}
+
 ```
 
 ## Contributions
