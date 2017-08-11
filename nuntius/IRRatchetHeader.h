@@ -18,47 +18,21 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "AEADInfo.h"
+#import <Foundation/Foundation.h>
 
-@interface AEADInfo ()
+@class IRCurve25519KeyPair;
 
-@property (nonatomic, strong) NSData * _Nonnull aesKey;
-@property (nonatomic, strong) NSData * _Nonnull hmacKey;
-@property (nonatomic, strong) NSData * _Nonnull iv;
+@interface IRRatchetHeader : NSObject
 
-@end
+@property (nonnull, strong, readonly) IRCurve25519KeyPair *ratchetKey;
+@property (nonatomic, assign, readonly) NSUInteger numberOfSentMessages;
+@property (nonatomic, assign, readonly) NSUInteger numberOfPreviousChainSentMessages;
 
-@implementation AEADInfo
++ (instancetype _Nonnull)headerWithKey:(NSData * _Nonnull)ratchetKey
+                          sentMessages:(NSUInteger)sentMessages
+             previousChainSentMessages:(NSUInteger)previousChainSentMessages;
 
-+ (instancetype _Nonnull)infoWithRawData:(NSData * _Nonnull)data {
-    NSRange aesRange = NSMakeRange(0, 32);
-    NSData *aes = [data subdataWithRange:aesRange];
-
-    NSRange hmacRange = NSMakeRange(32, 32);
-    NSData *hmac = [data subdataWithRange:hmacRange];
-
-    NSRange ivRange = NSMakeRange(64, 16);
-    NSData *iv = [data subdataWithRange:ivRange];
-
-    return [AEADInfo infoWithAESKey:aes HMACKey:hmac iv:iv];
-}
-
-+ (instancetype _Nonnull)infoWithAESKey:(NSData * _Nonnull)aesKey HMACKey:(NSData * _Nonnull)hmacKey iv:(NSData * _Nonnull)iv {
-    AEADInfo *info = [AEADInfo new];
-    info.aesKey = aesKey;
-    info.hmacKey = hmacKey;
-    info.iv = iv;
-
-    return info;
-}
-
-- (NSData * _Nonnull)serialized {
-    NSMutableData *data = [NSMutableData new];
-    [data appendData:self.aesKey];
-    [data appendData:self.hmacKey];
-    [data appendData:self.iv];
-
-    return [data copy];
-}
+- (NSArray<NSObject *> * _Nullable)serialized;
+- (NSString * _Nullable)dictionaryKey;
 
 @end

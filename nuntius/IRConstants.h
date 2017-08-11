@@ -20,7 +20,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Constants : NSObject
+@interface IRConstants : NSObject
 
 // Double Ratchet State
 
@@ -50,9 +50,5 @@ extern NSString * _Nonnull const kDictionaryKeyTripleDHServiceCurrentEphemeralKe
 extern NSUInteger const kSkippedMessagesError_ErrorCode;
 extern NSUInteger const kInvalidCiphertextSize_ErrorCode;
 extern NSUInteger const kInvalidCiphertext_ErrorCode;
-extern NSUInteger const kInvalidEncryptedMessage_ErrorCode;
-extern NSUInteger const kCouldNotCreateSession_ErrorCode;
-extern NSUInteger const kMissingSenderEphemeralKey_ErrorCode;
-extern NSUInteger const kUnableToEncryptMessage_ErrorCode;
 
 @end

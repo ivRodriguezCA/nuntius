@@ -20,19 +20,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class Curve25519KeyPair;
+@interface IRAEADInfo : NSObject
 
-@interface RatchetHeader : NSObject
+@property (nonatomic, strong, readonly) NSData * _Nonnull aesKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull hmacKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull iv;
 
-@property (nonnull, strong, readonly) Curve25519KeyPair *ratchetKey;
-@property (nonatomic, assign, readonly) NSUInteger numberOfSentMessages;
-@property (nonatomic, assign, readonly) NSUInteger numberOfPreviousChainSentMessages;
-
-+ (instancetype _Nonnull)headerWithKey:(NSData * _Nonnull)ratchetKey
-                          sentMessages:(NSUInteger)sentMessages
-             previousChainSentMessages:(NSUInteger)previousChainSentMessages;
-
-- (NSArray<NSObject *> * _Nullable)serialized;
-- (NSString * _Nullable)dictionaryKey;
++ (instancetype _Nonnull)infoWithRawData:(NSData * _Nonnull)data;
++ (instancetype _Nonnull)infoWithAESKey:(NSData * _Nonnull)aesKey
+                                HMACKey:(NSData * _Nonnull)hmacKey
+                                     iv:(NSData * _Nonnull)iv;
+- (NSData * _Nonnull)serialized;
 
 @end

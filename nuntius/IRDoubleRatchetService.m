@@ -18,12 +18,12 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "DoubleRatchetService.h"
-#import "EncryptionService.h"
-#import "Curve25519KeyPair.h"
-#import "RatchetHeader.h"
-#import "Constants.h"
-#import "AEADInfo.h"
+#import "IRDoubleRatchetService.h"
+#import "IREncryptionService.h"
+#import "IRCurve25519KeyPair.h"
+#import "IRRatchetHeader.h"
+#import "IRConstants.h"
+#import "IRAEADInfo.h"
 
 static NSUInteger const kSkippedMessagesLimit = 50;
 
@@ -34,12 +34,12 @@ static uint64_t const crypto_kdf_aes_salt = 1;
 static uint64_t const crypto_kdf_hmac_salt = 2;
 static uint64_t const crypto_kdf_iv_salt = 3;
 
-@interface DoubleRatchetService ()
+@interface IRDoubleRatchetService ()
 
-@property (nonatomic, strong) EncryptionService * _Nonnull encryptionService;
+@property (nonatomic, strong) IREncryptionService * _Nonnull encryptionService;
 
-@property (nonatomic, strong) Curve25519KeyPair * _Nonnull DHSenderKey;
-@property (nonatomic, strong) Curve25519KeyPair * _Nullable DHReceiverKey;
+@property (nonatomic, strong) IRCurve25519KeyPair * _Nonnull DHSenderKey;
+@property (nonatomic, strong) IRCurve25519KeyPair * _Nullable DHReceiverKey;
 @property (nonatomic, strong) NSData * _Nonnull rootKey;
 @property (nonatomic, strong) NSData * _Nullable chainKeySender;
 @property (nonatomic, strong) NSData * _Nullable chainKeyReceiver;
@@ -50,13 +50,13 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 
 @end
 
-@implementation DoubleRatchetService
+@implementation IRDoubleRatchetService
 
 #pragma mark - Override
 
 - (instancetype)init {
     if (self = [super init]) {
-        _encryptionService = [EncryptionService new];
+        _encryptionService = [IREncryptionService new];
     }
     return self;
 }
@@ -64,7 +64,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 #pragma mark - Sending Setup
 
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(Curve25519KeyPair * _Nonnull)DHReceiverKey
+                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey
                          doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState {
     self.DHSenderKey = [self.encryptionService generateKeyPair];
     self.DHReceiverKey = DHReceiverKey;
@@ -91,7 +91,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 }
 
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(Curve25519KeyPair * _Nonnull)DHReceiverKey {
+                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey {
 
     [self setupRatchetForSendingWithSharedKey:sharedKey
                              andDHReceiverKey:DHReceiverKey
@@ -101,10 +101,10 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 #pragma mark - Receiving Setup
 
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(Curve25519KeyPair * _Nonnull)signedPreKeyPair
+                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair
                            doubleRatchetState:(NSDictionary * _Nullable)doubleRatchetState {
 
-    Curve25519KeyPair *ratchetKey = [self DHSenderKeyFromDoubleRatchetState:doubleRatchetState];
+    IRCurve25519KeyPair *ratchetKey = [self DHSenderKeyFromDoubleRatchetState:doubleRatchetState];
     self.DHSenderKey = ratchetKey != nil ? ratchetKey : signedPreKeyPair;
     self.rootKey = sharedKey;
 
@@ -122,7 +122,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 }
 
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(Curve25519KeyPair * _Nonnull)signedPreKeyPair {
+                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair {
 
     [self setupRatchetForReceivingWithSharedKey:sharedKey
                             andSignedPreKeyPair:signedPreKeyPair
@@ -156,7 +156,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     const char previousChainSentMessages[1] = {self.numberOfSentMessages};
     [ratchetHeaderData appendBytes:previousChainSentMessages length:sizeof(previousChainSentMessages)];
 
-    AEADInfo *aeadInfo = [self aeadInfoFromMessageKey:messageKey];
+    IRAEADInfo *aeadInfo = [self aeadInfoFromMessageKey:messageKey];
 
     self.numberOfSentMessages = self.numberOfSentMessages + 1;
 
@@ -173,10 +173,10 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 - (NSData * _Nullable)decryptData:(NSData * _Nonnull)cipherdata
                             error:(NSError * _Nullable * _Nullable)error {
 
-    RatchetHeader *ratchetHeader = [self.encryptionService ratchetHeaderFromCipherData:cipherdata];
+    IRRatchetHeader *ratchetHeader = [self.encryptionService ratchetHeaderFromCipherData:cipherdata];
     NSData *skippedMessageKey = self.skippedMessagesKeys[[ratchetHeader dictionaryKey]];
     if (skippedMessageKey != nil) {
-        AEADInfo *aeadInfo = [self aeadInfoFromMessageKey:skippedMessageKey];
+        IRAEADInfo *aeadInfo = [self aeadInfoFromMessageKey:skippedMessageKey];
         [self.skippedMessagesKeys removeObjectForKey:[ratchetHeader dictionaryKey]];
 
         return [self.encryptionService aeDecryptData:cipherdata
@@ -210,7 +210,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
                                                              outputLength:32];
     self.numberOfReceivedMessages = self.numberOfReceivedMessages + 1;
 
-    AEADInfo *aeadInfo = [self aeadInfoFromMessageKey:messageKey];
+    IRAEADInfo *aeadInfo = [self aeadInfoFromMessageKey:messageKey];
 
     return [self.encryptionService aeDecryptData:cipherdata
                                     symmetricKey:aeadInfo.aesKey
@@ -248,7 +248,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     return nil;
 }
 
-- (void)performDHRatchet:(Curve25519KeyPair * _Nonnull)ratchetKey {
+- (void)performDHRatchet:(IRCurve25519KeyPair * _Nonnull)ratchetKey {
     self.numberOfPreviousChainSentMessages = self.numberOfSentMessages;
     self.numberOfSentMessages = 0;
     self.numberOfReceivedMessages = 0;
@@ -319,7 +319,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     return [state copy];
 }
 
-- (Curve25519KeyPair *)DHSenderKeyFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
+- (IRCurve25519KeyPair *)DHSenderKeyFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
     NSString *string = doubleRatchetState[kDHSenderKey_Key];
     if (string == nil) {
         return nil;
@@ -328,10 +328,10 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     NSData *data = [[NSData alloc]  initWithBase64EncodedString:string options:0];
     NSDictionary *serialized = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-    return [Curve25519KeyPair keyPairWithSerializedData:serialized];
+    return [IRCurve25519KeyPair keyPairWithSerializedData:serialized];
 }
 
-- (Curve25519KeyPair *)DHReceiverKeyFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
+- (IRCurve25519KeyPair *)DHReceiverKeyFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
     NSString *string = doubleRatchetState[kDHReceiverKey_Key];
     if (string == nil) {
         return nil;
@@ -340,7 +340,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     NSData *data = [[NSData alloc]  initWithBase64EncodedString:string options:0];
     NSDictionary *serialized = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-    return [Curve25519KeyPair keyPairWithSerializedData:serialized];
+    return [IRCurve25519KeyPair keyPairWithSerializedData:serialized];
 }
 
 - (NSData *)chainKeySenderFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
@@ -405,7 +405,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 
 #pragma mark - Helpers
 
-- (AEADInfo * _Nullable)aeadInfoFromMessageKey:(NSData * _Nonnull)messageKey {
+- (IRAEADInfo * _Nullable)aeadInfoFromMessageKey:(NSData * _Nonnull)messageKey {
     NSData *aes = [self.encryptionService chainKeyKDFWithSecret:messageKey
                                                         andSalt:crypto_kdf_aes_salt
                                                    outputLength:32];
@@ -418,7 +418,7 @@ static uint64_t const crypto_kdf_iv_salt = 3;
                                                         andSalt:crypto_kdf_iv_salt
                                                    outputLength:16];
 
-    return [AEADInfo infoWithAESKey:aes HMACKey:hmac iv:iv];
+    return [IRAEADInfo infoWithAESKey:aes HMACKey:hmac iv:iv];
 }
 
 - (NSString * _Nonnull)dictionaryKeyFrom:(NSData *)publicKey receivedMessages:(NSUInteger)messages {

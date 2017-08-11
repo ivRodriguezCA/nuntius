@@ -19,23 +19,23 @@
 */
 
 #import <XCTest/XCTest.h>
-#import "Constants.h"
-#import "EncryptionService.h"
-#import "Curve25519KeyPair.h"
-#import "RatchetHeader.h"
-#import "AEADInfo.h"
+#import "IRConstants.h"
+#import "IREncryptionService.h"
+#import "IRCurve25519KeyPair.h"
+#import "IRRatchetHeader.h"
+#import "IRAEADInfo.h"
 
-@interface EncryptionServiceSpec : XCTestCase
+@interface IREncryptionServiceSpec : XCTestCase
 
-@property (nonnull, strong) EncryptionService *subject;
+@property (nonnull, strong) IREncryptionService *subject;
 
 @end
 
-@implementation EncryptionServiceSpec
+@implementation IREncryptionServiceSpec
 
 - (void)setUp {
     [super setUp];
-    self.subject = [EncryptionService new];
+    self.subject = [IREncryptionService new];
 }
 
 - (void)tearDown {
@@ -43,17 +43,17 @@
 }
 
 - (void)testKeyGeneration {
-    Curve25519KeyPair *keyPair = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair.publicKey);
     XCTAssertNotNil(keyPair.privateKey);
 }
 
 - (void)testSharedSecretGeneration {
-    Curve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair1.publicKey);
     XCTAssertNotNil(keyPair1.privateKey);
 
-    Curve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair2.publicKey);
     XCTAssertNotNil(keyPair2.privateKey);
 
@@ -67,15 +67,15 @@
 }
 
 - (void)testBadSharedSecretGeneration {
-    Curve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair1.publicKey);
     XCTAssertNotNil(keyPair1.privateKey);
 
-    Curve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair2.publicKey);
     XCTAssertNotNil(keyPair2.privateKey);
 
-    Curve25519KeyPair *keyPair3 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair3 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair3.publicKey);
     XCTAssertNotNil(keyPair3.privateKey);
 
@@ -89,7 +89,7 @@
 }
 
 - (void)testSigningData {
-    Curve25519KeyPair *keyPair = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair.publicKey);
     XCTAssertNotNil(keyPair.privateKey);
 
@@ -100,7 +100,7 @@
 }
 
 - (void)testVerifySignedData {
-    Curve25519KeyPair *keyPair = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair.publicKey);
     XCTAssertNotNil(keyPair.privateKey);
 
@@ -116,11 +116,11 @@
 }
 
 - (void)testKDFKeyDerivation {
-    Curve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair1.publicKey);
     XCTAssertNotNil(keyPair1.privateKey);
 
-    Curve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair2.publicKey);
     XCTAssertNotNil(keyPair2.privateKey);
 
@@ -164,11 +164,11 @@
 }
 
 - (void)testGeneratingAEADInfo {
-    Curve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair1.publicKey);
     XCTAssertNotNil(keyPair1.privateKey);
 
-    Curve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair2.publicKey);
     XCTAssertNotNil(keyPair2.privateKey);
 
@@ -210,8 +210,8 @@
     XCTAssertEqual(iv2_generated.length, 16);
     XCTAssertEqualObjects(iv1_generated, iv2_generated);
 
-    AEADInfo *aeadInfo1 = [AEADInfo infoWithAESKey:aesKey1_generated HMACKey:hmacKey1_generated iv:iv1_generated];
-    AEADInfo *aeadInfo2 = [AEADInfo infoWithAESKey:aesKey2_generated HMACKey:hmacKey2_generated iv:iv2_generated];
+    IRAEADInfo *aeadInfo1 = [IRAEADInfo infoWithAESKey:aesKey1_generated HMACKey:hmacKey1_generated iv:iv1_generated];
+    IRAEADInfo *aeadInfo2 = [IRAEADInfo infoWithAESKey:aesKey2_generated HMACKey:hmacKey2_generated iv:iv2_generated];
 
     NSData *aesKey1 = aeadInfo1.aesKey;
     NSData *aesKey2 = aeadInfo2.aesKey;
@@ -239,11 +239,11 @@
 }
 
 - (void)testAEADEncryptionAndDecryption {
-    Curve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair1.publicKey);
     XCTAssertNotNil(keyPair1.privateKey);
 
-    Curve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [self.subject generateKeyPair];
     XCTAssertNotNil(keyPair2.publicKey);
     XCTAssertNotNil(keyPair2.privateKey);
 
@@ -285,8 +285,8 @@
     XCTAssertEqual(iv2_generated.length, 16);
     XCTAssertEqualObjects(iv1_generated, iv2_generated);
 
-    AEADInfo *aeadInfo1 = [AEADInfo infoWithAESKey:aesKey1_generated HMACKey:hmacKey1_generated iv:iv1_generated];
-    AEADInfo *aeadInfo2 = [AEADInfo infoWithAESKey:aesKey2_generated HMACKey:hmacKey2_generated iv:iv2_generated];
+    IRAEADInfo *aeadInfo1 = [IRAEADInfo infoWithAESKey:aesKey1_generated HMACKey:hmacKey1_generated iv:iv1_generated];
+    IRAEADInfo *aeadInfo2 = [IRAEADInfo infoWithAESKey:aesKey2_generated HMACKey:hmacKey2_generated iv:iv2_generated];
 
     NSData *aesKey1 = aeadInfo1.aesKey;
     NSData *aesKey2 = aeadInfo2.aesKey;
@@ -335,7 +335,7 @@
                                                error:nil];
     XCTAssertNotNil(ciphertext);
 
-    RatchetHeader *ratchetHeader = [self.subject ratchetHeaderFromCipherData:ciphertext];
+    IRRatchetHeader *ratchetHeader = [self.subject ratchetHeaderFromCipherData:ciphertext];
     XCTAssertNotNil(ratchetHeader);
     XCTAssertNotNil(ratchetHeader.ratchetKey);
     XCTAssertEqual(ratchetHeader.numberOfSentMessages, 0);
@@ -353,7 +353,7 @@
 
 - (void)testPerformanceOfKeyGeneration {
     [self measureBlock:^{
-        Curve25519KeyPair *keyPair = [self.subject generateKeyPair];
+        IRCurve25519KeyPair *keyPair = [self.subject generateKeyPair];
         XCTAssertNotNil(keyPair.publicKey);
         XCTAssertNotNil(keyPair.privateKey);
     }];

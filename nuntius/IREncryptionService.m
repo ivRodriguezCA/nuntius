@@ -18,11 +18,11 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "EncryptionService.h"
-#import "Curve25519KeyPair.h"
-#import "RatchetHeader.h"
-#import "Constants.h"
-#import "AEADInfo.h"
+#import "IREncryptionService.h"
+#import "IRCurve25519KeyPair.h"
+#import "IRRatchetHeader.h"
+#import "IRConstants.h"
+#import "IRAEADInfo.h"
 
 #include <sodium.h>
 #import <CommonCrypto/CommonCrypto.h>
@@ -32,7 +32,7 @@ static char * const KDF_ChainKey_Label = "KDF_ChainKey_Label";
 static char * const KDF_MesageKey_Label = "KDF_MesageKey_Label";
 static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
-@implementation EncryptionService
+@implementation IREncryptionService
 
 #pragma mark - Init
 
@@ -46,7 +46,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
 #pragma mark - Key Generation
 
-- (Curve25519KeyPair * _Nullable)generateKeyPair {
+- (IRCurve25519KeyPair * _Nullable)generateKeyPair {
     unsigned char ed25519_pk[crypto_sign_ed25519_PUBLICKEYBYTES];
     unsigned char ed25519_skpk[crypto_sign_ed25519_SECRETKEYBYTES];
 
@@ -55,19 +55,19 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     NSData *publicKey = [NSData dataWithBytes:ed25519_pk length:crypto_sign_ed25519_PUBLICKEYBYTES];
     NSData *privateKey = [NSData dataWithBytes:ed25519_skpk length:crypto_sign_ed25519_SECRETKEYBYTES];
 
-    return [Curve25519KeyPair keyPairWithPublicKey:publicKey privateKey:privateKey];
+    return [IRCurve25519KeyPair keyPairWithPublicKey:publicKey privateKey:privateKey];
 }
 
-- (AEADInfo * _Nonnull)generateRandomAEADInfoData {
+- (IRAEADInfo * _Nonnull)generateRandomIRAEADInfoData {
     NSData *randomData = [self randomBytesOfLength:80];
-    return [AEADInfo infoWithRawData:randomData];
+    return [IRAEADInfo infoWithRawData:randomData];
 }
 
 #pragma mark - Shared Keys
 
 - (NSData * _Nullable)senderSharedKeyWithRecieverPublicKey:(NSData * _Nonnull)receiverPublicKey
-                                          andSenderKeyPair:(Curve25519KeyPair * _Nonnull)senderKeyPair {
-    NSUInteger keyLength = [Curve25519KeyPair keyLength];
+                                          andSenderKeyPair:(IRCurve25519KeyPair * _Nonnull)senderKeyPair {
+    NSUInteger keyLength = [IRCurve25519KeyPair keyLength];
     if (receiverPublicKey.length != keyLength) {
         return nil;
     }
@@ -99,8 +99,8 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 }
 
 - (NSData * _Nullable)receiverSharedKeyWithSenderPublicKey:(NSData * _Nonnull)senderPublicKey
-                                        andReceiverKeyPair:(Curve25519KeyPair * _Nonnull)receiverKeyPair {
-    NSUInteger keyLength = [Curve25519KeyPair keyLength];
+                                        andReceiverKeyPair:(IRCurve25519KeyPair * _Nonnull)receiverKeyPair {
+    NSUInteger keyLength = [IRCurve25519KeyPair keyLength];
     if (senderPublicKey.length != keyLength) {
         return nil;
     }
@@ -420,7 +420,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 #pragma mark - Signing
 
 - (NSData * _Nullable)signData:(NSData * _Nonnull)rawData
-                   withKeyPair:(Curve25519KeyPair * _Nonnull)keyPair {
+                   withKeyPair:(IRCurve25519KeyPair * _Nonnull)keyPair {
     if (rawData == nil || rawData.length == 0 || keyPair == nil) {
         return nil;
     }
@@ -439,7 +439,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
 - (BOOL)verifySignature:(NSData * _Nonnull)signature
               ofRawData:(NSData * _Nonnull)rawData
-            withKeyPair:(Curve25519KeyPair * _Nonnull)keyPair {
+            withKeyPair:(IRCurve25519KeyPair * _Nonnull)keyPair {
     if (signature.length == 0) {
         return NO;
     }
@@ -483,7 +483,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
 
 #pragma mark - Ratchet Header
 
-- (RatchetHeader * _Nullable)ratchetHeaderFromCipherData:(NSData * _Nonnull)cipherData {
+- (IRRatchetHeader * _Nullable)ratchetHeaderFromCipherData:(NSData * _Nonnull)cipherData {
     //Minimum size 70 bytes
     if (cipherData.length < 70) {
         return nil;
@@ -512,7 +512,7 @@ static char * const KDF_SharedKey_Label = "KDF_SharedKey_Label";
     NSData *numberOfSentMessagesInPreviousChainData = [ratchetHeader subdataWithRange:range];
     NSUInteger numberOfSentMessagesInPreviousChain = *(NSInteger*)numberOfSentMessagesInPreviousChainData.bytes;
 
-    return [RatchetHeader headerWithKey:publicKeyData
+    return [IRRatchetHeader headerWithKey:publicKeyData
                            sentMessages:sentMessages
               previousChainSentMessages:numberOfSentMessagesInPreviousChain];
 }

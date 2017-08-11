@@ -18,9 +18,9 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "Constants.h"
+#import "IRConstants.h"
 
-@implementation Constants
+@implementation IRConstants
 
 // Double Ratchet State
 
@@ -47,12 +47,8 @@ NSString * const kDictionaryKeyTripleDHServiceCurrentEphemeralKeyKey = @"kDictio
 
 // Error Codes
 
-NSUInteger const kSkippedMessagesError_ErrorCode = 7002;
-NSUInteger const kInvalidCiphertextSize_ErrorCode = 7003;
-NSUInteger const kInvalidCiphertext_ErrorCode = 7004;
-NSUInteger const kInvalidEncryptedMessage_ErrorCode = 7005;
-NSUInteger const kCouldNotCreateSession_ErrorCode = 7010;
-NSUInteger const kMissingSenderEphemeralKey_ErrorCode = 7011;
-NSUInteger const kUnableToEncryptMessage_ErrorCode = 7012;
+NSUInteger const kSkippedMessagesError_ErrorCode = 7001;
+NSUInteger const kInvalidCiphertextSize_ErrorCode = 7002;
+NSUInteger const kInvalidCiphertext_ErrorCode = 7003;
 
 @end

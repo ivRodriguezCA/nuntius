@@ -18,32 +18,32 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "TripleDHService.h"
-#import "EncryptionService.h"
-#import "Curve25519KeyPair.h"
-#import "Constants.h"
+#import "IRTripleDHService.h"
+#import "IREncryptionService.h"
+#import "IRCurve25519KeyPair.h"
+#import "IRConstants.h"
 
-@interface TripleDHService ()
+@interface IRTripleDHService ()
 
-@property (nonatomic, strong) EncryptionService * _Nonnull encryptionService;
+@property (nonatomic, strong) IREncryptionService * _Nonnull encryptionService;
 
-@property (nonatomic, strong) Curve25519KeyPair * _Nonnull identityKeyPair;
-@property (nonatomic, strong) Curve25519KeyPair * _Nonnull signedPreKeyPair;
-@property (nonatomic, strong) NSArray<Curve25519KeyPair *> * _Nonnull ephemeralKeyPairs;
+@property (nonatomic, strong) IRCurve25519KeyPair * _Nonnull identityKeyPair;
+@property (nonatomic, strong) IRCurve25519KeyPair * _Nonnull signedPreKeyPair;
+@property (nonatomic, strong) NSArray<IRCurve25519KeyPair *> * _Nonnull ephemeralKeyPairs;
 
-@property (nonatomic, strong) Curve25519KeyPair * _Nullable currentEphemeralKeyPair;
+@property (nonatomic, strong) IRCurve25519KeyPair * _Nullable currentEphemeralKeyPair;
 
 @end
 
-@implementation TripleDHService
+@implementation IRTripleDHService
 
 #pragma mark - <NSObject>
 
-- (instancetype)initWithIdentityKeyPair:(Curve25519KeyPair *)identityKeyPair
-                       signedPreKeyPair:(Curve25519KeyPair *)signedPreKeyPair
-                          ephemeralKeys:(NSArray<Curve25519KeyPair *> *)ephemeralKeys {
+- (instancetype)initWithIdentityKeyPair:(IRCurve25519KeyPair *)identityKeyPair
+                       signedPreKeyPair:(IRCurve25519KeyPair *)signedPreKeyPair
+                          ephemeralKeys:(NSArray<IRCurve25519KeyPair *> *)ephemeralKeys {
     if (self = [super init]) {
-        _encryptionService = [EncryptionService new];
+        _encryptionService = [IREncryptionService new];
 
         _identityKeyPair = identityKeyPair;
         _signedPreKeyPair = signedPreKeyPair;
@@ -55,13 +55,13 @@
 
 - (instancetype)initWithData:(NSDictionary<NSString *, NSObject *> *)data {
     if (self = [super init]) {
-        _encryptionService = [EncryptionService new];
+        _encryptionService = [IREncryptionService new];
 
         NSDictionary *identityKeyData = (NSDictionary *)data[kDictionaryKeyTripleDHServiceIdentityKeyKey];
-        _identityKeyPair = [Curve25519KeyPair keyPairWithSerializedData:identityKeyData];
+        _identityKeyPair = [IRCurve25519KeyPair keyPairWithSerializedData:identityKeyData];
 
         NSDictionary *signedPreKeyData = (NSDictionary *)data[kDictionaryKeyTripleDHServiceSignedPreKeyKey];
-        _signedPreKeyPair = [Curve25519KeyPair keyPairWithSerializedData:signedPreKeyData];
+        _signedPreKeyPair = [IRCurve25519KeyPair keyPairWithSerializedData:signedPreKeyData];
 
         NSData *signature = [_encryptionService signData:_signedPreKeyPair.publicKey
                                              withKeyPair:_identityKeyPair];
@@ -71,7 +71,7 @@
         NSMutableArray *eKeys = [NSMutableArray new];
         for (NSInteger i=0; i<keys.count; i++) {
             NSDictionary *keyData = keys[i];
-            Curve25519KeyPair *keyPair = [Curve25519KeyPair keyPairWithSerializedData:keyData];
+            IRCurve25519KeyPair *keyPair = [IRCurve25519KeyPair keyPairWithSerializedData:keyData];
             if (keyPair == nil) continue;
 
             [eKeys addObject:keyPair];
@@ -84,9 +84,9 @@
 
 #pragma mark - Public
 
-- (NSData * _Nullable)sharedKeyFromReceiverIdentityKey:(Curve25519KeyPair * _Nonnull)rIdentityKey
-                                  receiverSignedPreKey:(Curve25519KeyPair * _Nonnull)rSignedPreKey
-                                  receiverEphemeralKey:(Curve25519KeyPair * _Nullable)rEphemeralKey {
+- (NSData * _Nullable)sharedKeyFromReceiverIdentityKey:(IRCurve25519KeyPair * _Nonnull)rIdentityKey
+                                  receiverSignedPreKey:(IRCurve25519KeyPair * _Nonnull)rSignedPreKey
+                                  receiverEphemeralKey:(IRCurve25519KeyPair * _Nullable)rEphemeralKey {
 
     //TODO: Investigate `cryptographic domain separation`
     const char separation[32] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
@@ -118,8 +118,8 @@
                                              outputLength:32];
 }
 
-- (NSData * _Nullable)sharedKeyFromSenderIdentityKey:(Curve25519KeyPair * _Nonnull)sIdentityKey
-                                  senderEphemeralKey:(Curve25519KeyPair * _Nonnull)sEphemeralKey
+- (NSData * _Nullable)sharedKeyFromSenderIdentityKey:(IRCurve25519KeyPair * _Nonnull)sIdentityKey
+                                  senderEphemeralKey:(IRCurve25519KeyPair * _Nonnull)sEphemeralKey
                               receiverEphemeralKeyID:(NSString * _Nullable)rEphemeralKeyID {
 
     //TODO: Investigate `cryptographic domain separation`
@@ -134,7 +134,7 @@
     NSData *dh3 = [self.encryptionService senderSharedKeyWithRecieverPublicKey:sEphemeralKey.publicKey
                                                               andSenderKeyPair:self.signedPreKeyPair];
     NSData *dh4 = nil;
-    Curve25519KeyPair *receiverEphemeralKey = [self keyFromKeyID:rEphemeralKeyID];
+    IRCurve25519KeyPair *receiverEphemeralKey = [self keyFromKeyID:rEphemeralKeyID];
     if (receiverEphemeralKey != nil) {
         dh4 = [self.encryptionService senderSharedKeyWithRecieverPublicKey:sEphemeralKey.publicKey
                                                           andSenderKeyPair:receiverEphemeralKey];
@@ -161,7 +161,7 @@
     }
 
     NSMutableArray *serializedEphemeralKeys = [NSMutableArray arrayWithCapacity:self.ephemeralKeyPairs.count];
-    for (Curve25519KeyPair *keyPair in self.ephemeralKeyPairs) {
+    for (IRCurve25519KeyPair *keyPair in self.ephemeralKeyPairs) {
         NSDictionary *serialized = [keyPair serializedForTransport];
         if (serialized != nil) {
             [serializedEphemeralKeys addObject:serialized];
@@ -186,7 +186,7 @@
     }
 
     NSMutableArray *serializedEphemeralKeys = [NSMutableArray arrayWithCapacity:self.ephemeralKeyPairs.count];
-    for (Curve25519KeyPair *keyPair in self.ephemeralKeyPairs) {
+    for (IRCurve25519KeyPair *keyPair in self.ephemeralKeyPairs) {
         NSDictionary *serialized = [keyPair serialized];
         if (serialized != nil) {
             [serializedEphemeralKeys addObject:serialized];
@@ -225,12 +225,12 @@
 
 #pragma mark - Private
 
-- (Curve25519KeyPair * _Nullable)keyFromKeyID:(NSString * _Nullable)keyID {
+- (IRCurve25519KeyPair * _Nullable)keyFromKeyID:(NSString * _Nullable)keyID {
     if (keyID == nil || keyID.length == 0) {
         return nil;
     }
 
-    for (Curve25519KeyPair *key in self.ephemeralKeyPairs) {
+    for (IRCurve25519KeyPair *key in self.ephemeralKeyPairs) {
         if ([key.keyID isEqualToString:keyID]) {
             return key;
         }

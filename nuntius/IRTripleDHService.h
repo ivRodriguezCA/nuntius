@@ -20,26 +20,26 @@
 
 #import <Foundation/Foundation.h>
 
-@class Curve25519KeyPair;
+@class IRCurve25519KeyPair;
 
-@interface TripleDHService : NSObject
+@interface IRTripleDHService : NSObject
 
-@property (nonatomic, strong, readonly) Curve25519KeyPair * _Nonnull identityKeyPair;
-@property (nonatomic, strong, readonly) Curve25519KeyPair * _Nonnull signedPreKeyPair;
-@property (nonatomic, strong, readonly) NSArray<Curve25519KeyPair *> * _Nonnull ephemeralKeyPairs;
-@property (nonatomic, strong, readonly) Curve25519KeyPair * _Nullable currentEphemeralKeyPair;
+@property (nonatomic, strong, readonly) IRCurve25519KeyPair * _Nonnull identityKeyPair;
+@property (nonatomic, strong, readonly) IRCurve25519KeyPair * _Nonnull signedPreKeyPair;
+@property (nonatomic, strong, readonly) NSArray<IRCurve25519KeyPair *> * _Nonnull ephemeralKeyPairs;
+@property (nonatomic, strong, readonly) IRCurve25519KeyPair * _Nullable currentEphemeralKeyPair;
 
-- (instancetype _Nonnull)initWithIdentityKeyPair:(Curve25519KeyPair * _Nonnull)identityKeyPair
-                       signedPreKeyPair:(Curve25519KeyPair * _Nonnull)signedPreKeyPair
-                                    ephemeralKeys:(NSArray<Curve25519KeyPair *> * _Nonnull)ephemeralKeys;
+- (instancetype _Nonnull)initWithIdentityKeyPair:(IRCurve25519KeyPair * _Nonnull)identityKeyPair
+                       signedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair
+                                    ephemeralKeys:(NSArray<IRCurve25519KeyPair *> * _Nonnull)ephemeralKeys;
 
 - (instancetype _Nullable)initWithData:(NSDictionary<NSString *, NSObject *> * _Nonnull)data;
 
-- (NSData * _Nullable)sharedKeyFromReceiverIdentityKey:(Curve25519KeyPair * _Nonnull)identityKey
-                                  receiverSignedPreKey:(Curve25519KeyPair * _Nonnull)signedPreKey
-                                  receiverEphemeralKey:(Curve25519KeyPair * _Nullable)ephemeralKey;
-- (NSData * _Nullable)sharedKeyFromSenderIdentityKey:(Curve25519KeyPair * _Nonnull)sIdentityKey
-                                  senderEphemeralKey:(Curve25519KeyPair * _Nonnull)sEphemeralKey
+- (NSData * _Nullable)sharedKeyFromReceiverIdentityKey:(IRCurve25519KeyPair * _Nonnull)identityKey
+                                  receiverSignedPreKey:(IRCurve25519KeyPair * _Nonnull)signedPreKey
+                                  receiverEphemeralKey:(IRCurve25519KeyPair * _Nullable)ephemeralKey;
+- (NSData * _Nullable)sharedKeyFromSenderIdentityKey:(IRCurve25519KeyPair * _Nonnull)sIdentityKey
+                                  senderEphemeralKey:(IRCurve25519KeyPair * _Nonnull)sEphemeralKey
                               receiverEphemeralKeyID:(NSString * _Nullable)rEphemeralKeyID;
 - (NSDictionary<NSString *, NSObject *> * _Nullable)serializedForTransport;
 - (NSDictionary<NSString *, NSObject *> * _Nullable)serialized;
