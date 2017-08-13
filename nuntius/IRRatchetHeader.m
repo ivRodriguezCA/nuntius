@@ -18,24 +18,24 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "RatchetHeader.h"
-#import "Curve25519KeyPair.h"
+#import "IRRatchetHeader.h"
+#import "IRCurve25519KeyPair.h"
 
-@interface RatchetHeader ()
+@interface IRRatchetHeader ()
 
-@property (nonnull, strong) Curve25519KeyPair *ratchetKey;
+@property (nonnull, strong) IRCurve25519KeyPair *ratchetKey;
 @property (nonatomic, assign) NSUInteger numberOfSentMessages;
 @property (nonatomic, assign) NSUInteger numberOfPreviousChainSentMessages;
 
 @end
 
-@implementation RatchetHeader
+@implementation IRRatchetHeader
 
 + (instancetype _Nonnull)headerWithKey:(NSData * _Nonnull)ratchetKey
                           sentMessages:(NSUInteger)sentMessages
              previousChainSentMessages:(NSUInteger)previousChainSentMessages {
-    RatchetHeader *header = [RatchetHeader new];
-    header.ratchetKey = [Curve25519KeyPair keyPairWithPublicKey:ratchetKey];
+    IRRatchetHeader *header = [IRRatchetHeader new];
+    header.ratchetKey = [IRCurve25519KeyPair keyPairWithPublicKey:ratchetKey];
     header.numberOfSentMessages = sentMessages;
     header.numberOfPreviousChainSentMessages = previousChainSentMessages;
 

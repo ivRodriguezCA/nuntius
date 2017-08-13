@@ -19,20 +19,20 @@
 */
 
 #import <XCTest/XCTest.h>
-#import "TripleDHService.h"
-#import "Curve25519KeyPair.h"
-#import "EncryptionService.h"
-#import "Constants.h"
+#import "IRTripleDHService.h"
+#import "IRCurve25519KeyPair.h"
+#import "IREncryptionService.h"
+#import "IRConstants.h"
 
-@interface TripleDHServiceSpec : XCTestCase
+@interface IRTripleDHServiceSpec : XCTestCase
 
-@property (nonatomic, strong) TripleDHService *alice;
-@property (nonatomic, strong) TripleDHService *bob;
-@property (nonatomic, strong) TripleDHService *eve;
+@property (nonatomic, strong) IRTripleDHService *alice;
+@property (nonatomic, strong) IRTripleDHService *bob;
+@property (nonatomic, strong) IRTripleDHService *eve;
 
 @end
 
-@implementation TripleDHServiceSpec
+@implementation IRTripleDHServiceSpec
 
 - (void)setUp {
     [super setUp];
@@ -101,7 +101,7 @@
 }
 
 - (void)testSharedKey {
-    Curve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
+    IRCurve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
     NSData *sharedKeyAlice = [self.alice sharedKeyFromReceiverIdentityKey:self.bob.identityKeyPair
                                                      receiverSignedPreKey:self.bob.signedPreKeyPair
                                                      receiverEphemeralKey:bobEphemeralKey];
@@ -129,7 +129,7 @@
 
 
 - (void)testInvalidSharedKey {
-    Curve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
+    IRCurve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
     NSData *sharedKeyAlice = [self.alice sharedKeyFromReceiverIdentityKey:self.bob.identityKeyPair
                                                      receiverSignedPreKey:self.bob.signedPreKeyPair
                                                      receiverEphemeralKey:bobEphemeralKey];
@@ -142,11 +142,11 @@
     XCTAssertEqual(sharedKeyAlice.length,32);
     XCTAssertEqual(sharedKeyBob.length,32);
 
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *eveIdentityKeyPair = [eS generateKeyPair];
-    Curve25519KeyPair *eveSignedPreKeyPair = [eS generateKeyPair];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *eveIdentityKeyPair = [eS generateKeyPair];
+    IRCurve25519KeyPair *eveSignedPreKeyPair = [eS generateKeyPair];
     [eveSignedPreKeyPair addKeyPairSignature:[eS signData:eveSignedPreKeyPair.publicKey withKeyPair:eveIdentityKeyPair]];
-    Curve25519KeyPair *eveEphemeralKeyPair = [eS generateKeyPair];
+    IRCurve25519KeyPair *eveEphemeralKeyPair = [eS generateKeyPair];
     NSData *sharedKeyEve = [self.eve sharedKeyFromReceiverIdentityKey:eveIdentityKeyPair
                                                  receiverSignedPreKey:eveSignedPreKeyPair
                                                  receiverEphemeralKey:eveEphemeralKeyPair];
@@ -156,7 +156,7 @@
 - (void)testLoadFromSerializedData {
     NSDictionary *dic = [self.alice serialized];
 
-    TripleDHService *savedAlice = [[TripleDHService alloc] initWithData:dic];
+    IRTripleDHService *savedAlice = [[IRTripleDHService alloc] initWithData:dic];
 
     XCTAssertNotNil(savedAlice.identityKeyPair);
     XCTAssertNotNil(savedAlice.signedPreKeyPair);
@@ -190,13 +190,13 @@
 
 - (void)testSharedSecretLoadedFromSerializedData {
     NSDictionary *dic = [self.alice serialized];
-    TripleDHService *savedAlice = [[TripleDHService alloc] initWithData:dic];
+    IRTripleDHService *savedAlice = [[IRTripleDHService alloc] initWithData:dic];
 
     XCTAssertNotNil(savedAlice.identityKeyPair);
     XCTAssertNotNil(savedAlice.signedPreKeyPair);
     XCTAssertEqual(savedAlice.ephemeralKeyPairs.count, 50);
 
-    Curve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
+    IRCurve25519KeyPair *bobEphemeralKey = self.bob.ephemeralKeyPairs.firstObject;
     NSData *sharedKeyAlice = [savedAlice sharedKeyFromReceiverIdentityKey:self.bob.identityKeyPair
                                                      receiverSignedPreKey:self.bob.signedPreKeyPair
                                                      receiverEphemeralKey:bobEphemeralKey];
@@ -211,23 +211,23 @@
 
 #pragma mark - Helpers
 
-- (TripleDHService *)generateX3DH {
-    EncryptionService *eS = [EncryptionService new];
+- (IRTripleDHService *)generateX3DH {
+    IREncryptionService *eS = [IREncryptionService new];
 
-    Curve25519KeyPair *identityKeyPair = [eS generateKeyPair];
-    Curve25519KeyPair *signedPreKeyPair = [eS generateKeyPair];
+    IRCurve25519KeyPair *identityKeyPair = [eS generateKeyPair];
+    IRCurve25519KeyPair *signedPreKeyPair = [eS generateKeyPair];
     NSData *signature = [eS signData:signedPreKeyPair.publicKey withKeyPair:identityKeyPair];
     [signedPreKeyPair addKeyPairSignature:signature];
 
     NSMutableArray *eKeys = [NSMutableArray new];
     for (NSInteger i=0; i<50; i++) {
-        Curve25519KeyPair *keyPair = [eS generateKeyPair];
+        IRCurve25519KeyPair *keyPair = [eS generateKeyPair];
         if (keyPair == nil) continue;
 
         [eKeys addObject:keyPair];
     }
 
-    return [[TripleDHService alloc] initWithIdentityKeyPair:identityKeyPair signedPreKeyPair:signedPreKeyPair ephemeralKeys:[eKeys copy]];
+    return [[IRTripleDHService alloc] initWithIdentityKeyPair:identityKeyPair signedPreKeyPair:signedPreKeyPair ephemeralKeys:[eKeys copy]];
 }
 
 @end

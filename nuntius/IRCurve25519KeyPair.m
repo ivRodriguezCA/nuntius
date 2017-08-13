@@ -18,14 +18,14 @@
  OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import "Curve25519KeyPair.h"
+#import "IRCurve25519KeyPair.h"
+#import "IRConstants.h"
 #import <CommonCrypto/CommonCrypto.h>
-#import "Constants.h"
 
 static NSUInteger const kCurve25519KeyLength = 32;
 static NSUInteger const kCurve25519SignatureLength = 64;
 
-@interface Curve25519KeyPair ()
+@interface IRCurve25519KeyPair ()
 
 @property (nonatomic, strong) NSData * _Nonnull publicKey;
 @property (nonatomic, strong) NSData * _Nullable privateKey;
@@ -33,7 +33,7 @@ static NSUInteger const kCurve25519SignatureLength = 64;
 
 @end
 
-@implementation Curve25519KeyPair
+@implementation IRCurve25519KeyPair
 
 #pragma mark - Public
 
@@ -45,25 +45,25 @@ static NSUInteger const kCurve25519SignatureLength = 64;
     return kCurve25519SignatureLength;
 }
 
-+ (Curve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey
                                         privateKey:(NSData * _Nonnull)privateKey {
-    Curve25519KeyPair *keyPair = [Curve25519KeyPair new];
+    IRCurve25519KeyPair *keyPair = [IRCurve25519KeyPair new];
     keyPair.publicKey = publicKey;
     keyPair.privateKey = privateKey;
 
     return keyPair;
 }
 
-+ (Curve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey {
-    Curve25519KeyPair *keyPair = [Curve25519KeyPair new];
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey {
+    IRCurve25519KeyPair *keyPair = [IRCurve25519KeyPair new];
     keyPair.publicKey = publicKey;
     keyPair.privateKey = nil;
 
     return keyPair;
 }
 
-+ (Curve25519KeyPair * _Nonnull)keyPairWithSerializedData:(NSDictionary<NSString *, NSString *> * _Nonnull)serializedData {
-    Curve25519KeyPair *keyPair = [Curve25519KeyPair new];
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithSerializedData:(NSDictionary<NSString *, NSString *> * _Nonnull)serializedData {
+    IRCurve25519KeyPair *keyPair = [IRCurve25519KeyPair new];
     keyPair.publicKey = [keyPair base64DecodedString:serializedData[kDictionaryKeyCurve25519KeyPairPublicKey]];
     keyPair.privateKey = [keyPair base64DecodedString:serializedData[kDictionaryKeyCurve25519KeyPairPrivateKey]];
     keyPair.signature = [keyPair base64DecodedString:serializedData[kDictionaryKeyCurve25519KeyPairPublicKeySignature]];
@@ -173,8 +173,8 @@ static NSUInteger const kCurve25519SignatureLength = 64;
     return [NSString stringWithFormat:@"\nP:%@ S:%@\n",self.publicKey, self.privateKey];
 }
 
-- (BOOL)isEqual:(Curve25519KeyPair *)object {
-    if (![object isKindOfClass:[Curve25519KeyPair class]]) {
+- (BOOL)isEqual:(IRCurve25519KeyPair *)object {
+    if (![object isKindOfClass:[IRCurve25519KeyPair class]]) {
         return NO;
     }
 

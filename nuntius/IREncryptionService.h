@@ -20,23 +20,23 @@
 
 #import <Foundation/Foundation.h>
 
-@class Curve25519KeyPair;
-@class RatchetHeader;
-@class AEADInfo;
+@class IRCurve25519KeyPair;
+@class IRRatchetHeader;
+@class IRAEADInfo;
 
-@interface EncryptionService : NSObject
+@interface IREncryptionService : NSObject
 
 #pragma mark - Key Generation
 
-- (Curve25519KeyPair * _Nullable)generateKeyPair;
-- (AEADInfo * _Nonnull)generateRandomAEADInfoData;
+- (IRCurve25519KeyPair * _Nullable)generateKeyPair;
+- (IRAEADInfo * _Nonnull)generateRandomIRAEADInfoData;
 
 #pragma mark - Shared Keys
 
 - (NSData * _Nullable)senderSharedKeyWithRecieverPublicKey:(NSData * _Nonnull)receiverPublicKey
-                                          andSenderKeyPair:(Curve25519KeyPair * _Nonnull)senderKeyPair;
+                                          andSenderKeyPair:(IRCurve25519KeyPair * _Nonnull)senderKeyPair;
 - (NSData * _Nullable)receiverSharedKeyWithSenderPublicKey:(NSData * _Nonnull)senderPublicKey
-                                        andReceiverKeyPair:(Curve25519KeyPair * _Nonnull)receiverKeyPair;
+                                        andReceiverKeyPair:(IRCurve25519KeyPair * _Nonnull)receiverKeyPair;
 
 #pragma mark - Key Derivation
 
@@ -83,11 +83,11 @@
 #pragma mark - Signing
 
 - (NSData * _Nullable)signData:(NSData * _Nonnull)rawData
-                   withKeyPair:(Curve25519KeyPair * _Nonnull)keyPair;
+                   withKeyPair:(IRCurve25519KeyPair * _Nonnull)keyPair;
 
 - (BOOL)verifySignature:(NSData * _Nonnull)signature
               ofRawData:(NSData * _Nonnull)rawData
-            withKeyPair:(Curve25519KeyPair * _Nonnull)keyPair;
+            withKeyPair:(IRCurve25519KeyPair * _Nonnull)keyPair;
 
 #pragma mark - Hashing
 
@@ -100,6 +100,6 @@
 
 #pragma mark - Ratchet Header
 
-- (RatchetHeader * _Nullable)ratchetHeaderFromCipherData:(NSData * _Nonnull)cipherData;
+- (IRRatchetHeader * _Nullable)ratchetHeaderFromCipherData:(NSData * _Nonnull)cipherData;
 
 @end

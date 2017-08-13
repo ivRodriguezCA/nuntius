@@ -24,14 +24,14 @@ FOUNDATION_EXPORT double nuntiusVersionNumber;
 FOUNDATION_EXPORT const unsigned char nuntiusVersionString[];
 
 //Services
-#import <nuntius/EncryptionService.h>
-#import <nuntius/TripleDHService.h>
-#import <nuntius/DoubleRatchetService.h>
+#import <nuntius/IREncryptionService.h>
+#import <nuntius/IRTripleDHService.h>
+#import <nuntius/IRDoubleRatchetService.h>
 
 //Models
-#import <nuntius/Curve25519KeyPair.h>
-#import <nuntius/RatchetHeader.h>
-#import <nuntius/AEADInfo.h>
+#import <nuntius/IRCurve25519KeyPair.h>
+#import <nuntius/IRRatchetHeader.h>
+#import <nuntius/IRAEADInfo.h>
 
 //Common
-#import <nuntius/Constants.h>
+#import <nuntius/IRConstants.h>

@@ -20,9 +20,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class Curve25519KeyPair;
+@class IRCurve25519KeyPair;
 
-@interface DoubleRatchetService : NSObject
+@interface IRDoubleRatchetService : NSObject
 
 @property (nonatomic, strong, readonly) NSData * _Nonnull rootKey;
 
@@ -30,19 +30,19 @@
 
 //Setup for sending
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(Curve25519KeyPair * _Nonnull)DHReceiverKey
+                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey
                          doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState;
 
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(Curve25519KeyPair * _Nonnull)DHReceiverKey;
+                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey;
 
 //Setup for receiving
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(Curve25519KeyPair * _Nonnull)signedPreKeyPair
+                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair
                            doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState;
 
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(Curve25519KeyPair * _Nonnull)signedPreKeyPair;
+                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair;
 
 #pragma mark - Encrypt
 

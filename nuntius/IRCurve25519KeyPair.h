@@ -20,16 +20,27 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AEADInfo : NSObject
+@interface IRCurve25519KeyPair : NSObject
 
-@property (nonatomic, strong, readonly) NSData * _Nonnull aesKey;
-@property (nonatomic, strong, readonly) NSData * _Nonnull hmacKey;
-@property (nonatomic, strong, readonly) NSData * _Nonnull iv;
+@property (nonatomic, strong, readonly) NSData * _Nonnull publicKey;
+@property (nonatomic, strong, readonly) NSData * _Nonnull privateKey;
+@property (nonatomic, strong, readonly) NSData * _Nullable signature;
+@property (nonatomic, copy, readonly) NSString * _Nullable keyID;
 
-+ (instancetype _Nonnull)infoWithRawData:(NSData * _Nonnull)data;
-+ (instancetype _Nonnull)infoWithAESKey:(NSData * _Nonnull)aesKey
-                                HMACKey:(NSData * _Nonnull)hmacKey
-                                     iv:(NSData * _Nonnull)iv;
-- (NSData * _Nonnull)serialized;
++ (NSUInteger)keyLength;
++ (NSUInteger)signatureLength;
+
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey
+                                            privateKey:(NSData * _Nonnull)privateKey;
+
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithPublicKey:(NSData * _Nonnull)publicKey;
+
++ (IRCurve25519KeyPair * _Nonnull)keyPairWithSerializedData:(NSDictionary<NSString *, NSString *> * _Nonnull)serializedData;
+
+- (void)addKeyPairSignature:(NSData * _Nonnull)signature;
+- (NSDictionary<NSString *, NSString *> * _Nullable)serializedForTransport;
+- (NSDictionary<NSString *, NSString *> * _Nullable)serialized;
+- (NSString * _Nullable)base64PublicKey;
+- (NSString * _Nullable)base64PrivateKey;
 
 @end

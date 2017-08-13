@@ -9,23 +9,23 @@
 /* Begin PBXBuildFile section */
 		2C2746431F2F49F3008D530E /* nuntius.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2746391F2F49F2008D530E /* nuntius.framework */; };
 		2C27464A1F2F49F3008D530E /* nuntius.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27463C1F2F49F2008D530E /* nuntius.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27465E1F2F4A55008D530E /* Curve25519KeyPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746581F2F4A55008D530E /* Curve25519KeyPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27465F1F2F4A55008D530E /* Curve25519KeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746591F2F4A55008D530E /* Curve25519KeyPair.m */; };
-		2C2746601F2F4A55008D530E /* RatchetHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465A1F2F4A55008D530E /* RatchetHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746611F2F4A55008D530E /* RatchetHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465B1F2F4A55008D530E /* RatchetHeader.m */; };
-		2C2746621F2F4A55008D530E /* AEADInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465C1F2F4A55008D530E /* AEADInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746631F2F4A55008D530E /* AEADInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465D1F2F4A55008D530E /* AEADInfo.m */; };
-		2C27466A1F2F4A61008D530E /* EncryptionService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746641F2F4A61008D530E /* EncryptionService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466B1F2F4A61008D530E /* EncryptionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746651F2F4A61008D530E /* EncryptionService.m */; };
-		2C27466C1F2F4A61008D530E /* TripleDHService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746661F2F4A61008D530E /* TripleDHService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466D1F2F4A61008D530E /* TripleDHService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746671F2F4A61008D530E /* TripleDHService.m */; };
-		2C27466E1F2F4A61008D530E /* DoubleRatchetService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746681F2F4A61008D530E /* DoubleRatchetService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466F1F2F4A61008D530E /* DoubleRatchetService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746691F2F4A61008D530E /* DoubleRatchetService.m */; };
-		2C2746731F2F4A7E008D530E /* EncryptionServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746701F2F4A7E008D530E /* EncryptionServiceSpec.m */; };
-		2C2746741F2F4A7E008D530E /* DoubleRatchetServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746711F2F4A7E008D530E /* DoubleRatchetServiceSpec.m */; };
-		2C2746751F2F4A7E008D530E /* TripleDHServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746721F2F4A7E008D530E /* TripleDHServiceSpec.m */; };
-		2C2746781F2F4ABF008D530E /* Constants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746761F2F4ABF008D530E /* Constants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746791F2F4ABF008D530E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746771F2F4ABF008D530E /* Constants.m */; };
+		2C27465E1F2F4A55008D530E /* IRCurve25519KeyPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C27465F1F2F4A55008D530E /* IRCurve25519KeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */; };
+		2C2746601F2F4A55008D530E /* IRRatchetHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C2746611F2F4A55008D530E /* IRRatchetHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */; };
+		2C2746621F2F4A55008D530E /* IRAEADInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465C1F2F4A55008D530E /* IRAEADInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C2746631F2F4A55008D530E /* IRAEADInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465D1F2F4A55008D530E /* IRAEADInfo.m */; };
+		2C27466A1F2F4A61008D530E /* IREncryptionService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746641F2F4A61008D530E /* IREncryptionService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C27466B1F2F4A61008D530E /* IREncryptionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746651F2F4A61008D530E /* IREncryptionService.m */; };
+		2C27466C1F2F4A61008D530E /* IRTripleDHService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746661F2F4A61008D530E /* IRTripleDHService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C27466D1F2F4A61008D530E /* IRTripleDHService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746671F2F4A61008D530E /* IRTripleDHService.m */; };
+		2C27466E1F2F4A61008D530E /* IRDoubleRatchetService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C27466F1F2F4A61008D530E /* IRDoubleRatchetService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */; };
+		2C2746731F2F4A7E008D530E /* IREncryptionServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */; };
+		2C2746741F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */; };
+		2C2746751F2F4A7E008D530E /* IRTripleDHServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */; };
+		2C2746781F2F4ABF008D530E /* IRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746761F2F4ABF008D530E /* IRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C2746791F2F4ABF008D530E /* IRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746771F2F4ABF008D530E /* IRConstants.m */; };
 		2C54A9581F31EB8D003ABDF6 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91B1F31EB8D003ABDF6 /* core.h */; };
 		2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */; };
 		2C54A95A1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */; };
@@ -101,27 +101,27 @@
 
 /* Begin PBXFileReference section */
 		2C2746391F2F49F2008D530E /* nuntius.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = nuntius.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C27463C1F2F49F2008D530E /* nuntius.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nuntius.h; sourceTree = "<group>"; };
+		2C27463C1F2F49F2008D530E /* nuntius.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = nuntius.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2C27463D1F2F49F2008D530E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C2746421F2F49F3008D530E /* nuntiusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nuntiusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C2746491F2F49F3008D530E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C2746581F2F4A55008D530E /* Curve25519KeyPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Curve25519KeyPair.h; sourceTree = "<group>"; };
-		2C2746591F2F4A55008D530E /* Curve25519KeyPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Curve25519KeyPair.m; sourceTree = "<group>"; };
-		2C27465A1F2F4A55008D530E /* RatchetHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatchetHeader.h; sourceTree = "<group>"; };
-		2C27465B1F2F4A55008D530E /* RatchetHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatchetHeader.m; sourceTree = "<group>"; };
-		2C27465C1F2F4A55008D530E /* AEADInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEADInfo.h; sourceTree = "<group>"; };
-		2C27465D1F2F4A55008D530E /* AEADInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AEADInfo.m; sourceTree = "<group>"; };
-		2C2746641F2F4A61008D530E /* EncryptionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncryptionService.h; sourceTree = "<group>"; };
-		2C2746651F2F4A61008D530E /* EncryptionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptionService.m; sourceTree = "<group>"; };
-		2C2746661F2F4A61008D530E /* TripleDHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripleDHService.h; sourceTree = "<group>"; };
-		2C2746671F2F4A61008D530E /* TripleDHService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripleDHService.m; sourceTree = "<group>"; };
-		2C2746681F2F4A61008D530E /* DoubleRatchetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleRatchetService.h; sourceTree = "<group>"; };
-		2C2746691F2F4A61008D530E /* DoubleRatchetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleRatchetService.m; sourceTree = "<group>"; };
-		2C2746701F2F4A7E008D530E /* EncryptionServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncryptionServiceSpec.m; sourceTree = "<group>"; };
-		2C2746711F2F4A7E008D530E /* DoubleRatchetServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleRatchetServiceSpec.m; sourceTree = "<group>"; };
-		2C2746721F2F4A7E008D530E /* TripleDHServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripleDHServiceSpec.m; sourceTree = "<group>"; };
-		2C2746761F2F4ABF008D530E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		2C2746771F2F4ABF008D530E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRCurve25519KeyPair.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRCurve25519KeyPair.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRRatchetHeader.h; sourceTree = "<group>"; };
+		2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRRatchetHeader.m; sourceTree = "<group>"; };
+		2C27465C1F2F4A55008D530E /* IRAEADInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRAEADInfo.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C27465D1F2F4A55008D530E /* IRAEADInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRAEADInfo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2C2746641F2F4A61008D530E /* IREncryptionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IREncryptionService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C2746651F2F4A61008D530E /* IREncryptionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IREncryptionService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2C2746661F2F4A61008D530E /* IRTripleDHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRTripleDHService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C2746671F2F4A61008D530E /* IRTripleDHService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRTripleDHService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRDoubleRatchetService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRDoubleRatchetService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IREncryptionServiceSpec.m; sourceTree = "<group>"; };
+		2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRDoubleRatchetServiceSpec.m; sourceTree = "<group>"; };
+		2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRTripleDHServiceSpec.m; sourceTree = "<group>"; };
+		2C2746761F2F4ABF008D530E /* IRConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2C2746771F2F4ABF008D530E /* IRConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRConstants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2C54A91B1F31EB8D003ABDF6 /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
 		2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_aes256gcm.h; sourceTree = "<group>"; };
 		2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_aead_chacha20poly1305.h; sourceTree = "<group>"; };
@@ -248,12 +248,12 @@
 		2C2746531F2F4A19008D530E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746581F2F4A55008D530E /* Curve25519KeyPair.h */,
-				2C2746591F2F4A55008D530E /* Curve25519KeyPair.m */,
-				2C27465A1F2F4A55008D530E /* RatchetHeader.h */,
-				2C27465B1F2F4A55008D530E /* RatchetHeader.m */,
-				2C27465C1F2F4A55008D530E /* AEADInfo.h */,
-				2C27465D1F2F4A55008D530E /* AEADInfo.m */,
+				2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */,
+				2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */,
+				2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */,
+				2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */,
+				2C27465C1F2F4A55008D530E /* IRAEADInfo.h */,
+				2C27465D1F2F4A55008D530E /* IRAEADInfo.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -261,12 +261,12 @@
 		2C2746551F2F4A38008D530E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746641F2F4A61008D530E /* EncryptionService.h */,
-				2C2746651F2F4A61008D530E /* EncryptionService.m */,
-				2C2746661F2F4A61008D530E /* TripleDHService.h */,
-				2C2746671F2F4A61008D530E /* TripleDHService.m */,
-				2C2746681F2F4A61008D530E /* DoubleRatchetService.h */,
-				2C2746691F2F4A61008D530E /* DoubleRatchetService.m */,
+				2C2746641F2F4A61008D530E /* IREncryptionService.h */,
+				2C2746651F2F4A61008D530E /* IREncryptionService.m */,
+				2C2746661F2F4A61008D530E /* IRTripleDHService.h */,
+				2C2746671F2F4A61008D530E /* IRTripleDHService.m */,
+				2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */,
+				2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -274,9 +274,9 @@
 		2C2746571F2F4A49008D530E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746701F2F4A7E008D530E /* EncryptionServiceSpec.m */,
-				2C2746711F2F4A7E008D530E /* DoubleRatchetServiceSpec.m */,
-				2C2746721F2F4A7E008D530E /* TripleDHServiceSpec.m */,
+				2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */,
+				2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */,
+				2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -384,8 +384,8 @@
 		2C8FFB681F36A32200B7F852 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746761F2F4ABF008D530E /* Constants.h */,
-				2C2746771F2F4ABF008D530E /* Constants.m */,
+				2C2746761F2F4ABF008D530E /* IRConstants.h */,
+				2C2746771F2F4ABF008D530E /* IRConstants.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -399,7 +399,7 @@
 			files = (
 				2C54A9691F31EB8D003ABDF6 /* crypto_generichash_blake2b.h in Headers */,
 				2C54A9831F31EB8D003ABDF6 /* crypto_stream_salsa20.h in Headers */,
-				2C27466E1F2F4A61008D530E /* DoubleRatchetService.h in Headers */,
+				2C27466E1F2F4A61008D530E /* IRDoubleRatchetService.h in Headers */,
 				2C54A95C1F31EB8D003ABDF6 /* crypto_auth.h in Headers */,
 				2C54A96B1F31EB8D003ABDF6 /* crypto_hash_sha256.h in Headers */,
 				2C54A9851F31EB8D003ABDF6 /* crypto_stream_salsa208.h in Headers */,
@@ -413,16 +413,16 @@
 				2C54A9631F31EB8D003ABDF6 /* crypto_core_hchacha20.h in Headers */,
 				2C27464A1F2F49F3008D530E /* nuntius.h in Headers */,
 				2C54A9891F31EB8D003ABDF6 /* crypto_verify_32.h in Headers */,
-				2C27466A1F2F4A61008D530E /* EncryptionService.h in Headers */,
+				2C27466A1F2F4A61008D530E /* IREncryptionService.h in Headers */,
 				2C54A97A1F31EB8D003ABDF6 /* crypto_secretbox_xsalsa20poly1305.h in Headers */,
 				2C54A9671F31EB8D003ABDF6 /* crypto_core_salsa208.h in Headers */,
-				2C27466C1F2F4A61008D530E /* TripleDHService.h in Headers */,
+				2C27466C1F2F4A61008D530E /* IRTripleDHService.h in Headers */,
 				2C54A9681F31EB8D003ABDF6 /* crypto_generichash.h in Headers */,
 				2C54A95B1F31EB8D003ABDF6 /* crypto_aead_xchacha20poly1305.h in Headers */,
 				2C54A98E1F31EB8D003ABDF6 /* randombytes_sysrandom.h in Headers */,
 				2C54A9651F31EB8D003ABDF6 /* crypto_core_salsa20.h in Headers */,
 				2C54A95F1F31EB8D003ABDF6 /* crypto_auth_hmacsha512256.h in Headers */,
-				2C27465E1F2F4A55008D530E /* Curve25519KeyPair.h in Headers */,
+				2C27465E1F2F4A55008D530E /* IRCurve25519KeyPair.h in Headers */,
 				2C54A9821F31EB8D003ABDF6 /* crypto_stream_chacha20.h in Headers */,
 				2C54A9731F31EB8D003ABDF6 /* crypto_pwhash_argon2i.h in Headers */,
 				2C54A9781F31EB8D003ABDF6 /* crypto_secretbox.h in Headers */,
@@ -444,11 +444,11 @@
 				2C54A96C1F31EB8D003ABDF6 /* crypto_hash_sha512.h in Headers */,
 				2C54A97F1F31EB8D003ABDF6 /* crypto_sign_edwards25519sha512batch.h in Headers */,
 				2C54A9771F31EB8D003ABDF6 /* crypto_scalarmult_curve25519.h in Headers */,
-				2C2746601F2F4A55008D530E /* RatchetHeader.h in Headers */,
+				2C2746601F2F4A55008D530E /* IRRatchetHeader.h in Headers */,
 				2C54A97C1F31EB8D003ABDF6 /* crypto_shorthash_siphash24.h in Headers */,
 				2C54A98F1F31EB8D003ABDF6 /* runtime.h in Headers */,
-				2C2746781F2F4ABF008D530E /* Constants.h in Headers */,
-				2C2746621F2F4A55008D530E /* AEADInfo.h in Headers */,
+				2C2746781F2F4ABF008D530E /* IRConstants.h in Headers */,
+				2C2746621F2F4A55008D530E /* IRAEADInfo.h in Headers */,
 				2C54A9641F31EB8D003ABDF6 /* crypto_core_hsalsa20.h in Headers */,
 				2C54A9871F31EB8D003ABDF6 /* crypto_stream_xsalsa20.h in Headers */,
 				2C54A96F1F31EB8D003ABDF6 /* crypto_kx.h in Headers */,
@@ -568,13 +568,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C2746611F2F4A55008D530E /* RatchetHeader.m in Sources */,
-				2C27466D1F2F4A61008D530E /* TripleDHService.m in Sources */,
-				2C2746631F2F4A55008D530E /* AEADInfo.m in Sources */,
-				2C27466B1F2F4A61008D530E /* EncryptionService.m in Sources */,
-				2C27466F1F2F4A61008D530E /* DoubleRatchetService.m in Sources */,
-				2C2746791F2F4ABF008D530E /* Constants.m in Sources */,
-				2C27465F1F2F4A55008D530E /* Curve25519KeyPair.m in Sources */,
+				2C2746611F2F4A55008D530E /* IRRatchetHeader.m in Sources */,
+				2C27466D1F2F4A61008D530E /* IRTripleDHService.m in Sources */,
+				2C2746631F2F4A55008D530E /* IRAEADInfo.m in Sources */,
+				2C27466B1F2F4A61008D530E /* IREncryptionService.m in Sources */,
+				2C27466F1F2F4A61008D530E /* IRDoubleRatchetService.m in Sources */,
+				2C2746791F2F4ABF008D530E /* IRConstants.m in Sources */,
+				2C27465F1F2F4A55008D530E /* IRCurve25519KeyPair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,9 +582,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C2746751F2F4A7E008D530E /* TripleDHServiceSpec.m in Sources */,
-				2C2746741F2F4A7E008D530E /* DoubleRatchetServiceSpec.m in Sources */,
-				2C2746731F2F4A7E008D530E /* EncryptionServiceSpec.m in Sources */,
+				2C2746751F2F4A7E008D530E /* IRTripleDHServiceSpec.m in Sources */,
+				2C2746741F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m in Sources */,
+				2C2746731F2F4A7E008D530E /* IREncryptionServiceSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

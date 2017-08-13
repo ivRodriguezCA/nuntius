@@ -19,24 +19,24 @@
 */
 
 #import <XCTest/XCTest.h>
-#import "DoubleRatchetService.h"
-#import "EncryptionService.h"
-#import "Curve25519KeyPair.h"
+#import "IRDoubleRatchetService.h"
+#import "IREncryptionService.h"
+#import "IRCurve25519KeyPair.h"
 
-@interface DoubleRatchetServiceSpec : XCTestCase
+@interface IRDoubleRatchetServiceSpec : XCTestCase
 
-@property (nonatomic, strong) DoubleRatchetService *alice;
-@property (nonatomic, strong) DoubleRatchetService *bob;
+@property (nonatomic, strong) IRDoubleRatchetService *alice;
+@property (nonatomic, strong) IRDoubleRatchetService *bob;
 
 @end
 
-@implementation DoubleRatchetServiceSpec
+@implementation IRDoubleRatchetServiceSpec
 
 - (void)setUp {
     [super setUp];
 
-    self.alice = [DoubleRatchetService new];
-    self.bob = [DoubleRatchetService new];
+    self.alice = [IRDoubleRatchetService new];
+    self.bob = [IRDoubleRatchetService new];
 }
 
 - (void)tearDown {
@@ -44,12 +44,12 @@
 }
 
 - (void)testSendAndReceiveMessages {
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *preKey = [eS generateKeyPair];
-    Curve25519KeyPair *bobPublicPreKey = [Curve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
 
-    Curve25519KeyPair *keyPair1 = [eS generateKeyPair];
-    Curve25519KeyPair *keyPair2 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
 
     NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
     NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
@@ -71,12 +71,12 @@
 }
 
 - (void)testSendAndReceiveAndSendMessages {
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *preKey = [eS generateKeyPair];
-    Curve25519KeyPair *bobPublicPreKey = [Curve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
 
-    Curve25519KeyPair *keyPair1 = [eS generateKeyPair];
-    Curve25519KeyPair *keyPair2 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
 
     NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
     NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
@@ -109,12 +109,12 @@
 }
 
 - (void)testSendAndSendAndReceiveAndSendMessages {
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *preKey = [eS generateKeyPair];
-    Curve25519KeyPair *bobPublicPreKey = [Curve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
 
-    Curve25519KeyPair *keyPair1 = [eS generateKeyPair];
-    Curve25519KeyPair *keyPair2 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
 
     NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
     NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
@@ -157,12 +157,12 @@
 }
 
 - (void)testOutOfOrderMessages {
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *preKey = [eS generateKeyPair];
-    Curve25519KeyPair *bobPublicPreKey = [Curve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
 
-    Curve25519KeyPair *keyPair1 = [eS generateKeyPair];
-    Curve25519KeyPair *keyPair2 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
 
     NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
     NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
@@ -207,12 +207,12 @@
 }
 
 - (void)testOutOfOrderMessagesAndSend {
-    EncryptionService *eS = [EncryptionService new];
-    Curve25519KeyPair *preKey = [eS generateKeyPair];
-    Curve25519KeyPair *bobPublicPreKey = [Curve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
 
-    Curve25519KeyPair *keyPair1 = [eS generateKeyPair];
-    Curve25519KeyPair *keyPair2 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
 
     NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
     NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
