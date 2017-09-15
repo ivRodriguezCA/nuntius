@@ -92,7 +92,11 @@
     const char separation[32] = {0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
     __unused NSData *separationData = [NSData dataWithBytes:separation length:sizeof(separation)];
 
-    self.currentEphemeralKeyPair = [self.encryptionService generateKeyPair];
+    if (self.ephemeralKeyPairs.count == 0) {
+        self.ephemeralKeyPairs = @[[self.encryptionService generateKeyPair]];
+    }
+    self.currentEphemeralKeyPair = self.ephemeralKeyPairs.firstObject;
+
     NSData *dh1 = [self.encryptionService receiverSharedKeyWithSenderPublicKey:rSignedPreKey.publicKey
                                                             andReceiverKeyPair:self.identityKeyPair];
     NSData *dh2 = [self.encryptionService receiverSharedKeyWithSenderPublicKey:rIdentityKey.publicKey
