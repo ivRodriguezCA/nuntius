@@ -37,34 +37,34 @@ import nuntius
 ### Generate Curve25519 key pairs
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
-Curve25519KeyPair *keyPair = [encryptionService generateKeyPair];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
+IRCurve25519KeyPair *keyPair = [IREncryptionService generateKeyPair];
 NSLog(@"Public Key: %@", keyPair.publicKey);
 NSLog(@"Private Key: %@", keyPair.privateKey);
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
-let keyPair = encryptionService.generateKeyPair()!
+let IREncryptionService = IREncryptionService()
+let keyPair = IREncryptionService.generateKeyPair()!
 print("Public Key: \(keyPair.publicKey)")
 print("Private Key: \(keyPair.privateKey)")
 ```
 ### Sign Curve25519 public key
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
-Curve25519KeyPair *signingKeyPair = [encryptionService generateKeyPair];
-Curve25519KeyPair *signedKeyPair = [encryptionService generateKeyPair];
-NSData *signature = [encryptionService signData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
+IRCurve25519KeyPair *signingKeyPair = [IREncryptionService generateKeyPair];
+IRCurve25519KeyPair *signedKeyPair = [IREncryptionService generateKeyPair];
+NSData *signature = [IREncryptionService signData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
 [signedKeyPair addKeyPairSignature:signature];
 NSLog(@"Signature: %@", signedKeyPair.signature);
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
-let signingKeyPair = encryptionService.generateKeyPair()!
-let signedKeyPair = encryptionService.generateKeyPair()!
-guard let signature = encryptionService.sign(signedKeyPair.publicKey, with: signingKeyPair) else {
+let IREncryptionService = IREncryptionService()
+let signingKeyPair = IREncryptionService.generateKeyPair()!
+let signedKeyPair = IREncryptionService.generateKeyPair()!
+guard let signature = IREncryptionService.sign(signedKeyPair.publicKey, with: signingKeyPair) else {
     return
 }
 signedKeyPair.addSignature(signature)
@@ -73,10 +73,10 @@ print("Signature: \(signedKeyPair.signature!)")
 ### Verify Curve25519 Signature
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
-Curve25519KeyPair *signingKeyPair = //get signing key pair
-Curve25519KeyPair *signedKeyPair = //get signed key pair
-BOOL valid = [encryptionService verifySignature:signedKeyPair.signature ofRawData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
+IRCurve25519KeyPair *signingKeyPair = //get signing key pair
+IRCurve25519KeyPair *signedKeyPair = //get signed key pair
+BOOL valid = [IREncryptionService verifySignature:signedKeyPair.signature ofRawData:signedKeyPair.publicKey withKeyPair:signingKeyPair];
 if (valid) {
     NSLog(@"Valid signature");
 } else {
@@ -85,10 +85,10 @@ if (valid) {
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
+let IREncryptionService = IREncryptionService()
 let signingKeyPair = //get signing key pair
 let signedKeyPair = //get signed key pair
-let valid = encryptionService.verifySignature(signedKeyPair.signature!, ofRawData: signedKeyPair.publicKey, with: signingKeyPair)
+let valid = IREncryptionService.verifySignature(signedKeyPair.signature!, ofRawData: signedKeyPair.publicKey, with: signingKeyPair)
 if valid {
     print("Valid signature")
 } else {
@@ -98,13 +98,13 @@ if valid {
 ### Generate shared secret from 2 Curve25519 keys (ECDH)
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
 //Alice is the sender
-Curve25519KeyPair *aliceKeyPair = [encryptionService generateKeyPair];
+IRCurve25519KeyPair *aliceKeyPair = [IREncryptionService generateKeyPair];
 //Bob is the receiver
-Curve25519KeyPair *bobKeyPair = [encryptionService generateKeyPair];
-NSData *sharedSecretAlice = [encryptionService senderSharedKeyWithRecieverPublicKey:bobKeyPair.publicKey andSenderKeyPair:aliceKeyPair];
-NSData *sharedSecretBob = [encryptionService receiverSharedKeyWithSenderPublicKey:aliceKeyPair.publicKey andReceiverKeyPair:bobKeyPair];
+IRCurve25519KeyPair *bobKeyPair = [IREncryptionService generateKeyPair];
+NSData *sharedSecretAlice = [IREncryptionService senderSharedKeyWithRecieverPublicKey:bobKeyPair.publicKey andSenderKeyPair:aliceKeyPair];
+NSData *sharedSecretBob = [IREncryptionService receiverSharedKeyWithSenderPublicKey:aliceKeyPair.publicKey andReceiverKeyPair:bobKeyPair];
 if ([sharedSecretAlice isEqualToData:sharedSecretBob]) {
     NSLog(@"Success!");
 } else {
@@ -113,13 +113,13 @@ if ([sharedSecretAlice isEqualToData:sharedSecretBob]) {
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
+let IREncryptionService = IREncryptionService()
 //Alice is the sender
-let aliceKeyPair = encryptionService.generateKeyPair()!
+let aliceKeyPair = IREncryptionService.generateKeyPair()!
 //Bob is the receiver
-let bobKeyPair = encryptionService.generateKeyPair()!
-let sharedSecretAlice = encryptionService.senderSharedKey(withRecieverPublicKey: bobKeyPair.publicKey, andSenderKeyPair: aliceKeyPair)
-let sharedSecretBob = encryptionService.receiverSharedKey(withSenderPublicKey: aliceKeyPair.publicKey, andReceiverKeyPair: bobKeyPair)
+let bobKeyPair = IREncryptionService.generateKeyPair()!
+let sharedSecretAlice = IREncryptionService.senderSharedKey(withRecieverPublicKey: bobKeyPair.publicKey, andSenderKeyPair: aliceKeyPair)
+let sharedSecretBob = IREncryptionService.receiverSharedKey(withSenderPublicKey: aliceKeyPair.publicKey, andReceiverKeyPair: bobKeyPair)
 guard sharedSecretAlice != nil, sharedSecretBob != nil, sharedSecretAlice == sharedSecretBob else {
     return
 }
@@ -128,21 +128,21 @@ print("Success!")
 ### Derive Keys
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
 NSData *sharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 /* MIN outputLength: 16, MAX outputLength: 64, Salt: key id */
-NSData *key1 = [encryptionService sharedKeyKDFWithSecret:sharedSecret andSalt:1 outputLength:32];
-NSData *key2 = [encryptionService sharedKeyKDFWithSecret:sharedSecret andSalt:2 outputLength:64];
+NSData *key1 = [IREncryptionService sharedKeyKDFWithSecret:sharedSecret andSalt:1 outputLength:32];
+NSData *key2 = [IREncryptionService sharedKeyKDFWithSecret:sharedSecret andSalt:2 outputLength:64];
 NSLog(@"Derived Key1: %@", key1);
 NSLog(@"Derived Key2: %@", key2);
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
+let IREncryptionService = IREncryptionService()
 let sharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 /* MIN outputLength: 16, MAX outputLength: 64, Salt: key id */
-let key1 = encryptionService.sharedKeyKDF(withSecret: sharedSecret, andSalt: 1, outputLength: 32)
-let key2 = encryptionService.sharedKeyKDF(withSecret: sharedSecret, andSalt: 2, outputLength: 64)
+let key1 = IREncryptionService.sharedKeyKDF(withSecret: sharedSecret, andSalt: 1, outputLength: 32)
+let key2 = IREncryptionService.sharedKeyKDF(withSecret: sharedSecret, andSalt: 2, outputLength: 64)
 print("Key 1 \(key1!)")
 print("Key 2 \(key2!)")
 ```
@@ -162,7 +162,7 @@ All of these methods can be used for deriving keys, they are convenience methods
 ### Encrypt and Decrypt
 Objc
 ```Objc
-EncryptionService *encryptionService = [EncryptionService new];
+IREncryptionService *IREncryptionService = [IREncryptionService new];
 NSData *data = [@"my-secret-data" dataUsingEncoding:NSUTF8StringEncoding];
 NSData *aesKey = //Random AES key, for example key = KDF(sharedSecret, 1, 32)
 NSData *hmacKey = //Random HMAC key, for example key = KDF(sharedSecret, 2, 32)
@@ -177,12 +177,12 @@ const char numberOfSentMessages[1] = {0x0};
 const char numberOfSentMessagesInPreviousChain[1] = {0x0};
 [ratchetData appendBytes:numberOfSentMessagesInPreviousChain length:sizeof(numberOfSentMessagesInPreviousChain)];
 NSError *error = nil;
-NSData *ciphertext = [encryptionService aeEncryptData:data: symmetricKey:aesKey hmacKey:hmacKey iv:iv ratchetHeader:ratchetData error:&error];
+NSData *ciphertext = [IREncryptionService aeEncryptData:data: symmetricKey:aesKey hmacKey:hmacKey iv:iv ratchetHeader:ratchetData error:&error];
 if (error == nil) {
     NSLog(@"Encrypted data: %@", ciphertext);
     //Decrypting
     NSError *decryptionError = nil;
-    NSData *plaintext = [encryptionService aeDecryptData:ciphertext symmetricKey:aesKey hmacKey:hmacKey iv:iv error:&decryptionError];
+    NSData *plaintext = [IREncryptionService aeDecryptData:ciphertext symmetricKey:aesKey hmacKey:hmacKey iv:iv error:&decryptionError];
     if (decryptionError == nil) {
         NSLog(@"Plaintext: %@",plaintext);
     } else {
@@ -195,7 +195,7 @@ if (error == nil) {
 ```
 Swift
 ```Swift
-let encryptionService = EncryptionService()
+let IREncryptionService = IREncryptionService()
 let data = "my-secret-data".data(using: .utf8)!
 let aesKey = //Random AES key, for example key = KDF(sharedSecret, 1, 32)
 let hmacKey = //Random HMAC key, for example key = KDF(sharedSecret, 2, 32)
@@ -212,10 +212,10 @@ let numberOfSentMessagesInPreviousChain: Int32 = 0x0
 var beNumberOfSentMessagesInPreviousChain = numberOfSentMessagesInPreviousChain.bigEndian
 ratchetData.append(UnsafeBufferPointer(start: &beNumberOfSentMessagesInPreviousChain, count: 1))
 do {
-    let ciphertext = try encryptionService.aeEncryptData(data, symmetricKey: aesKey, hmacKey: hmacKey, iv: iv, ratchetHeader: ratchetData)
+    let ciphertext = try IREncryptionService.aeEncryptData(data, symmetricKey: aesKey, hmacKey: hmacKey, iv: iv, ratchetHeader: ratchetData)
     print("Encrypted data: \(ciphertext)")
     //Decrypting
-    let plaintext = try encryptionService.aeDecryptData(ciphertext, symmetricKey: aesKey, hmacKey: hmacKey, iv: iv)
+    let plaintext = try IREncryptionService.aeDecryptData(ciphertext, symmetricKey: aesKey, hmacKey: hmacKey, iv: iv)
     print("Plaintext: \(plaintext)")
 } catch {
     print("Error \(error)")
@@ -239,11 +239,11 @@ You can read more about what the `Ratchet Header` is and why is it needed [here]
 Objc
 ```Objc
 //Alice is the sender and Bob is the receiver
-DoubleRatchetService *aliceDoubleRatchet = [DoubleRatchetService new];
+IRDoubleRatchetService *aliceDoubleRatchet = [IRDoubleRatchetService new];
 NSData *aliceSharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 [aliceDoubleRatchet setupRatchetForSendingWithSharedKey:aliceSharedSecret andDHReceiverKey:bobKeyPair];
 
-DoubleRatchetService *bobDoubleRatchet = [DoubleRatchetService new];
+IRDoubleRatchetService *bobDoubleRatchet = [IRDoubleRatchetService new];
 NSData *bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
 [bobDoubleRatchet setupRatchetForReceivingWithSharedKey:bobSharedSecret andSignedPreKeyPair:alice.signedPreKeyPair];
 
@@ -267,11 +267,11 @@ if (error == nil) {
 ```
 Swift
 ```Swift
-let aliceDoubleRatchet = DoubleRatchetService()
+let aliceDoubleRatchet = IRDoubleRatchetService()
 let aliceSharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 aliceDoubleRatchet.setupRatchetForSending(withSharedKey: aliceSharedSecret, andDHReceiverKey: bobKeyPair)
 
-let bobDoubleRatchet = DoubleRatchetService()
+let bobDoubleRatchet = IRDoubleRatchetService()
 let bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
 bobDoubleRatchet.setupRatchetForReceiving(withSharedKey: bobSharedSecret, andSignedPreKeyPair: alice.signedPreKeyPair)
 
@@ -287,6 +287,51 @@ do {
 } catch {
     print("Error \(error)")
 }
+
+```
+### Triple Diffie-Hellman: setup, shared secret generation
+Objc
+```Objc
+IRCurve25519KeyPair *identityKeyPair = //generate IRCurve25519KeyPair
+IRCurve25519KeyPair *signedPreKeyPair = //generate IRCurve25519KeyPair
+NSArray<IRCurve25519KeyPair *> *ephemeralKeyPairs = //generate "X" IRCurve25519KeyPairs
+IRTripleDHService *tripleDH = [[IRTripleDHService alloc] initWithIdentityKeyPair:identityKeyPair signedPreKeyPair:signedPreKeyPair ephemeralKeys:ephemeralKeyPairs];
+
+//When sending a message
+IRCurve25519KeyPair *rIdentityKey = //get receiver's identity key from server or db
+IRCurve25519KeyPair *rSignedPreKey = //get receiver's signed pre-key from server or db
+IRCurve25519KeyPair *rEphemeralKey = //get one of the receiver's ephemeral keys from server
+NSData *sharedKey = tripleDH.sharedKeyFromReceiverIdentityKey:rIdentityKey receiverSignedPreKey:rSignedPreKey receiverEphemeralKey:rEphemeralKey
+//Use sharedKey
+
+//When receiving a message
+IRCurve25519KeyPair *sIdentityKey = //get sender's identity key from server or db
+IRCurve25519KeyPair *sEphemeralKey = //get sender's signed pre-key from server or db
+NSString *rEphemeralKeyID = //get ephemeral key id from received message's heeader
+NSData *sharedKey = tripleDH.sharedKeyFromSenderIdentityKey:sIdentityKey senderEphemeralKey:sEphemeralKey receiverEphemeralKeyID:rEphemeralKeyID];
+//Use sharedKey
+
+```
+Swift
+```Swift
+let identityKeyPair = //generate IRCurve25519KeyPair
+let signedPreKeyPair = //generate IRCurve25519KeyPair
+let ephemeralKeyPairs: Array<IRCurve25519KeyPair> = //generate "X" IRCurve25519KeyPairs
+let tripleDH = IRTripleDHService(identityKeyPair: identityKeyPair, signedPreKeyPair: signedPreKeyPair, ephemeralKeys: ephemeralKeyPairs)
+
+//When sending a message
+let rIdentityKey = //get receiver's identity key from server or db
+let rSignedPreKey = //get receiver's signed pre-key from server or db
+let rEphemeralKey = //get one of the receiver's ephemeral keys from server
+let sharedKey = tripleDH.sharedKey(fromReceiverIdentityKey: rIdentityKey, receiverSignedPreKey: rSignedPreKey, receiverEphemeralKey: rEphemeralKey)
+//Use sharedKey
+
+//When receiving a message
+let sIdentityKey = //get sender's identity key from server or db
+let sEphemeralKey = //get sender's signed pre-key from server or db
+let rEphemeralKeyID: String = //get ephemeral key id from received message's heeader
+let sharedKey = tripleDH.sharedKey(fromSenderIdentityKey: sIdentityKey, senderEphemeralKey: sEphemeralKey, receiverEphemeralKeyID: rEphemeralKeyID)
+//Use sharedKey
 
 ```
 
