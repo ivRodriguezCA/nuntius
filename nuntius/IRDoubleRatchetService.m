@@ -61,11 +61,25 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     return self;
 }
 
+#pragma mark - Restore State
+
+- (void)setupWithRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState {
+    self.DHSenderKey = [self DHSenderKeyFromDoubleRatchetState:doubleRatchetState];
+    self.DHReceiverKey = [self DHReceiverKeyFromDoubleRatchetState:doubleRatchetState];
+    self.rootKey = [self rootKeyFromDoubleRatchetState:doubleRatchetState];
+    self.chainKeySender = [self chainKeySenderFromDoubleRatchetState:doubleRatchetState];
+    self.chainKeyReceiver = [self chainKeyReceiverFromDoubleRatchetState:doubleRatchetState];
+    self.numberOfSentMessages = [self numberOfSentMessagesFromDoubleRatchetState:doubleRatchetState];
+    self.numberOfReceivedMessages = [self numberOfReceivedMessagesFromDoubleRatchetState:doubleRatchetState];
+    self.numberOfPreviousChainSentMessages = [self numberOfPreviousChainSentMessagesFromDoubleRatchetState:doubleRatchetState];
+    self.skippedMessagesKeys = [self skippedMessagesKeysFromDoubleRatchetState:doubleRatchetState];
+}
+
 #pragma mark - Sending Setup
 
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey
-                         doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState {
+                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey {
+
     self.DHSenderKey = [self.encryptionService generateKeyPair];
     self.DHReceiverKey = DHReceiverKey;
 
@@ -80,53 +94,27 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     NSRange chainKeySenderRange = NSMakeRange(32, 32);
     self.chainKeySender = [rootKeyKDFOutput subdataWithRange:chainKeySenderRange];
 
-    //Parse Double Ratchet State
-    self.chainKeyReceiver = [self chainKeyReceiverFromDoubleRatchetState:doubleRatchetState];
-
-    self.skippedMessagesKeys = [self skippedMessagesKeysFromDoubleRatchetState:doubleRatchetState];
-
-    self.numberOfSentMessages = [self numberOfSentMessagesFromDoubleRatchetState:doubleRatchetState];
-    self.numberOfReceivedMessages = [self numberOfReceivedMessagesFromDoubleRatchetState:doubleRatchetState];
-    self.numberOfPreviousChainSentMessages = [self numberOfPreviousChainSentMessagesFromDoubleRatchetState:doubleRatchetState];
-}
-
-- (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey {
-
-    [self setupRatchetForSendingWithSharedKey:sharedKey
-                             andDHReceiverKey:DHReceiverKey
-                           doubleRatchetState:nil];
+    self.chainKeyReceiver = nil;
+    self.skippedMessagesKeys = [@{} mutableCopy];
+    self.numberOfSentMessages = 0;
+    self.numberOfReceivedMessages = 0;
+    self.numberOfPreviousChainSentMessages = 0;
 }
 
 #pragma mark - Receiving Setup
 
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair
-                           doubleRatchetState:(NSDictionary * _Nullable)doubleRatchetState {
+                               andDHSenderKey:(IRCurve25519KeyPair * _Nonnull)DHSenderKey {
 
-    IRCurve25519KeyPair *ratchetKey = [self DHSenderKeyFromDoubleRatchetState:doubleRatchetState];
-    self.DHSenderKey = ratchetKey != nil ? ratchetKey : signedPreKeyPair;
+    self.DHSenderKey = DHSenderKey;
+    self.DHReceiverKey = nil;
     self.rootKey = sharedKey;
-
-    //Parse Double Ratchet State
-
-    self.DHReceiverKey = [self DHReceiverKeyFromDoubleRatchetState:doubleRatchetState];
-    self.chainKeySender = [self chainKeySenderFromDoubleRatchetState:doubleRatchetState];
-    self.chainKeyReceiver = [self chainKeyReceiverFromDoubleRatchetState:doubleRatchetState];
-
-    self.skippedMessagesKeys = [self skippedMessagesKeysFromDoubleRatchetState:doubleRatchetState];
-
-    self.numberOfSentMessages = [self numberOfSentMessagesFromDoubleRatchetState:doubleRatchetState];
-    self.numberOfReceivedMessages = [self numberOfReceivedMessagesFromDoubleRatchetState:doubleRatchetState];
-    self.numberOfPreviousChainSentMessages = [self numberOfPreviousChainSentMessagesFromDoubleRatchetState:doubleRatchetState];
-}
-
-- (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair {
-
-    [self setupRatchetForReceivingWithSharedKey:sharedKey
-                            andSignedPreKeyPair:signedPreKeyPair
-                             doubleRatchetState:nil];
+    self.chainKeySender = nil;
+    self.chainKeyReceiver = nil;
+    self.numberOfSentMessages = 0;
+    self.numberOfReceivedMessages = 0;
+    self.numberOfPreviousChainSentMessages = 0;
+    self.skippedMessagesKeys = [@{} mutableCopy];
 }
 
 #pragma mark - Encrypt
@@ -287,11 +275,22 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 - (NSDictionary<NSString *, NSString *> * _Nonnull)doubleRatchetState {
     NSMutableDictionary *state = [NSMutableDictionary new];
 
+    //DHSenderKey
+    NSDictionary *senderSerialized = [self.DHSenderKey serialized];
+    NSData *senderJSON = [NSJSONSerialization dataWithJSONObject:senderSerialized options:0 error:nil];
+    NSString *senderValue = [senderJSON base64EncodedStringWithOptions:0];
+    [state setValue:senderValue forKey:kDHSenderKey_Key];
+
     //DHReceiverKey
-    NSDictionary *serialized = [self.DHReceiverKey serialized];
-    NSData *json = [NSJSONSerialization dataWithJSONObject:serialized options:0 error:nil];
-    NSString *value = [json base64EncodedStringWithOptions:0];
-    [state setValue:value forKey:kDHReceiverKey_Key];
+    NSDictionary *receiverSerialized = [self.DHReceiverKey serialized];
+    NSData *receiverJSON = [NSJSONSerialization dataWithJSONObject:receiverSerialized options:0 error:nil];
+    NSString *receiverValue = [receiverJSON base64EncodedStringWithOptions:0];
+    [state setValue:receiverValue forKey:kDHReceiverKey_Key];
+
+    //RootKey
+    if (self.rootKey) {
+        [state setValue:[self.rootKey base64EncodedStringWithOptions:0] forKey:kRootKey_Key];
+    }
 
     //ChainKeySender
     if (self.chainKeySender) {
@@ -303,10 +302,6 @@ static uint64_t const crypto_kdf_iv_salt = 3;
         [state setValue:[self.chainKeyReceiver base64EncodedStringWithOptions:0] forKey:kChainKeyReceiver_Key];
     }
 
-    //SkippedMessagesKeys
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.skippedMessagesKeys];
-    [state setValue:[data base64EncodedStringWithOptions:0] forKey:kSkippedMessagesKeys_Key];
-
     //NumberOfSentMessages
     [state setValue:[@(self.numberOfSentMessages) stringValue] forKey:kNumberOfSentMessages_Key];
 
@@ -315,6 +310,10 @@ static uint64_t const crypto_kdf_iv_salt = 3;
 
     //NumberOfPreviousChainSentMessages
     [state setValue:[@(self.numberOfPreviousChainSentMessages) stringValue] forKey:kNumberOfPreviousChainSentMessages_Key];
+
+    //SkippedMessagesKeys
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.skippedMessagesKeys];
+    [state setValue:[data base64EncodedStringWithOptions:0] forKey:kSkippedMessagesKeys_Key];
 
     return [state copy];
 }
@@ -343,6 +342,15 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     return [IRCurve25519KeyPair keyPairWithSerializedData:serialized];
 }
 
+- (NSData *)rootKeyFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
+    NSString *rootKey = doubleRatchetState[kRootKey_Key];
+    if (rootKey == nil) {
+        return nil;
+    }
+
+    return [[NSData alloc] initWithBase64EncodedString:rootKey options:0];
+}
+
 - (NSData *)chainKeySenderFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
     NSString *chainKey = doubleRatchetState[kChainKeySender_Key];
     if (chainKey == nil) {
@@ -359,21 +367,6 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     }
 
     return [[NSData alloc] initWithBase64EncodedString:chainKey options:0];
-}
-
-- (NSMutableDictionary *)skippedMessagesKeysFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
-    NSString *string = doubleRatchetState[kSkippedMessagesKeys_Key];
-    if (string == nil) {
-        return [NSMutableDictionary new];
-    }
-
-    NSData *data = [[NSData alloc] initWithBase64EncodedString:string options:0];
-    if (data == nil) {
-        return [NSMutableDictionary new];
-    }
-
-    NSDictionary *messages = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    return [messages mutableCopy];
 }
 
 - (NSUInteger)numberOfSentMessagesFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
@@ -401,6 +394,21 @@ static uint64_t const crypto_kdf_iv_salt = 3;
     }
 
     return [string integerValue];
+}
+
+- (NSMutableDictionary *)skippedMessagesKeysFromDoubleRatchetState:(NSDictionary *)doubleRatchetState {
+    NSString *string = doubleRatchetState[kSkippedMessagesKeys_Key];
+    if (string == nil) {
+        return [NSMutableDictionary new];
+    }
+
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:string options:0];
+    if (data == nil) {
+        return [NSMutableDictionary new];
+    }
+
+    NSDictionary *messages = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return [messages mutableCopy];
 }
 
 #pragma mark - Helpers
