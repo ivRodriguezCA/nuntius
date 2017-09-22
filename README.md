@@ -245,7 +245,7 @@ NSData *aliceSharedSecret = //some shared secret, for example ECDH(alice.private
 
 IRDoubleRatchetService *bobDoubleRatchet = [IRDoubleRatchetService new];
 NSData *bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
-[bobDoubleRatchet setupRatchetForReceivingWithSharedKey:bobSharedSecret andSignedPreKeyPair:alice.signedPreKeyPair];
+[bobDoubleRatchet setupRatchetForReceivingWithSharedKey:bobSharedSecret andDHSenderKey:alice.signedPreKeyPair];
 
 //Sending messages
 NSData *message = //some message
@@ -267,13 +267,14 @@ if (error == nil) {
 ```
 Swift
 ```Swift
+//Alice is the sender and Bob is the receiver
 let aliceDoubleRatchet = IRDoubleRatchetService()
 let aliceSharedSecret = //some shared secret, for example ECDH(alice.privateKey,bob.publicKey)
 aliceDoubleRatchet.setupRatchetForSending(withSharedKey: aliceSharedSecret, andDHReceiverKey: bobKeyPair)
 
 let bobDoubleRatchet = IRDoubleRatchetService()
 let bobSharedSecret = //some shared secret, for example ECDH(bob.privateKey,alice.publicKey)
-bobDoubleRatchet.setupRatchetForReceiving(withSharedKey: bobSharedSecret, andSignedPreKeyPair: alice.signedPreKeyPair)
+bobDoubleRatchet.setupRatchetForReceiving(withSharedKey: bobSharedSecret, andDHSenderKey: alice.signedPreKeyPair)
 
 //Sending messages
 let message = //some message
@@ -289,6 +290,25 @@ do {
 }
 
 ```
+### Double Ratchet: setup from stored state
+Objc
+```Objc
+NSDictionary<NSString *, NSString *> *state = [someDoubleRatchet doubleRatchetState];
+//store state in local encrypted db
+
+IRDoubleRatchetService *doubleRatchet = [IRDoubleRatchetService new];
+NSDictionary<NSString *, NSString *> *state = //get double ratchet state from local encrypted DB
+[doubleRatchet setupWithRatchetState:state];
+```
+Swift
+```Swift
+let state = someDoubleRatchet.doubleRatchetState()
+//store state in local encrypted db
+
+let doubleRatchet = IRDoubleRatchetService()
+let state = //get double ratchet state from local encrypted DB
+doubleRatchet.setup(withRatchetState: state)
+``` 
 ### Triple Diffie-Hellman: setup, shared secret generation
 Objc
 ```Objc
@@ -301,14 +321,14 @@ IRTripleDHService *tripleDH = [[IRTripleDHService alloc] initWithIdentityKeyPair
 IRCurve25519KeyPair *rIdentityKey = //get receiver's identity key from server or db
 IRCurve25519KeyPair *rSignedPreKey = //get receiver's signed pre-key from server or db
 IRCurve25519KeyPair *rEphemeralKey = //get one of the receiver's ephemeral keys from server
-NSData *sharedKey = tripleDH.sharedKeyFromReceiverIdentityKey:rIdentityKey receiverSignedPreKey:rSignedPreKey receiverEphemeralKey:rEphemeralKey
+NSData *sharedKey = [tripleDH sharedKeyFromReceiverIdentityKey:rIdentityKey receiverSignedPreKey:rSignedPreKey receiverEphemeralKey:rEphemeralKey];
 //Use sharedKey
 
 //When receiving a message
 IRCurve25519KeyPair *sIdentityKey = //get sender's identity key from server or db
 IRCurve25519KeyPair *sEphemeralKey = //get sender's signed pre-key from server or db
 NSString *rEphemeralKeyID = //get ephemeral key id from received message's heeader
-NSData *sharedKey = tripleDH.sharedKeyFromSenderIdentityKey:sIdentityKey senderEphemeralKey:sEphemeralKey receiverEphemeralKeyID:rEphemeralKeyID];
+NSData *sharedKey = [tripleDH sharedKeyFromSenderIdentityKey:sIdentityKey senderEphemeralKey:sEphemeralKey receiverEphemeralKeyID:rEphemeralKeyID];
 //Use sharedKey
 
 ```
