@@ -26,6 +26,7 @@
 
 NSString * const kDHSenderKey_Key = @"DHSenderKey_Key";
 NSString * const kDHReceiverKey_Key = @"DHReceiverKey_Key";
+NSString * const kRootKey_Key = @"RootKey_Key";
 NSString * const kChainKeySender_Key = @"ChainKeySender_Key";
 NSString * const kChainKeyReceiver_Key = @"ChainKeyReceiver_Key";
 NSString * const kSkippedMessagesKeys_Key = @"SkippedMessagesKeys_Key";

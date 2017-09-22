@@ -26,6 +26,7 @@
 
 extern NSString * _Nonnull const kDHSenderKey_Key;
 extern NSString * _Nonnull const kDHReceiverKey_Key;
+extern NSString * _Nonnull const kRootKey_Key;
 extern NSString * _Nonnull const kChainKeySender_Key;
 extern NSString * _Nonnull const kChainKeyReceiver_Key;
 extern NSString * _Nonnull const kSkippedMessagesKeys_Key;

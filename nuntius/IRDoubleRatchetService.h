@@ -28,21 +28,19 @@
 
 #pragma mark - Setup Ratchet
 
+//Restore state
+
+- (void)setupWithRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState;
+
 //Setup for sending
-- (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
-                           andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey
-                         doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState;
 
 - (void)setupRatchetForSendingWithSharedKey:(NSData * _Nonnull)sharedKey
                            andDHReceiverKey:(IRCurve25519KeyPair * _Nonnull)DHReceiverKey;
 
 //Setup for receiving
-- (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair
-                           doubleRatchetState:(NSDictionary<NSString *, NSString *> * _Nullable)doubleRatchetState;
 
 - (void)setupRatchetForReceivingWithSharedKey:(NSData * _Nonnull)sharedKey
-                          andSignedPreKeyPair:(IRCurve25519KeyPair * _Nonnull)signedPreKeyPair;
+                               andDHSenderKey:(IRCurve25519KeyPair * _Nonnull)DHSenderKey;
 
 #pragma mark - Encrypt
 

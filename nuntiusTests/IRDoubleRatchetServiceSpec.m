@@ -58,7 +58,7 @@
                                    andDHReceiverKey:bobPublicPreKey];
 
     [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
-                                andSignedPreKeyPair:preKey];
+                                     andDHSenderKey:preKey];
 
     NSData *message = [@"hello bob" dataUsingEncoding:NSUTF8StringEncoding];
     NSData *ciphertext = [self.alice encryptData:message error:nil];
@@ -85,7 +85,7 @@
                                    andDHReceiverKey:bobPublicPreKey];
 
     [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
-                                andSignedPreKeyPair:preKey];
+                                     andDHSenderKey:preKey];
 
     //Alice -> Bob
     NSData *messageAlice = [@"Hello Bob!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -123,7 +123,7 @@
                                    andDHReceiverKey:bobPublicPreKey];
 
     [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
-                                andSignedPreKeyPair:preKey];
+                                     andDHSenderKey:preKey];
 
     //Alice -> Bob
     NSData *messageAlice1 = [@"Hello Bob!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -171,7 +171,7 @@
                                    andDHReceiverKey:bobPublicPreKey];
 
     [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
-                                andSignedPreKeyPair:preKey];
+                                     andDHSenderKey:preKey];
 
     //Alice -> Bob
     NSData *messageAlice1 = [@"Hello Bob!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -221,7 +221,7 @@
                                    andDHReceiverKey:bobPublicPreKey];
 
     [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
-                                andSignedPreKeyPair:preKey];
+                                     andDHSenderKey:preKey];
 
     //Alice -> Bob
     NSData *messageAlice1 = [@"Hello Bob!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -264,6 +264,107 @@
     XCTAssertNotNil(plaintextBob);
     NSString *mBob = [[NSString alloc] initWithData:plaintextBob encoding:NSUTF8StringEncoding];
     XCTAssertEqualObjects(mBob, @"Hello Alice");
+}
+
+- (void)testRestoreDoubleRatchetState {
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
+
+    NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
+    NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
+
+    [self.alice setupRatchetForSendingWithSharedKey:sharedSecret1
+                                   andDHReceiverKey:bobPublicPreKey];
+
+    [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
+                                     andDHSenderKey:preKey];
+
+    NSData *message = [@"hello bob" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ciphertext = [self.alice encryptData:message error:nil];
+    XCTAssertNotNil(ciphertext);
+
+    NSData *plaintext = [self.bob decryptData:ciphertext error:nil];
+    XCTAssertNotNil(plaintext);
+    NSString *m = [[NSString alloc] initWithData:plaintext encoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(m, @"hello bob");
+
+    NSDictionary *aliceState = [self.alice doubleRatchetState];
+    NSDictionary *bobState = [self.bob doubleRatchetState];
+
+    IRDoubleRatchetService *restoredAlice = [IRDoubleRatchetService new];
+    [restoredAlice setupWithRatchetState:aliceState];
+
+    IRDoubleRatchetService *restoredBob = [IRDoubleRatchetService new];
+    [restoredBob setupWithRatchetState:bobState];
+
+    NSData *anotherMessage = [@"hey again, bob" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *anotherCiphertext = [restoredAlice encryptData:anotherMessage error:nil];
+    XCTAssertNotNil(anotherCiphertext);
+
+    NSData *anotherPlaintext = [restoredBob decryptData:anotherCiphertext error:nil];
+    XCTAssertNotNil(anotherPlaintext);
+    NSString *anotherM = [[NSString alloc] initWithData:anotherPlaintext encoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(anotherM, @"hey again, bob");
+}
+
+- (void)testRestoreDoubleRatchetStateAfterSendAndReceiveAndSendMessages {
+    IREncryptionService *eS = [IREncryptionService new];
+    IRCurve25519KeyPair *preKey = [eS generateKeyPair];
+    IRCurve25519KeyPair *bobPublicPreKey = [IRCurve25519KeyPair keyPairWithPublicKey:preKey.publicKey];
+
+    IRCurve25519KeyPair *keyPair1 = [eS generateKeyPair];
+    IRCurve25519KeyPair *keyPair2 = [eS generateKeyPair];
+
+    NSData *sharedSecret1 = [eS senderSharedKeyWithRecieverPublicKey:keyPair2.publicKey andSenderKeyPair:keyPair1];
+    NSData *sharedSecret2 = [eS receiverSharedKeyWithSenderPublicKey:keyPair1.publicKey andReceiverKeyPair:keyPair2];
+
+    [self.alice setupRatchetForSendingWithSharedKey:sharedSecret1
+                                   andDHReceiverKey:bobPublicPreKey];
+
+    [self.bob setupRatchetForReceivingWithSharedKey:sharedSecret2
+                                     andDHSenderKey:preKey];
+
+    //Alice -> Bob
+    NSData *messageAlice = [@"Hello Bob!" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ciphertextAlice = [self.alice encryptData:messageAlice error:nil];
+    XCTAssertNotNil(ciphertextAlice);
+
+    NSData *plaintextAlice = [self.bob decryptData:ciphertextAlice error:nil];
+    XCTAssertNotNil(plaintextAlice);
+    NSString *mAlice = [[NSString alloc] initWithData:plaintextAlice encoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(mAlice, @"Hello Bob!");
+
+    //Bob -> Alice
+    NSData *messageBob = [@"Hello Alice" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *ciphertextBob = [self.bob encryptData:messageBob error:nil];
+    XCTAssertNotNil(ciphertextBob);
+
+    NSData *plaintextBob = [self.alice decryptData:ciphertextBob error:nil];
+    XCTAssertNotNil(plaintextBob);
+    NSString *mBob = [[NSString alloc] initWithData:plaintextBob encoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(mBob, @"Hello Alice");
+
+    NSDictionary *aliceState = [self.alice doubleRatchetState];
+    NSDictionary *bobState = [self.bob doubleRatchetState];
+
+    IRDoubleRatchetService *restoredAlice = [IRDoubleRatchetService new];
+    [restoredAlice setupWithRatchetState:aliceState];
+
+    IRDoubleRatchetService *restoredBob = [IRDoubleRatchetService new];
+    [restoredBob setupWithRatchetState:bobState];
+
+    NSData *anotherMessage = [@"hey again, bob" dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *anotherCiphertext = [restoredAlice encryptData:anotherMessage error:nil];
+    XCTAssertNotNil(anotherCiphertext);
+
+    NSData *anotherPlaintext = [restoredBob decryptData:anotherCiphertext error:nil];
+    XCTAssertNotNil(anotherPlaintext);
+    NSString *anotherM = [[NSString alloc] initWithData:anotherPlaintext encoding:NSUTF8StringEncoding];
+    XCTAssertEqualObjects(anotherM, @"hey again, bob");
 }
 
 @end
