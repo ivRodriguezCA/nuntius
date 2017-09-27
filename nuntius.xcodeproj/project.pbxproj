@@ -87,6 +87,7 @@
 		2C54A9921F31EB8D003ABDF6 /* sodium.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A9551F31EB8D003ABDF6 /* sodium.h */; };
 		2C54A9931F31EB8D003ABDF6 /* libsodium.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C54A9571F31EB8D003ABDF6 /* libsodium.a */; };
 		2C66376B1F38012800658C2C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2C66376A1F38012800658C2C /* LICENSE */; };
+		2C7CB9971F7BC88600465505 /* crypto_secretstream_xchacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C7CB9961F7BC88600465505 /* crypto_secretstream_xchacha20poly1305.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -183,6 +184,7 @@
 		2C54A9551F31EB8D003ABDF6 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
 		2C54A9571F31EB8D003ABDF6 /* libsodium.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsodium.a; sourceTree = "<group>"; };
 		2C66376A1F38012800658C2C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		2C7CB9961F7BC88600465505 /* crypto_secretstream_xchacha20poly1305.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypto_secretstream_xchacha20poly1305.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +313,7 @@
 		2C54A91A1F31EB8D003ABDF6 /* sodium */ = {
 			isa = PBXGroup;
 			children = (
+				2C7CB9961F7BC88600465505 /* crypto_secretstream_xchacha20poly1305.h */,
 				2C54A91B1F31EB8D003ABDF6 /* core.h */,
 				2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */,
 				2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */,
@@ -462,6 +465,7 @@
 				2C54A9611F31EB8D003ABDF6 /* crypto_box_curve25519xchacha20poly1305.h in Headers */,
 				2C54A9861F31EB8D003ABDF6 /* crypto_stream_xchacha20.h in Headers */,
 				2C54A9661F31EB8D003ABDF6 /* crypto_core_salsa2012.h in Headers */,
+				2C7CB9971F7BC88600465505 /* crypto_secretstream_xchacha20poly1305.h in Headers */,
 				2C54A98A1F31EB8D003ABDF6 /* crypto_verify_64.h in Headers */,
 				2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */,
 			);
