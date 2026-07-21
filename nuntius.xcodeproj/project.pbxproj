@@ -9,23 +9,6 @@
 /* Begin PBXBuildFile section */
 		2C2746431F2F49F3008D530E /* nuntius.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2746391F2F49F2008D530E /* nuntius.framework */; };
 		2C27464A1F2F49F3008D530E /* nuntius.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27463C1F2F49F2008D530E /* nuntius.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27465E1F2F4A55008D530E /* IRCurve25519KeyPair.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27465F1F2F4A55008D530E /* IRCurve25519KeyPair.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */; };
-		2C2746601F2F4A55008D530E /* IRRatchetHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746611F2F4A55008D530E /* IRRatchetHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */; };
-		2C2746621F2F4A55008D530E /* IRAEADInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C27465C1F2F4A55008D530E /* IRAEADInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746631F2F4A55008D530E /* IRAEADInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C27465D1F2F4A55008D530E /* IRAEADInfo.m */; };
-		2C27466A1F2F4A61008D530E /* IREncryptionService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746641F2F4A61008D530E /* IREncryptionService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466B1F2F4A61008D530E /* IREncryptionService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746651F2F4A61008D530E /* IREncryptionService.m */; };
-		2C27466C1F2F4A61008D530E /* IRTripleDHService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746661F2F4A61008D530E /* IRTripleDHService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466D1F2F4A61008D530E /* IRTripleDHService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746671F2F4A61008D530E /* IRTripleDHService.m */; };
-		2C27466E1F2F4A61008D530E /* IRDoubleRatchetService.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C27466F1F2F4A61008D530E /* IRDoubleRatchetService.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */; };
-		2C2746731F2F4A7E008D530E /* IREncryptionServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */; };
-		2C2746741F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */; };
-		2C2746751F2F4A7E008D530E /* IRTripleDHServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */; };
-		2C2746781F2F4ABF008D530E /* IRConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C2746761F2F4ABF008D530E /* IRConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C2746791F2F4ABF008D530E /* IRConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2746771F2F4ABF008D530E /* IRConstants.m */; };
 		2C54A9581F31EB8D003ABDF6 /* core.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91B1F31EB8D003ABDF6 /* core.h */; };
 		2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91C1F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h */; };
 		2C54A95A1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A91D1F31EB8D003ABDF6 /* crypto_aead_chacha20poly1305.h */; };
@@ -87,6 +70,73 @@
 		2C54A9921F31EB8D003ABDF6 /* sodium.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C54A9551F31EB8D003ABDF6 /* sodium.h */; };
 		2C66376B1F38012800658C2C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 2C66376A1F38012800658C2C /* LICENSE */; };
 		2CAA00021F31EB8D003ABDF6 /* Clibsodium.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA00011F31EB8D003ABDF6 /* Clibsodium.xcframework */; };
+		ABD7646408D179E36061ED95 /* IRProtocolConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F7535ADA0163768CA4A7DAF /* IRProtocolConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A1012645E49147E608F67ADD /* IRErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 39808C77F936E1723466523C /* IRErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D9982EC90F707A60F72E5AD4 /* IRSodium.h in Headers */ = {isa = PBXBuildFile; fileRef = D1E4B8D1D0C2FAA68B2675E7 /* IRSodium.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		45CD2B57CA5A4ED1C5BC9D4A /* IRSecretBytes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DED0C7D8216EE45092664AD /* IRSecretBytes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FA9C1150AC93FA860C9F69EA /* IRProtocolConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B836C1CA80B372D1BC89FE35 /* IRProtocolConstants.m */; };
+		4F0F9CAC200E3DAB19B13E2D /* IRErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 8642C2EC19B7C82F36C09F4A /* IRErrors.m */; };
+		4E5CC61C7B5736CFCA2C4CE8 /* IRSodium.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9EA042A14FFF3ADF33ACEA /* IRSodium.m */; };
+		50DA2871EEA61F65D3EBF5C8 /* IRSecretBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = EF969901052D8F27F08F4D32 /* IRSecretBytes.m */; };
+		9B4A101FEFB595BB28C98728 /* IRByteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 904C874DE9227577EB7744F0 /* IRByteReader.m */; };
+		5C68B22F88AAB2710B58B375 /* IRByteWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = F1161FA261DC9F8924DB346B /* IRByteWriter.m */; };
+		3B04E8517E8513F530A842AB /* IRKeyTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 00C3BA174202992699421B4A /* IRKeyTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A2AD862B5AF3401A595378CC /* IRKeyPairs.h in Headers */ = {isa = PBXBuildFile; fileRef = FB638241EC23A9846DDA9552 /* IRKeyPairs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1CD73CF25B58210B6C48DA84 /* IRKeyTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBFDDE8627C414BD483B908 /* IRKeyTypes.m */; };
+		7002D6D74D434CC1E8A09289 /* IRKeyPairs.m in Sources */ = {isa = PBXBuildFile; fileRef = 821D4F16C7CFC2F388F50296 /* IRKeyPairs.m */; };
+		988B41238968A5EEE9045507 /* IRFoundationSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 121EBF9D5A8D7D1E095EC30F /* IRFoundationSpec.m */; };
+		CD286A375D17426EB729AF7A /* IRKeyTypesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC735517AC4F1CB452F95AC /* IRKeyTypesSpec.m */; };
+		0C7941E39DE500D3F0FEAAF5 /* IREnvironment.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5C38DC525EE9C3E1E16713 /* IREnvironment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C607FD46004F8F785420526C /* IREnvironment.m in Sources */ = {isa = PBXBuildFile; fileRef = 43B5BBCDB54E02AB4EFF4CA4 /* IREnvironment.m */; };
+		2ADED379B46901B0447268C3 /* IRCryptoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 3E132463BAA147F7FF70D9CF /* IRCryptoProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EC3A452F07BE8E5DD9310EEA /* IRSodiumCryptoProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = F16E32CE30671AA57D4E11FC /* IRSodiumCryptoProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		ECD8E8C899141D20374A2E82 /* IRSodiumCryptoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 88687FB3758EB2209D8E5B3F /* IRSodiumCryptoProvider.m */; settings = {COMPILER_FLAGS = "-Werror=unused-result"; }; };
+		0C2FECA319FBB37EDDA3FE14 /* IRPrimitivesSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 38A374E3391AC827F20B9901 /* IRPrimitivesSpec.m */; };
+		1EC75CBDEE1B8EC11D36E75E /* IRPublicIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E198553506281A8538FE26A /* IRPublicIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0AF8897C38A67B4201489A50 /* IRIdentity.h in Headers */ = {isa = PBXBuildFile; fileRef = 500018DA6F6AB16D6BE99DCE /* IRIdentity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D19A9438324E989B7F2C720 /* IRPreKeyRecords.h in Headers */ = {isa = PBXBuildFile; fileRef = FAFBED8757AAF91A33E722B9 /* IRPreKeyRecords.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEDE6E632F1B32E76FC37034 /* IRPreKeyBundle.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE1137AD55D1FF38964FBF6 /* IRPreKeyBundle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5B0D1F18EDA4361303C2DBCE /* IRPreKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 2318F2CFEBB36A5799CBFC73 /* IRPreKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D518C0B1E7718D68B55C4399 /* IRInMemoryPreKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = AC3A657F9B6F6DC290D0D504 /* IRInMemoryPreKeyStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B2ABD44BE05439462C82BB3D /* IRPublicIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5927DDBA153F69336A836C9A /* IRPublicIdentity.m */; };
+		2153E5DE41A3567CAD5F0EF9 /* IRIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = F26E9E92F5753C90A88F3E4A /* IRIdentity.m */; };
+		5BCB124D13EEAABC93D7893F /* IRPreKeyRecords.m in Sources */ = {isa = PBXBuildFile; fileRef = 29FB014E91CE03156012D569 /* IRPreKeyRecords.m */; };
+		5ECDC397AD0F440EC1DC9F6C /* IRPreKeyBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 06EA44A7C3A9F21D80C0182C /* IRPreKeyBundle.m */; };
+		9C98FD9C6807DCB23E190955 /* IRInMemoryPreKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = B311CE867BBD9B040ACC47F4 /* IRInMemoryPreKeyStore.m */; };
+		805AA76D0BD3451804715E8A /* IRIdentityBundleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CD6361480872F2026ACFCD2 /* IRIdentityBundleSpec.m */; };
+		D9A43B73945B9861935E25E5 /* IRProtocolKDF.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBFBC10618851B2A465B6BC /* IRProtocolKDF.m */; };
+		817EA8AA1C210D2DCA8EADB1 /* IRTranscript.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE9721CFA00FA1678729E41 /* IRTranscript.m */; };
+		5E88DC0E35D90F67805231D7 /* IRSessionAD.m in Sources */ = {isa = PBXBuildFile; fileRef = 01EA16A7E347A539C3F2F063 /* IRSessionAD.m */; };
+		D6F789CC2D10BB06A233297E /* IRX3DH.m in Sources */ = {isa = PBXBuildFile; fileRef = 321A8C46856BAEB9BFCB50E7 /* IRX3DH.m */; };
+		F8FF653506A59609AFA8D665 /* IRKDFSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C884AA90F989B9D01B6D903 /* IRKDFSpec.m */; };
+		204A8728EB4E4CBDB3CD5EC4 /* IRX3DHSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = EFDCAD488FFCCFDC86BD001B /* IRX3DHSpec.m */; };
+		A8D91F980267468F20D5FDE4 /* IRMessageHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C0938E1B130CA7F2AED7C5B /* IRMessageHeader.m */; };
+		E81D028554DA46CF09FF828F /* IRMessageGate.m in Sources */ = {isa = PBXBuildFile; fileRef = EEB6BDB69FB5359FCA3A305C /* IRMessageGate.m */; };
+		AE5E636699A051910B7B66A2 /* IRMessageBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5D3D883CF19FE51BA53D3501 /* IRMessageBuilder.m */; };
+		8BFE54E82CD9C5579184DB96 /* IRWireGateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 26D7FB0CBB1B0539B3AC785A /* IRWireGateSpec.m */; };
+		451132948DA1B351BC25678A /* IRSkippedKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2005CD2DD372831B034F76 /* IRSkippedKeyStore.m */; };
+		ED6F60B96ED5E780474245DC /* IRRatchetState.m in Sources */ = {isa = PBXBuildFile; fileRef = CEEC01323A6D1EBE7376BCEF /* IRRatchetState.m */; };
+		6C391E4032F5865AE69A5357 /* IRRatchet.m in Sources */ = {isa = PBXBuildFile; fileRef = 406695AEBD6E6E757CF3211E /* IRRatchet.m */; };
+		FF1EE19605FC9CBB3B01096E /* IRRatchetSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B688298FAE6A517CD484A13 /* IRRatchetSpec.m */; };
+		9452BB648D17FB17318CAA33 /* IRSession.h in Headers */ = {isa = PBXBuildFile; fileRef = B34D2A78C4833E4B1A02D6A7 /* IRSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4CD62101B0F27B7D4FBE3627 /* IRSessionStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD1747DF2172AA58A2545E3 /* IRSessionStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		457884EDA84BD5EF69517424 /* IRInMemorySessionStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 9E5F78D2DD1BA2933C355354 /* IRInMemorySessionStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7F2C90E525FA5A99810ED61E /* IRSessionStateCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F169D163A74806A77254D9 /* IRSessionStateCodec.m */; };
+		3109D71D813A0992AFD6E310 /* IRSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 108185FD6FF1244B0651071F /* IRSession.m */; };
+		441C5A5C6809EAC71EA7B6E5 /* IRSessionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FFD24B2F0577392B20073ABA /* IRSessionStore.m */; };
+		E78620C23521F2BF768A3B9F /* IRInMemorySessionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = FAF81C4F7D4E53DD78F2A079 /* IRInMemorySessionStore.m */; };
+		7F5ADD28E3AE227783551583 /* IRSessionDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 592A12A310A98CC443EAF005 /* IRSessionDispatch.m */; };
+		235DBE747F226BFFD3D12E8C /* IRSealedStore.h in Headers */ = {isa = PBXBuildFile; fileRef = C6563BA2E52D9ABB3B836A58 /* IRSealedStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		754BA60C40B909CE8E171FC1 /* IRSealedSessionStore.h in Headers */ = {isa = PBXBuildFile; fileRef = DEDA5C8D5B3D9A7F775443DA /* IRSealedSessionStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6C3ADB4C3027EF35484F2D66 /* IRSealedStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 02F7FF570395CCF942B62342 /* IRSealedStore.m */; };
+		E9BBC430B2682530C9DB8B30 /* IRSealedSessionStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 334257E9140DF3FD43BCE61F /* IRSealedSessionStore.m */; };
+		E48F35C31C9B7DE1D54AD093 /* IRStateCodecSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 55344A33C0DBDEEC4AD1F73B /* IRStateCodecSpec.m */; };
+		19E54AEE3C5E242EF139B503 /* IRSessionLifecycleSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = D78EB359C4E815918DAA7998 /* IRSessionLifecycleSpec.m */; };
+		716DD54712A9EB910D707890 /* IRDecoderFuzzSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = A85A00E0559639FF099BB933 /* IRDecoderFuzzSpec.m */; };
+		EBED89BF478BD138F25D5428 /* IRMessenger.h in Headers */ = {isa = PBXBuildFile; fileRef = B8EC91112214EE7C2071F03C /* IRMessenger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FD164E6D7D606E2C36B388BC /* IRMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */; };
+		AFBB8FE2E3493755AD4CD030 /* IRMessengerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C51E238D7BEF5323B2CA2 /* IRMessengerSpec.m */; };
+		8A344FF3E7EADD11061D727E /* IRPropertySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17990DECFB6EB6182EA194 /* IRPropertySpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,25 +155,92 @@
 		2C27463D1F2F49F2008D530E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C2746421F2F49F3008D530E /* nuntiusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nuntiusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C2746491F2F49F3008D530E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRCurve25519KeyPair.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRCurve25519KeyPair.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRRatchetHeader.h; sourceTree = "<group>"; };
-		2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRRatchetHeader.m; sourceTree = "<group>"; };
-		2C27465C1F2F4A55008D530E /* IRAEADInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRAEADInfo.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C27465D1F2F4A55008D530E /* IRAEADInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRAEADInfo.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2C2746641F2F4A61008D530E /* IREncryptionService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IREncryptionService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C2746651F2F4A61008D530E /* IREncryptionService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IREncryptionService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2C2746661F2F4A61008D530E /* IRTripleDHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRTripleDHService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C2746671F2F4A61008D530E /* IRTripleDHService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRTripleDHService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRDoubleRatchetService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRDoubleRatchetService.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IREncryptionServiceSpec.m; sourceTree = "<group>"; };
-		2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRDoubleRatchetServiceSpec.m; sourceTree = "<group>"; };
-		2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRTripleDHServiceSpec.m; sourceTree = "<group>"; };
-		2C2746761F2F4ABF008D530E /* IRConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = IRConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2C2746771F2F4ABF008D530E /* IRConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IRConstants.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2C66376A1F38012800658C2C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		2CAA00011F31EB8D003ABDF6 /* Clibsodium.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Clibsodium.xcframework; sourceTree = "<group>"; };
+		234BDBD432A2660584CC6448 /* IRByteReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRByteReader.h; sourceTree = "<group>"; };
+		ECD19ECB5A2688AB55570048 /* IRByteWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRByteWriter.h; sourceTree = "<group>"; };
+		6F7535ADA0163768CA4A7DAF /* IRProtocolConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRProtocolConstants.h; sourceTree = "<group>"; };
+		39808C77F936E1723466523C /* IRErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRErrors.h; sourceTree = "<group>"; };
+		D1E4B8D1D0C2FAA68B2675E7 /* IRSodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSodium.h; sourceTree = "<group>"; };
+		0DED0C7D8216EE45092664AD /* IRSecretBytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSecretBytes.h; sourceTree = "<group>"; };
+		B836C1CA80B372D1BC89FE35 /* IRProtocolConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRProtocolConstants.m; sourceTree = "<group>"; };
+		8642C2EC19B7C82F36C09F4A /* IRErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRErrors.m; sourceTree = "<group>"; };
+		2F9EA042A14FFF3ADF33ACEA /* IRSodium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSodium.m; sourceTree = "<group>"; };
+		EF969901052D8F27F08F4D32 /* IRSecretBytes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSecretBytes.m; sourceTree = "<group>"; };
+		904C874DE9227577EB7744F0 /* IRByteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRByteReader.m; sourceTree = "<group>"; };
+		F1161FA261DC9F8924DB346B /* IRByteWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRByteWriter.m; sourceTree = "<group>"; };
+		00C3BA174202992699421B4A /* IRKeyTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRKeyTypes.h; sourceTree = "<group>"; };
+		FB638241EC23A9846DDA9552 /* IRKeyPairs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRKeyPairs.h; sourceTree = "<group>"; };
+		ABBFDDE8627C414BD483B908 /* IRKeyTypes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRKeyTypes.m; sourceTree = "<group>"; };
+		821D4F16C7CFC2F388F50296 /* IRKeyPairs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRKeyPairs.m; sourceTree = "<group>"; };
+		121EBF9D5A8D7D1E095EC30F /* IRFoundationSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRFoundationSpec.m; sourceTree = "<group>"; };
+		DCC735517AC4F1CB452F95AC /* IRKeyTypesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRKeyTypesSpec.m; sourceTree = "<group>"; };
+		0338B2EFC86975FEF83C9483 /* IREnvironment+Testing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IREnvironment+Testing.h"; sourceTree = "<group>"; };
+		EC5C38DC525EE9C3E1E16713 /* IREnvironment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IREnvironment.h; sourceTree = "<group>"; };
+		43B5BBCDB54E02AB4EFF4CA4 /* IREnvironment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IREnvironment.m; sourceTree = "<group>"; };
+		3E132463BAA147F7FF70D9CF /* IRCryptoProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRCryptoProvider.h; sourceTree = "<group>"; };
+		F16E32CE30671AA57D4E11FC /* IRSodiumCryptoProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSodiumCryptoProvider.h; sourceTree = "<group>"; };
+		88687FB3758EB2209D8E5B3F /* IRSodiumCryptoProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSodiumCryptoProvider.m; sourceTree = "<group>"; };
+		38A374E3391AC827F20B9901 /* IRPrimitivesSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPrimitivesSpec.m; sourceTree = "<group>"; };
+		8E198553506281A8538FE26A /* IRPublicIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRPublicIdentity.h; sourceTree = "<group>"; };
+		500018DA6F6AB16D6BE99DCE /* IRIdentity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRIdentity.h; sourceTree = "<group>"; };
+		FAFBED8757AAF91A33E722B9 /* IRPreKeyRecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRPreKeyRecords.h; sourceTree = "<group>"; };
+		8FE1137AD55D1FF38964FBF6 /* IRPreKeyBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRPreKeyBundle.h; sourceTree = "<group>"; };
+		2318F2CFEBB36A5799CBFC73 /* IRPreKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRPreKeyStore.h; sourceTree = "<group>"; };
+		AC3A657F9B6F6DC290D0D504 /* IRInMemoryPreKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRInMemoryPreKeyStore.h; sourceTree = "<group>"; };
+		5927DDBA153F69336A836C9A /* IRPublicIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPublicIdentity.m; sourceTree = "<group>"; };
+		F26E9E92F5753C90A88F3E4A /* IRIdentity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRIdentity.m; sourceTree = "<group>"; };
+		29FB014E91CE03156012D569 /* IRPreKeyRecords.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPreKeyRecords.m; sourceTree = "<group>"; };
+		06EA44A7C3A9F21D80C0182C /* IRPreKeyBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPreKeyBundle.m; sourceTree = "<group>"; };
+		B311CE867BBD9B040ACC47F4 /* IRInMemoryPreKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRInMemoryPreKeyStore.m; sourceTree = "<group>"; };
+		5CD6361480872F2026ACFCD2 /* IRIdentityBundleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRIdentityBundleSpec.m; sourceTree = "<group>"; };
+		1AC34FFE55DE1C2B64BF441F /* IRProtocolKDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRProtocolKDF.h; sourceTree = "<group>"; };
+		69B6F7F712EFDF2D8DFECA29 /* IRTranscript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRTranscript.h; sourceTree = "<group>"; };
+		DB377628B10847FEB9D2E49D /* IRSessionAD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSessionAD.h; sourceTree = "<group>"; };
+		A7B3EA6CCAA5176EEA8C749C /* IRX3DH.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRX3DH.h; sourceTree = "<group>"; };
+		DDBFBC10618851B2A465B6BC /* IRProtocolKDF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRProtocolKDF.m; sourceTree = "<group>"; };
+		6FE9721CFA00FA1678729E41 /* IRTranscript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRTranscript.m; sourceTree = "<group>"; };
+		01EA16A7E347A539C3F2F063 /* IRSessionAD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSessionAD.m; sourceTree = "<group>"; };
+		321A8C46856BAEB9BFCB50E7 /* IRX3DH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRX3DH.m; sourceTree = "<group>"; };
+		0C884AA90F989B9D01B6D903 /* IRKDFSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRKDFSpec.m; sourceTree = "<group>"; };
+		EFDCAD488FFCCFDC86BD001B /* IRX3DHSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRX3DHSpec.m; sourceTree = "<group>"; };
+		F75DBDF4B26DA1BA9B4743DB /* IRMessageHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMessageHeader.h; sourceTree = "<group>"; };
+		608ADBBB67CE877EEFD1B032 /* IRMessageHeader+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IRMessageHeader+Internal.h"; sourceTree = "<group>"; };
+		A9E5C3FBD789ED795847E9D8 /* IRMessageGate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMessageGate.h; sourceTree = "<group>"; };
+		F081B7612901BF7B00DBA161 /* IRMessageBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMessageBuilder.h; sourceTree = "<group>"; };
+		5C0938E1B130CA7F2AED7C5B /* IRMessageHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessageHeader.m; sourceTree = "<group>"; };
+		EEB6BDB69FB5359FCA3A305C /* IRMessageGate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessageGate.m; sourceTree = "<group>"; };
+		5D3D883CF19FE51BA53D3501 /* IRMessageBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessageBuilder.m; sourceTree = "<group>"; };
+		26D7FB0CBB1B0539B3AC785A /* IRWireGateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRWireGateSpec.m; sourceTree = "<group>"; };
+		AF8883E69C45024B5AF0E7EA /* IRSkippedKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSkippedKeyStore.h; sourceTree = "<group>"; };
+		7F1C4CCAC0D5F1F3E1106794 /* IRRatchetState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRRatchetState.h; sourceTree = "<group>"; };
+		959A6447691A52C9CCA6679E /* IRRatchet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRRatchet.h; sourceTree = "<group>"; };
+		2B2005CD2DD372831B034F76 /* IRSkippedKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSkippedKeyStore.m; sourceTree = "<group>"; };
+		CEEC01323A6D1EBE7376BCEF /* IRRatchetState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRRatchetState.m; sourceTree = "<group>"; };
+		406695AEBD6E6E757CF3211E /* IRRatchet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRRatchet.m; sourceTree = "<group>"; };
+		1B688298FAE6A517CD484A13 /* IRRatchetSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRRatchetSpec.m; sourceTree = "<group>"; };
+		2C688D6971BEBD21AA848C88 /* IRSessionStateCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSessionStateCodec.h; sourceTree = "<group>"; };
+		BCC6BBEF2BBE5FFE0773C5BD /* IRSession+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IRSession+Internal.h"; sourceTree = "<group>"; };
+		CE76CD76D827DC1E93636B42 /* IRSessionDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSessionDispatch.h; sourceTree = "<group>"; };
+		B34D2A78C4833E4B1A02D6A7 /* IRSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSession.h; sourceTree = "<group>"; };
+		5CD1747DF2172AA58A2545E3 /* IRSessionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSessionStore.h; sourceTree = "<group>"; };
+		9E5F78D2DD1BA2933C355354 /* IRInMemorySessionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRInMemorySessionStore.h; sourceTree = "<group>"; };
+		08F169D163A74806A77254D9 /* IRSessionStateCodec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSessionStateCodec.m; sourceTree = "<group>"; };
+		108185FD6FF1244B0651071F /* IRSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSession.m; sourceTree = "<group>"; };
+		FFD24B2F0577392B20073ABA /* IRSessionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSessionStore.m; sourceTree = "<group>"; };
+		FAF81C4F7D4E53DD78F2A079 /* IRInMemorySessionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRInMemorySessionStore.m; sourceTree = "<group>"; };
+		592A12A310A98CC443EAF005 /* IRSessionDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSessionDispatch.m; sourceTree = "<group>"; };
+		C6563BA2E52D9ABB3B836A58 /* IRSealedStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSealedStore.h; sourceTree = "<group>"; };
+		DEDA5C8D5B3D9A7F775443DA /* IRSealedSessionStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRSealedSessionStore.h; sourceTree = "<group>"; };
+		02F7FF570395CCF942B62342 /* IRSealedStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSealedStore.m; sourceTree = "<group>"; };
+		334257E9140DF3FD43BCE61F /* IRSealedSessionStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSealedSessionStore.m; sourceTree = "<group>"; };
+		55344A33C0DBDEEC4AD1F73B /* IRStateCodecSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStateCodecSpec.m; sourceTree = "<group>"; };
+		D78EB359C4E815918DAA7998 /* IRSessionLifecycleSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRSessionLifecycleSpec.m; sourceTree = "<group>"; };
+		A85A00E0559639FF099BB933 /* IRDecoderFuzzSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRDecoderFuzzSpec.m; sourceTree = "<group>"; };
+		B8EC91112214EE7C2071F03C /* IRMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRMessenger.h; sourceTree = "<group>"; };
+		CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessenger.m; sourceTree = "<group>"; };
+		732C51E238D7BEF5323B2CA2 /* IRMessengerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessengerSpec.m; sourceTree = "<group>"; };
+		ED17990DECFB6EB6182EA194 /* IRPropertySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPropertySpec.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,11 +285,17 @@
 			isa = PBXGroup;
 			children = (
 				2C27467A1F2F4C1B008D530E /* Libraries */,
-				2C8FFB681F36A32200B7F852 /* Common */,
-				2C2746551F2F4A38008D530E /* Services */,
-				2C2746531F2F4A19008D530E /* Models */,
 				2C27463C1F2F49F2008D530E /* nuntius.h */,
 				2C27463D1F2F49F2008D530E /* Info.plist */,
+				041570ED6688C7F1392458D7 /* Core */,
+				ABCABF54ED2DB710D5CC324B /* Keys */,
+				4D4C0EDA84BE7AC967101640 /* Crypto */,
+				323E6CBA8FCEBC7C256078B8 /* Identity */,
+				F9036520414751C6CDAC1D08 /* X3DH */,
+				31AC2094EC35B5A07B9768AB /* Wire */,
+				3C6C9828A9A59929682FB12B /* Ratchet */,
+				0D1D2970BC34A8A403FDF07F /* Session */,
+				767BFC827C280E7068F4090E /* Messenger */,
 			);
 			path = nuntius;
 			sourceTree = "<group>";
@@ -180,46 +303,10 @@
 		2C2746461F2F49F3008D530E /* nuntiusTests */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746571F2F4A49008D530E /* Services */,
 				2C2746491F2F49F3008D530E /* Info.plist */,
+				0344B02E788AE3DF98414720 /* V4Specs */,
 			);
 			path = nuntiusTests;
-			sourceTree = "<group>";
-		};
-		2C2746531F2F4A19008D530E /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				2C2746581F2F4A55008D530E /* IRCurve25519KeyPair.h */,
-				2C2746591F2F4A55008D530E /* IRCurve25519KeyPair.m */,
-				2C27465A1F2F4A55008D530E /* IRRatchetHeader.h */,
-				2C27465B1F2F4A55008D530E /* IRRatchetHeader.m */,
-				2C27465C1F2F4A55008D530E /* IRAEADInfo.h */,
-				2C27465D1F2F4A55008D530E /* IRAEADInfo.m */,
-			);
-			name = Models;
-			sourceTree = "<group>";
-		};
-		2C2746551F2F4A38008D530E /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				2C2746641F2F4A61008D530E /* IREncryptionService.h */,
-				2C2746651F2F4A61008D530E /* IREncryptionService.m */,
-				2C2746661F2F4A61008D530E /* IRTripleDHService.h */,
-				2C2746671F2F4A61008D530E /* IRTripleDHService.m */,
-				2C2746681F2F4A61008D530E /* IRDoubleRatchetService.h */,
-				2C2746691F2F4A61008D530E /* IRDoubleRatchetService.m */,
-			);
-			name = Services;
-			sourceTree = "<group>";
-		};
-		2C2746571F2F4A49008D530E /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				2C2746701F2F4A7E008D530E /* IREncryptionServiceSpec.m */,
-				2C2746711F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m */,
-				2C2746721F2F4A7E008D530E /* IRTripleDHServiceSpec.m */,
-			);
-			name = Services;
 			sourceTree = "<group>";
 		};
 		2C27467A1F2F4C1B008D530E /* Libraries */ = {
@@ -239,13 +326,158 @@
 			path = libsodium;
 			sourceTree = "<group>";
 		};
-		2C8FFB681F36A32200B7F852 /* Common */ = {
+		041570ED6688C7F1392458D7 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				2C2746761F2F4ABF008D530E /* IRConstants.h */,
-				2C2746771F2F4ABF008D530E /* IRConstants.m */,
+				234BDBD432A2660584CC6448 /* IRByteReader.h */,
+				ECD19ECB5A2688AB55570048 /* IRByteWriter.h */,
+				6F7535ADA0163768CA4A7DAF /* IRProtocolConstants.h */,
+				39808C77F936E1723466523C /* IRErrors.h */,
+				D1E4B8D1D0C2FAA68B2675E7 /* IRSodium.h */,
+				0DED0C7D8216EE45092664AD /* IRSecretBytes.h */,
+				B836C1CA80B372D1BC89FE35 /* IRProtocolConstants.m */,
+				8642C2EC19B7C82F36C09F4A /* IRErrors.m */,
+				2F9EA042A14FFF3ADF33ACEA /* IRSodium.m */,
+				EF969901052D8F27F08F4D32 /* IRSecretBytes.m */,
+				904C874DE9227577EB7744F0 /* IRByteReader.m */,
+				F1161FA261DC9F8924DB346B /* IRByteWriter.m */,
+				0338B2EFC86975FEF83C9483 /* IREnvironment+Testing.h */,
+				EC5C38DC525EE9C3E1E16713 /* IREnvironment.h */,
+				43B5BBCDB54E02AB4EFF4CA4 /* IREnvironment.m */,
 			);
-			name = Common;
+			name = Core;
+			sourceTree = "<group>";
+		};
+		ABCABF54ED2DB710D5CC324B /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				00C3BA174202992699421B4A /* IRKeyTypes.h */,
+				FB638241EC23A9846DDA9552 /* IRKeyPairs.h */,
+				ABBFDDE8627C414BD483B908 /* IRKeyTypes.m */,
+				821D4F16C7CFC2F388F50296 /* IRKeyPairs.m */,
+			);
+			name = Keys;
+			sourceTree = "<group>";
+		};
+		0344B02E788AE3DF98414720 /* V4Specs */ = {
+			isa = PBXGroup;
+			children = (
+				121EBF9D5A8D7D1E095EC30F /* IRFoundationSpec.m */,
+				DCC735517AC4F1CB452F95AC /* IRKeyTypesSpec.m */,
+				38A374E3391AC827F20B9901 /* IRPrimitivesSpec.m */,
+				5CD6361480872F2026ACFCD2 /* IRIdentityBundleSpec.m */,
+				0C884AA90F989B9D01B6D903 /* IRKDFSpec.m */,
+				EFDCAD488FFCCFDC86BD001B /* IRX3DHSpec.m */,
+				26D7FB0CBB1B0539B3AC785A /* IRWireGateSpec.m */,
+				1B688298FAE6A517CD484A13 /* IRRatchetSpec.m */,
+				55344A33C0DBDEEC4AD1F73B /* IRStateCodecSpec.m */,
+				D78EB359C4E815918DAA7998 /* IRSessionLifecycleSpec.m */,
+				A85A00E0559639FF099BB933 /* IRDecoderFuzzSpec.m */,
+				732C51E238D7BEF5323B2CA2 /* IRMessengerSpec.m */,
+				ED17990DECFB6EB6182EA194 /* IRPropertySpec.m */,
+			);
+			name = V4Specs;
+			sourceTree = "<group>";
+		};
+		4D4C0EDA84BE7AC967101640 /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				3E132463BAA147F7FF70D9CF /* IRCryptoProvider.h */,
+				F16E32CE30671AA57D4E11FC /* IRSodiumCryptoProvider.h */,
+				88687FB3758EB2209D8E5B3F /* IRSodiumCryptoProvider.m */,
+			);
+			name = Crypto;
+			sourceTree = "<group>";
+		};
+		323E6CBA8FCEBC7C256078B8 /* Identity */ = {
+			isa = PBXGroup;
+			children = (
+				8E198553506281A8538FE26A /* IRPublicIdentity.h */,
+				500018DA6F6AB16D6BE99DCE /* IRIdentity.h */,
+				FAFBED8757AAF91A33E722B9 /* IRPreKeyRecords.h */,
+				8FE1137AD55D1FF38964FBF6 /* IRPreKeyBundle.h */,
+				2318F2CFEBB36A5799CBFC73 /* IRPreKeyStore.h */,
+				AC3A657F9B6F6DC290D0D504 /* IRInMemoryPreKeyStore.h */,
+				5927DDBA153F69336A836C9A /* IRPublicIdentity.m */,
+				F26E9E92F5753C90A88F3E4A /* IRIdentity.m */,
+				29FB014E91CE03156012D569 /* IRPreKeyRecords.m */,
+				06EA44A7C3A9F21D80C0182C /* IRPreKeyBundle.m */,
+				B311CE867BBD9B040ACC47F4 /* IRInMemoryPreKeyStore.m */,
+			);
+			name = Identity;
+			sourceTree = "<group>";
+		};
+		F9036520414751C6CDAC1D08 /* X3DH */ = {
+			isa = PBXGroup;
+			children = (
+				1AC34FFE55DE1C2B64BF441F /* IRProtocolKDF.h */,
+				69B6F7F712EFDF2D8DFECA29 /* IRTranscript.h */,
+				DB377628B10847FEB9D2E49D /* IRSessionAD.h */,
+				A7B3EA6CCAA5176EEA8C749C /* IRX3DH.h */,
+				DDBFBC10618851B2A465B6BC /* IRProtocolKDF.m */,
+				6FE9721CFA00FA1678729E41 /* IRTranscript.m */,
+				01EA16A7E347A539C3F2F063 /* IRSessionAD.m */,
+				321A8C46856BAEB9BFCB50E7 /* IRX3DH.m */,
+			);
+			name = X3DH;
+			sourceTree = "<group>";
+		};
+		31AC2094EC35B5A07B9768AB /* Wire */ = {
+			isa = PBXGroup;
+			children = (
+				F75DBDF4B26DA1BA9B4743DB /* IRMessageHeader.h */,
+				608ADBBB67CE877EEFD1B032 /* IRMessageHeader+Internal.h */,
+				A9E5C3FBD789ED795847E9D8 /* IRMessageGate.h */,
+				F081B7612901BF7B00DBA161 /* IRMessageBuilder.h */,
+				5C0938E1B130CA7F2AED7C5B /* IRMessageHeader.m */,
+				EEB6BDB69FB5359FCA3A305C /* IRMessageGate.m */,
+				5D3D883CF19FE51BA53D3501 /* IRMessageBuilder.m */,
+			);
+			name = Wire;
+			sourceTree = "<group>";
+		};
+		3C6C9828A9A59929682FB12B /* Ratchet */ = {
+			isa = PBXGroup;
+			children = (
+				AF8883E69C45024B5AF0E7EA /* IRSkippedKeyStore.h */,
+				7F1C4CCAC0D5F1F3E1106794 /* IRRatchetState.h */,
+				959A6447691A52C9CCA6679E /* IRRatchet.h */,
+				2B2005CD2DD372831B034F76 /* IRSkippedKeyStore.m */,
+				CEEC01323A6D1EBE7376BCEF /* IRRatchetState.m */,
+				406695AEBD6E6E757CF3211E /* IRRatchet.m */,
+			);
+			name = Ratchet;
+			sourceTree = "<group>";
+		};
+		0D1D2970BC34A8A403FDF07F /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				2C688D6971BEBD21AA848C88 /* IRSessionStateCodec.h */,
+				BCC6BBEF2BBE5FFE0773C5BD /* IRSession+Internal.h */,
+				CE76CD76D827DC1E93636B42 /* IRSessionDispatch.h */,
+				B34D2A78C4833E4B1A02D6A7 /* IRSession.h */,
+				5CD1747DF2172AA58A2545E3 /* IRSessionStore.h */,
+				9E5F78D2DD1BA2933C355354 /* IRInMemorySessionStore.h */,
+				08F169D163A74806A77254D9 /* IRSessionStateCodec.m */,
+				108185FD6FF1244B0651071F /* IRSession.m */,
+				FFD24B2F0577392B20073ABA /* IRSessionStore.m */,
+				FAF81C4F7D4E53DD78F2A079 /* IRInMemorySessionStore.m */,
+				592A12A310A98CC443EAF005 /* IRSessionDispatch.m */,
+				C6563BA2E52D9ABB3B836A58 /* IRSealedStore.h */,
+				DEDA5C8D5B3D9A7F775443DA /* IRSealedSessionStore.h */,
+				02F7FF570395CCF942B62342 /* IRSealedStore.m */,
+				334257E9140DF3FD43BCE61F /* IRSealedSessionStore.m */,
+			);
+			name = Session;
+			sourceTree = "<group>";
+		};
+		767BFC827C280E7068F4090E /* Messenger */ = {
+			isa = PBXGroup;
+			children = (
+				B8EC91112214EE7C2071F03C /* IRMessenger.h */,
+				CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */,
+			);
+			name = Messenger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,7 +489,6 @@
 			files = (
 				2C54A9691F31EB8D003ABDF6 /* crypto_generichash_blake2b.h in Headers */,
 				2C54A9831F31EB8D003ABDF6 /* crypto_stream_salsa20.h in Headers */,
-				2C27466E1F2F4A61008D530E /* IRDoubleRatchetService.h in Headers */,
 				2C54A95C1F31EB8D003ABDF6 /* crypto_auth.h in Headers */,
 				2C54A96B1F31EB8D003ABDF6 /* crypto_hash_sha256.h in Headers */,
 				2C54A9851F31EB8D003ABDF6 /* crypto_stream_salsa208.h in Headers */,
@@ -271,16 +502,13 @@
 				2C54A9631F31EB8D003ABDF6 /* crypto_core_hchacha20.h in Headers */,
 				2C27464A1F2F49F3008D530E /* nuntius.h in Headers */,
 				2C54A9891F31EB8D003ABDF6 /* crypto_verify_32.h in Headers */,
-				2C27466A1F2F4A61008D530E /* IREncryptionService.h in Headers */,
 				2C54A97A1F31EB8D003ABDF6 /* crypto_secretbox_xsalsa20poly1305.h in Headers */,
 				2C54A9671F31EB8D003ABDF6 /* crypto_core_salsa208.h in Headers */,
-				2C27466C1F2F4A61008D530E /* IRTripleDHService.h in Headers */,
 				2C54A9681F31EB8D003ABDF6 /* crypto_generichash.h in Headers */,
 				2C54A95B1F31EB8D003ABDF6 /* crypto_aead_xchacha20poly1305.h in Headers */,
 				2C54A98E1F31EB8D003ABDF6 /* randombytes_sysrandom.h in Headers */,
 				2C54A9651F31EB8D003ABDF6 /* crypto_core_salsa20.h in Headers */,
 				2C54A95F1F31EB8D003ABDF6 /* crypto_auth_hmacsha512256.h in Headers */,
-				2C27465E1F2F4A55008D530E /* IRCurve25519KeyPair.h in Headers */,
 				2C54A9821F31EB8D003ABDF6 /* crypto_stream_chacha20.h in Headers */,
 				2C54A9731F31EB8D003ABDF6 /* crypto_pwhash_argon2i.h in Headers */,
 				2C54A9781F31EB8D003ABDF6 /* crypto_secretbox.h in Headers */,
@@ -302,11 +530,8 @@
 				2C54A96C1F31EB8D003ABDF6 /* crypto_hash_sha512.h in Headers */,
 				2C54A97F1F31EB8D003ABDF6 /* crypto_sign_edwards25519sha512batch.h in Headers */,
 				2C54A9771F31EB8D003ABDF6 /* crypto_scalarmult_curve25519.h in Headers */,
-				2C2746601F2F4A55008D530E /* IRRatchetHeader.h in Headers */,
 				2C54A97C1F31EB8D003ABDF6 /* crypto_shorthash_siphash24.h in Headers */,
 				2C54A98F1F31EB8D003ABDF6 /* runtime.h in Headers */,
-				2C2746781F2F4ABF008D530E /* IRConstants.h in Headers */,
-				2C2746621F2F4A55008D530E /* IRAEADInfo.h in Headers */,
 				2C54A9641F31EB8D003ABDF6 /* crypto_core_hsalsa20.h in Headers */,
 				2C54A9871F31EB8D003ABDF6 /* crypto_stream_xsalsa20.h in Headers */,
 				2C54A96F1F31EB8D003ABDF6 /* crypto_kx.h in Headers */,
@@ -322,6 +547,27 @@
 				2C54A9661F31EB8D003ABDF6 /* crypto_core_salsa2012.h in Headers */,
 				2C54A98A1F31EB8D003ABDF6 /* crypto_verify_64.h in Headers */,
 				2C54A9591F31EB8D003ABDF6 /* crypto_aead_aes256gcm.h in Headers */,
+				ABD7646408D179E36061ED95 /* IRProtocolConstants.h in Headers */,
+				A1012645E49147E608F67ADD /* IRErrors.h in Headers */,
+				D9982EC90F707A60F72E5AD4 /* IRSodium.h in Headers */,
+				45CD2B57CA5A4ED1C5BC9D4A /* IRSecretBytes.h in Headers */,
+				3B04E8517E8513F530A842AB /* IRKeyTypes.h in Headers */,
+				A2AD862B5AF3401A595378CC /* IRKeyPairs.h in Headers */,
+				0C7941E39DE500D3F0FEAAF5 /* IREnvironment.h in Headers */,
+				2ADED379B46901B0447268C3 /* IRCryptoProvider.h in Headers */,
+				EC3A452F07BE8E5DD9310EEA /* IRSodiumCryptoProvider.h in Headers */,
+				1EC75CBDEE1B8EC11D36E75E /* IRPublicIdentity.h in Headers */,
+				0AF8897C38A67B4201489A50 /* IRIdentity.h in Headers */,
+				3D19A9438324E989B7F2C720 /* IRPreKeyRecords.h in Headers */,
+				CEDE6E632F1B32E76FC37034 /* IRPreKeyBundle.h in Headers */,
+				5B0D1F18EDA4361303C2DBCE /* IRPreKeyStore.h in Headers */,
+				D518C0B1E7718D68B55C4399 /* IRInMemoryPreKeyStore.h in Headers */,
+				9452BB648D17FB17318CAA33 /* IRSession.h in Headers */,
+				4CD62101B0F27B7D4FBE3627 /* IRSessionStore.h in Headers */,
+				457884EDA84BD5EF69517424 /* IRInMemorySessionStore.h in Headers */,
+				235DBE747F226BFFD3D12E8C /* IRSealedStore.h in Headers */,
+				754BA60C40B909CE8E171FC1 /* IRSealedSessionStore.h in Headers */,
+				EBED89BF478BD138F25D5428 /* IRMessenger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +578,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C27464D1F2F49F3008D530E /* Build configuration list for PBXNativeTarget "nuntius" */;
 			buildPhases = (
+				EDB9A1C0CEF67C8780D23A84 /* Lint banned APIs (SPEC 3.3) */,
 				2C2746341F2F49F2008D530E /* Sources */,
 				2C2746351F2F49F2008D530E /* Frameworks */,
 				2C2746361F2F49F2008D530E /* Headers */,
@@ -421,18 +668,75 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		EDB9A1C0CEF67C8780D23A84 /* Lint banned APIs (SPEC 3.3) */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Lint banned APIs (SPEC 3.3)";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# SPEC.md §3.3 banned-API lint. Fails the build, deliberately: every construction it looks for
+# round-trips correctly and is invisible to the test suite (§3.3, §3.4, §13.2, §16.2).
+#
+# Fails CLOSED when python3 is missing. A security lint that skips itself when its interpreter is
+# absent is the same fail-open shape as the one §12.5's tripwire had.
+if ! command -v python3 >/dev/null 2>&1; then
+  echo \"error: python3 not found; cannot run the SPEC §3.3 banned-API lint\"
+  exit 1
+fi
+python3 \"${SRCROOT}/tools/lint_banned_apis.py\" --root \"${SRCROOT}\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2C2746341F2F49F2008D530E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C2746611F2F4A55008D530E /* IRRatchetHeader.m in Sources */,
-				2C27466D1F2F4A61008D530E /* IRTripleDHService.m in Sources */,
-				2C2746631F2F4A55008D530E /* IRAEADInfo.m in Sources */,
-				2C27466B1F2F4A61008D530E /* IREncryptionService.m in Sources */,
-				2C27466F1F2F4A61008D530E /* IRDoubleRatchetService.m in Sources */,
-				2C2746791F2F4ABF008D530E /* IRConstants.m in Sources */,
-				2C27465F1F2F4A55008D530E /* IRCurve25519KeyPair.m in Sources */,
+				FA9C1150AC93FA860C9F69EA /* IRProtocolConstants.m in Sources */,
+				4F0F9CAC200E3DAB19B13E2D /* IRErrors.m in Sources */,
+				4E5CC61C7B5736CFCA2C4CE8 /* IRSodium.m in Sources */,
+				50DA2871EEA61F65D3EBF5C8 /* IRSecretBytes.m in Sources */,
+				9B4A101FEFB595BB28C98728 /* IRByteReader.m in Sources */,
+				5C68B22F88AAB2710B58B375 /* IRByteWriter.m in Sources */,
+				1CD73CF25B58210B6C48DA84 /* IRKeyTypes.m in Sources */,
+				7002D6D74D434CC1E8A09289 /* IRKeyPairs.m in Sources */,
+				C607FD46004F8F785420526C /* IREnvironment.m in Sources */,
+				ECD8E8C899141D20374A2E82 /* IRSodiumCryptoProvider.m in Sources */,
+				B2ABD44BE05439462C82BB3D /* IRPublicIdentity.m in Sources */,
+				2153E5DE41A3567CAD5F0EF9 /* IRIdentity.m in Sources */,
+				5BCB124D13EEAABC93D7893F /* IRPreKeyRecords.m in Sources */,
+				5ECDC397AD0F440EC1DC9F6C /* IRPreKeyBundle.m in Sources */,
+				9C98FD9C6807DCB23E190955 /* IRInMemoryPreKeyStore.m in Sources */,
+				D9A43B73945B9861935E25E5 /* IRProtocolKDF.m in Sources */,
+				817EA8AA1C210D2DCA8EADB1 /* IRTranscript.m in Sources */,
+				5E88DC0E35D90F67805231D7 /* IRSessionAD.m in Sources */,
+				D6F789CC2D10BB06A233297E /* IRX3DH.m in Sources */,
+				A8D91F980267468F20D5FDE4 /* IRMessageHeader.m in Sources */,
+				E81D028554DA46CF09FF828F /* IRMessageGate.m in Sources */,
+				AE5E636699A051910B7B66A2 /* IRMessageBuilder.m in Sources */,
+				451132948DA1B351BC25678A /* IRSkippedKeyStore.m in Sources */,
+				ED6F60B96ED5E780474245DC /* IRRatchetState.m in Sources */,
+				6C391E4032F5865AE69A5357 /* IRRatchet.m in Sources */,
+				7F2C90E525FA5A99810ED61E /* IRSessionStateCodec.m in Sources */,
+				3109D71D813A0992AFD6E310 /* IRSession.m in Sources */,
+				441C5A5C6809EAC71EA7B6E5 /* IRSessionStore.m in Sources */,
+				E78620C23521F2BF768A3B9F /* IRInMemorySessionStore.m in Sources */,
+				7F5ADD28E3AE227783551583 /* IRSessionDispatch.m in Sources */,
+				6C3ADB4C3027EF35484F2D66 /* IRSealedStore.m in Sources */,
+				E9BBC430B2682530C9DB8B30 /* IRSealedSessionStore.m in Sources */,
+				FD164E6D7D606E2C36B388BC /* IRMessenger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,9 +744,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C2746751F2F4A7E008D530E /* IRTripleDHServiceSpec.m in Sources */,
-				2C2746741F2F4A7E008D530E /* IRDoubleRatchetServiceSpec.m in Sources */,
-				2C2746731F2F4A7E008D530E /* IREncryptionServiceSpec.m in Sources */,
+				988B41238968A5EEE9045507 /* IRFoundationSpec.m in Sources */,
+				CD286A375D17426EB729AF7A /* IRKeyTypesSpec.m in Sources */,
+				0C2FECA319FBB37EDDA3FE14 /* IRPrimitivesSpec.m in Sources */,
+				805AA76D0BD3451804715E8A /* IRIdentityBundleSpec.m in Sources */,
+				F8FF653506A59609AFA8D665 /* IRKDFSpec.m in Sources */,
+				204A8728EB4E4CBDB3CD5EC4 /* IRX3DHSpec.m in Sources */,
+				8BFE54E82CD9C5579184DB96 /* IRWireGateSpec.m in Sources */,
+				FF1EE19605FC9CBB3B01096E /* IRRatchetSpec.m in Sources */,
+				E48F35C31C9B7DE1D54AD093 /* IRStateCodecSpec.m in Sources */,
+				19E54AEE3C5E242EF139B503 /* IRSessionLifecycleSpec.m in Sources */,
+				716DD54712A9EB910D707890 /* IRDecoderFuzzSpec.m in Sources */,
+				AFBB8FE2E3493755AD4CD030 /* IRMessengerSpec.m in Sources */,
+				8A344FF3E7EADD11061D727E /* IRPropertySpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
