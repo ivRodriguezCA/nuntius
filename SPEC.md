@@ -412,6 +412,66 @@ encodings never set the bit, so rejecting is free.
 Implementations MUST NOT attempt to forbid the internal masking that libraries perform — that rule
 would be unenforceable. Reject the encoding at the boundary instead.
 
+Before any DH with a public key that arrived in a message:
+
+2b. The key MUST NOT be a **reflection**: it MUST NOT equal the public key that the receiving site's
+    context already fixes for it (table below) → else `ERR_INVALID_PUBLIC_KEY`. Compare all 32
+    bytes. Both operands are public, so this comparison branches on no secret and need not be
+    constant-time. **Before any DH.**
+
+Check 2b is numbered `2b` rather than `3` deliberately. §5.3 rule 2, §10.1 check 7, §10.2 check 10
+and §12.2 rule 7 cite "checks 1–2" by number, and §6.1, §7.4, §7.5 and §10.7 step 8 cite "check 3" by
+number; renumbering would silently redirect every one of those citations, and §15.4 pins some of them
+as conformance requirements.
+
+**Check 2b is the third condition in `ERR_INVALID_PUBLIC_KEY`'s definition** — §10.5 code 7106 reads
+"wrong length, high bit set, or reflected own key", and those are checks 1, 2 and 2b respectively.
+It is stated here because this section is where a port looks for the definition of public-key
+validation: without it, a port implements two thirds of the condition set for a code it returns, and
+finds the missing third only if it happens to read §10.1, §10.2, §10.7 and §11.2 as well.
+
+**What the key is compared against is site-specific**, because what a reflection would duplicate
+depends on the message type and on how far the receiver has resolved its own state. Each site
+performs the check at the earliest point at which the value it needs exists and still precedes any
+DH, and each is normative in position:
+
+| Site | Key from the wire | MUST NOT equal |
+|---|---|---|
+| §10.1 check 8 | type `0x01` `DHs_pub` | our own current `DHs` public |
+| §10.2 check 11 | type `0x02` `DHs_pub` | `EK_A`, carried in the same message |
+| §10.7 step 6 | type `0x02` `DHs_pub`, new session | the `SPK_B` public resolved from `spk_id` |
+| §11.2 | type `0x02` `DHs_pub`, existing session | that session's `DHs` public |
+
+That table is exhaustive. An implementation MUST perform all four, and MUST NOT add a fifth
+comparison of its own: an extra rejection is an interop divergence in the direction that looks
+prudent — it makes one port reject a message the other three accept — and §15.4 makes the exact code
+returned for a given input a conformance requirement, so a port cannot add rejections privately.
+Each site is covered by its own negative vector: `NEG-PUBKEY-REFLECT-01`,
+`NEG-PUBKEY-REFLECT-02-EKA`, `NEG-PUBKEY-REFLECT-02-SPK` and `NEG-PUBKEY-REFLECT-02-DHS` (§15.4).
+
+**Rationale for check 2b.** Every comparand above is a public value an attacker can obtain — a
+ratchet public key is on the wire in cleartext, `SPK_B` is in the published bundle — so mounting a
+reflection costs nothing, and check 3 does not catch it: a reflected key is a legitimate curve point
+and the DH against it is not all-zero. Two distinct things go wrong, one per shape of the check.
+
+1. **The DH stops being contributory.** When the arriving key is one whose private half the
+   *receiver* holds (§10.1 check 8, §10.7 step 6, §11.2), the X25519 output is a function of the
+   receiver's own key material alone; the sender's private key contributes nothing to it. §7.4
+   exists to inject fresh peer entropy into the root chain at every ratchet step, and with
+   `DHr == DHs_pub` both of that step's `KDF_RK` inputs — step 3's `dh1`, and step 5's `dh2`, since
+   step 4 replaces only `DHs` and not `DHr` — are values the receiver can compute unilaterally. The
+   root chain advances on a secret the peer never chose.
+2. **One DH output is reused across two constructions.** When `DHs_pub == EK_A` (§10.2 check 11) no
+   receiver key is involved at all: the initiator has placed one of its own public keys in two roles
+   in the same message. The responder's first ratchet then computes
+   `X25519(SPK_B_priv, DHr) == X25519(SPK_B_priv, EK_A)`, which is exactly DH3 of the X3DH set
+   (§6.1) — a value already consumed as `IKM` for `SK` (§6.3). The first ratchet step, whose whole
+   purpose is to move the root chain off `SK`, moves it nowhere new.
+
+Neither failure is visible downstream. Both parties still derive the same keys, the AEAD still
+authenticates, and the session runs normally — which is why this is a MUST at the parser, next to
+the other structural checks, rather than an assertion inside the ratchet.
+
 After **every** DH operation:
 
 3. The 32-byte output MUST NOT be all zero. Test in constant time by OR-accumulating all 32 bytes
@@ -685,9 +745,11 @@ rejected anyway) cannot be confused with absence.
 
 **The transcript contains NO signature bytes.** This is deliberate and load-bearing. Hashing
 `IKB` or `SPK_SIG` into `TH` would require both parties to reconstruct byte-identical 64-byte
-signatures, which is not safe to assume: CryptoKit's Ed25519 signing is not contractually
-deterministic, and verifier strictness on non-canonical `S` values and small-order `A` values
-differs across libsodium, BouncyCastle, and the JDK (the documented "many EdDSAs" hazard). Binding
+signatures, which is not merely unsafe to assume but **measured to be false**: CryptoKit /
+swift-crypto takes RFC 8032 §8.2's permitted added randomness and emits a different valid signature
+each time it signs the same message under the same key (§3.4). Verifier strictness on non-canonical
+`S` values and small-order `A` values also differs across libsodium, BouncyCastle, the JDK and
+CryptoKit / swift-crypto (the documented "many EdDSAs" hazard, §17.8). Binding
 the signed *contents* — which is what `TRANSCRIPT` does, since it carries every key and id that the
 signatures cover — achieves the same binding with none of the reproducibility risk.
 
@@ -1445,7 +1507,7 @@ normative **in position**: a port that elides them because §10.0 already ran is
 | 5 | `msg[2..4) == 0x0000` | `ERR_RESERVED_FLAGS_SET` |
 | 6 | the caller supplied a session handle and it resolves (§11.5) | `ERR_NO_SESSION` |
 | 7 | `DHs_pub = msg[4..36)` passes §4.4 checks 1–2 | `ERR_INVALID_PUBLIC_KEY` |
-| 8 | `DHs_pub != our own DHs public key` (anti-reflection) | `ERR_INVALID_PUBLIC_KEY` |
+| 8 | `DHs_pub != our own DHs public key` (anti-reflection, §4.4 check 2b) | `ERR_INVALID_PUBLIC_KEY` |
 | 9 | `N  = be32(msg[36..40)) <= 0x7FFFFFFF` | `ERR_COUNTER_OVERFLOW` |
 | 10 | `PN = be32(msg[40..44)) <= 0x7FFFFFFF` | `ERR_COUNTER_OVERFLOW` |
 | — | *Steps 1–10 touch no secret and branch on no secret.* | |
@@ -1470,18 +1532,19 @@ gate's own, tighter bounds, on the same terms as §10.1's preamble.
 | 8 | `PN = be32(msg[209..213)) == 0` | `ERR_MALFORMED_HEADER` |
 | 9 | `N = be32(msg[205..209)) <= 0x7FFFFFFF` | `ERR_COUNTER_OVERFLOW` |
 | 10 | `IK_A^d`, `EK_A`, `DHs_pub` each pass §4.4 checks 1–2 | `ERR_INVALID_PUBLIC_KEY` |
-| 11 | `DHs_pub = msg[173..205)` **!=** `EK_A = msg[132..164)` (anti-reflection) | `ERR_INVALID_PUBLIC_KEY` |
+| 11 | `DHs_pub = msg[173..205)` **!=** `EK_A = msg[132..164)` (anti-reflection, §4.4 check 2b) | `ERR_INVALID_PUBLIC_KEY` |
 | — | *Steps 1–11 touch no secret and branch on no secret.* | |
 | 12 | dispatch on session existence — §11.2 | — |
 
 Then §10.7 (new session) or §11.2 (existing session).
 
-Check 11 is the enforcement gate for §9.2's prose rule that `DHs_pub` is distinct from `EK_A`. It
-compares two fields of the same message, so it touches no local state and preserves the no-secret
-invariant above. The **other** anti-reflection comparisons for type `0x02` — against B's own keys —
-cannot live here, because at gate time B has resolved neither `spk_id` (that is §10.7 step 5) nor
-the session's `DHs` (that is §11.2's load). They are specified at those two sites instead, so that
-each check sits at the earliest point where the state it needs exists and still precedes any DH.
+Check 11 is this gate's instance of §4.4 check 2b, and the enforcement gate for §9.2's prose rule
+that `DHs_pub` is distinct from `EK_A`. It compares two fields of the same message, so it touches no
+local state and preserves the no-secret invariant above. The **other** anti-reflection comparisons
+for type `0x02` — against B's own keys — cannot live here, because at gate time B has resolved
+neither `spk_id` (that is §10.7 step 5) nor the session's `DHs` (that is §11.2's load). They are
+specified at those two sites instead, so that each check sits at the earliest point where the state
+it needs exists and still precedes any DH. §4.4 check 2b lists all four sites in one place.
 
 ### 10.3 Bundle parsing
 
@@ -1551,7 +1614,7 @@ Domain: `com.ivrodriguez.nuntius`. The v3 codes 7001–7003 are retired.
 | 7103 | `ERR_TRUNCATED_MESSAGE` | Below the type's minimum length |
 | 7104 | `ERR_MALFORMED_HEADER` | A header field is outside its permitted domain |
 | 7105 | `ERR_TRAILING_BYTES` | A **state blob** has bytes beyond its declared extent. Never a bundle: every bundle structural failure, including a wrong total length in either direction, is `ERR_BUNDLE_MALFORMED` (§10.3) |
-| 7106 | `ERR_INVALID_PUBLIC_KEY` | Wrong length, high bit set, or reflected own key |
+| 7106 | `ERR_INVALID_PUBLIC_KEY` | Wrong length, high bit set, or reflected own key — §4.4 checks 1, 2 and 2b respectively; check 2b names the four sites that perform the reflection comparison and what each compares against |
 | 7107 | `ERR_SMALL_ORDER_KEY` | A DH produced an all-zero output |
 | 7108 | `ERR_BAD_SIGNATURE` | `IKB` or `SPK_SIG` failed to verify |
 | 7109 | `ERR_AEAD_AUTH_FAILED` | Poly1305 tag mismatch |
@@ -1563,7 +1626,7 @@ Domain: `com.ivrodriguez.nuntius`. The v3 codes 7001–7003 are retired.
 | 7115 | `ERR_OPK_ALREADY_CONSUMED` | The one-time prekey was already used |
 | 7116 | `ERR_PREKEY_EXPIRED` | Outside the validity window, or window too long |
 | 7117 | `ERR_STATE_CORRUPT` | State blob failed structural validation |
-| 7118 | `ERR_NOT_INITIALIZED` | `sodium_init()` failed or was not called |
+| 7118 | `ERR_NOT_INITIALIZED` | The crypto backend has a mandatory one-time initialization step and it has not completed successfully (§13.2). Unreachable on a backend that has no such step — see below |
 | 7119 | `ERR_PLAINTEXT_TOO_LARGE` | Above `MAX_PLAINTEXT`, or message above its maximum |
 | 7120 | `ERR_NO_SESSION` | A type `0x01` message was submitted with no session handle, or with one that does not resolve (§11.5) |
 | 7121 | `ERR_NO_SENDING_CHAIN` | Encrypt attempted with `CKs` unset |
@@ -1579,6 +1642,26 @@ are not a message type and the message should be dropped, while 7125 means the h
 message to the wrong call and the host's demultiplexer should be fixed. Overloading 7101 would have
 required rewriting its meaning into a disjunction that no longer distinguishes them. 7125 takes the
 next free number; no existing assignment moves.
+
+**On 7118, and on backends that have no initialization step.** This code was previously specified as
+"`sodium_init()` failed or was not called", which is a fact about one library rather than a
+condition of this protocol, and it left the code's meaning undefined on the two of four target
+backends that have no such call. Restated backend-neutrally: **where the backend requires a one-time
+initialization before any cryptographic operation, that initialization MUST be performed exactly
+once, its outcome MUST be checked, and a failed or omitted initialization MUST make every subsequent
+cryptographic entry point return 7118** rather than proceed as a silently degraded service (§13.2).
+For libsodium that step is `sodium_init()`.
+
+**BouncyCastle, the JDK providers, and CryptoKit / swift-crypto have no initialization step, so on
+those backends 7118 has no reachable condition and MUST NOT be returned. That is conformant, not a
+gap** — there is nothing for the port to detect, and a code with no producing condition is the
+correct outcome. A port MAY define the constant for taxonomy completeness, but MUST NOT invent a
+condition for it. Repurposing it for host-lifecycle state — "the prekey store was not opened", "the
+session was not set up", "the identity has not been registered" — is specifically forbidden: none of
+those is a crypto-backend initialization failure, they are caller contract violations or conditions
+with their own codes, and giving one code two meanings across four ports is worse than an unused
+number. This is why §15.4 contains no vector for 7118: on two backends there is no input that
+produces it.
 
 **Information leakage.** These distinct codes exist for **local diagnosability only**. An
 application MUST NOT reveal which code occurred to the network peer, and MUST NOT vary its response
@@ -1620,7 +1703,7 @@ When §11.2 determines that no session exists for the handshake id:
 4. `handshake_id` MUST NOT match a tombstone retained under §11.4 → else `ERR_REPLAY`.
 5. Resolve `spk_id` to a retained signed prekey private key (§5.3) → else `ERR_UNKNOWN_PREKEY_ID`.
 6. `DHs_pub = msg[173..205)` MUST NOT equal the signed-prekey public resolved in step 5
-   (anti-reflection: the responder's initial `DHs` is that key pair, §7.5) →
+   (anti-reflection, §4.4 check 2b: the responder's initial `DHs` is that key pair, §7.5) →
    else `ERR_INVALID_PUBLIC_KEY`. **Before any DH.**
 7. If `opk_flag == 0x01`, resolve `opk_id` → else `ERR_UNKNOWN_PREKEY_ID` /
    `ERR_OPK_ALREADY_CONSUMED`. No fallback to the 3-DH form.
@@ -1777,7 +1860,8 @@ if session_exists(hid):
                           msg[68..132)):
         return ERR_BAD_SIGNATURE
     if msg[173..205) == s.DHs.pub:
-        return ERR_INVALID_PUBLIC_KEY          # anti-reflection, cf. §10.1 check 8
+        return ERR_INVALID_PUBLIC_KEY          # anti-reflection, §4.4 check 2b;
+                                               #   cf. §10.1 check 8
     # Do NOT re-run X3DH. Do NOT re-initialize the ratchet. Do NOT touch the OPK.
     process as a normal ratchet message against s,
       with ad = s.SESSION_AD ‖ msg[0..225)
@@ -1822,7 +1906,7 @@ The remaining type `0x02` header fields are **not session state**, which is why 
 is 41 bytes and not larger. `IK_A^s` and `IK_A^d` are recovered from the stored `SESSION_AD` at the
 offsets given in §6.5 (blob offsets 19 and 51). `IKB_A` is read from the long-lived identity record
 (§5.1) — it is a per-identity value, not a per-session one, and it MUST NOT be re-signed at send
-time, since Ed25519 signing is not contractually deterministic on all four platforms (§6.2) and a
+time, since Ed25519 signing is not byte-reproducible across platforms (§3.4) and a
 port that re-signs would emit a different 64-byte value per message. Nothing in the receive path
 compares `IKB_A` across messages, so such a divergence would decrypt correctly and never be caught;
 storing rather than recomputing is what makes the rule enforceable at the source.
@@ -2069,31 +2153,57 @@ what makes a missed rollback survivable rather than catastrophic.
 
 ### 13.1 Randomness
 
-- Objective-C: use libsodium `randombytes_buf(void*, size_t)`, which cannot fail — it aborts the
-  process on entropy failure, so there is no return value to forget. This is why it is preferred
-  over `SecRandomCopyBytes`.
-- If `SecRandomCopyBytes` is used anywhere, its `OSStatus` MUST be compared against `errSecSuccess`,
-  and a failure MUST zeroize the buffer and return `ERR_RNG_FAILURE`.
-- JVM: `new SecureRandom()`. Not `getInstanceStrong()`, which can block indefinitely on Linux. It
-  throws rather than returning a status.
-- Swift: CryptoKit's key generators use the system CSPRNG internally and cannot silently fail;
+**The invariant, which is what every bullet below exists to serve: a fill of a key-material buffer
+either succeeds completely or the buffer MUST NOT be used. A fill that does not succeed MUST NOT
+leave usable bytes behind, and the caller MUST NOT proceed.** It is stated as an invariant rather
+than as a claim about any one library because the four backends do not agree on how — or whether — a
+failed fill is reported, so a rule phrased as "check the status" or "catch the exception" is vacuous
+on a backend that offers neither.
+
+**No key-material buffer may be allocated with a zero-filling API and then handed to a possibly
+failing fill.** This is the reason the invariant is load-bearing rather than pedantic: every
+allocator in reach zero-fills — `NSMutableData dataWithLength:`, `new byte[n]`, and
+`Data(count:)` all hand back zeros — so a fill that fails silently over one of them yields an
+**all-zero key** rather than unusable garbage. An all-zero key is a value *both parties agree on*,
+so everything appears to work and the session has no security whatsoever. `NSMutableData
+dataWithLength:` followed by an unchecked `SecRandomCopyBytes` (v3,
+`IREncryptionService.m:476-481`) is exactly that bug, and it is v3's defect 4.
+
+How the invariant is discharged differs per backend, and the differences are precisely where a port
+guesses:
+
+- **Objective-C / libsodium.** `randombytes_buf(void*, size_t)` returns `void` and cannot fail — it
+  aborts the process on entropy failure — so the invariant holds with no caller action and there is
+  no return value to forget. This is why it is preferred over `SecRandomCopyBytes`.
+- **`SecRandomCopyBytes`**, wherever it is used, returns an `OSStatus` which MUST be compared
+  against `errSecSuccess`; a failure MUST zeroize the buffer and return `ERR_RNG_FAILURE`.
+- **JVM.** Construct with `new SecureRandom()`, not `getInstanceStrong()`, which can block
+  indefinitely on Linux. `nextBytes(byte[])` returns `void`, declares no checked exception, and is
+  **not specified to throw** on entropy exhaustion; a provider MAY raise an unchecked
+  `ProviderException`, but nothing in the API contract requires one and no caller may depend on it.
+  An earlier revision of this section said of the JVM RNG that "it throws rather than returning a
+  status". That is false, and false in the direction that makes a port believe the invariant is
+  being enforced on its behalf. The JVM hands the caller neither a status to check nor a guaranteed
+  exception to catch.
+- **Swift.** CryptoKit's key generators use the system CSPRNG internally and cannot silently fail;
   prefer them. A bare `SecRandomCopyBytes` in Swift returns an `OSStatus` that Swift will **not**
   warn about discarding, so call sites MUST check it explicitly.
 
-**No key-material buffer may be allocated with a zero-filling API and then handed to a possibly
-failing fill.** `NSMutableData dataWithLength:` followed by an unchecked `SecRandomCopyBytes`
-(v3, `IREncryptionService.m:476-481`) yields an **all-zero key** on RNG failure, with no signal —
-the canonical failing-open bug: everything appears to work, both parties agree, and the session has
-no security whatsoever.
-
-Every freshly generated private key SHOULD additionally be checked with an all-zero test as a cheap
-tripwire before first use.
+**The all-zero tripwire.** Every freshly generated private key SHOULD additionally be tested against
+all-zero before first use, as a cheap last line of defence. On a backend whose fill reports failure
+by neither a status nor a guaranteed exception — the JVM — that test is **REQUIRED** rather than
+merely RECOMMENDED, because it is the only mechanism by which the invariant above can be discharged
+there at all.
 
 ### 13.2 Return values
 
-- `sodium_init()` MUST be called exactly once (`dispatch_once` or equivalent) and its return value
-  checked. `0` and `1` are both success; `< 0` is fatal and MUST make every subsequent API call
-  return `ERR_NOT_INITIALIZED`. Never a silently degraded service.
+- **Where the backend has a mandatory one-time initialization step, it MUST be performed exactly
+  once and its outcome MUST be checked**, and a failure MUST make every subsequent API call return
+  `ERR_NOT_INITIALIZED`. Never a silently degraded service. For libsodium that step is
+  `sodium_init()` (`dispatch_once` or equivalent): `0` and `1` are both success, `< 0` is fatal.
+  BouncyCastle, the JDK providers and CryptoKit / swift-crypto have no such step, so this bullet
+  imposes nothing on them and `ERR_NOT_INITIALIZED` is unreachable there — which §10.5 states is
+  conformant rather than a gap.
 - `__unused`, `@discardableResult`, and ignored `Bool`/`int` returns are **banned** on every crypto
   call. The crypto layer SHOULD be compiled with `-Wunused-result` promoted to an error.
 - `crypto_scalarmult`, `crypto_sign_verify_detached`, and every AEAD open return value MUST be
@@ -2853,13 +2963,22 @@ not write this document before any of the four implementations ships.
 
 ### 17.8 Ed25519 verifier strictness differs across platforms
 
-libsodium, SunEC/SunJCE, and BouncyCastle differ on cofactored versus cofactorless verification and
-on the canonical-`S` check — the documented "many EdDSAs" hazard. A mauled signature can be accepted
-by one implementation and rejected by another. This specification reduces the blast radius by
-keeping signature bytes **out** of the transcript (§6.2), so a divergence causes a clean
-`ERR_BAD_SIGNATURE` on one side rather than two peers computing different session keys. Each port
-MUST pin a provider and SHOULD extend `primitives.json` with edge-case signature vectors once a
-provider is chosen.
+libsodium, SunEC/SunJCE, BouncyCastle, and CryptoKit / swift-crypto differ on cofactored versus
+cofactorless verification and on the canonical-`S` check — the documented "many EdDSAs" hazard. A
+mauled signature can be accepted by one implementation and rejected by another. All four backends
+are in scope here: CryptoKit (CoreCrypto-backed) and swift-crypto (BoringSSL-backed) are two further
+distinct verifiers, and §3.4 and §4.4 record that assuming anything about the Swift backend without
+measuring it has already been wrong twice in this document. This specification reduces the blast
+radius by keeping signature bytes **out** of the transcript (§6.2), so a divergence causes a clean
+`ERR_BAD_SIGNATURE` on one side rather than two peers computing different session keys.
+
+Each port MUST pin its verifier. On the JVM that means pinning a JCE provider explicitly rather than
+taking whatever the platform resolves. On Swift the backend is **not pluggable** — there is no
+provider to select — so the Swift port discharges this by pinning its platform floor (§16.4) and
+recording which of CryptoKit or swift-crypto it builds against, not by choosing a provider. A port
+SHOULD extend the suite with edge-case signature vectors once its verifier is pinned; note that
+`primitives.json` is frozen (§15.6 step 4), so adding any is a spec version bump across all four
+repositories and cannot be done by one port alone.
 
 ### 17.9 No v3 → v4 migration
 
