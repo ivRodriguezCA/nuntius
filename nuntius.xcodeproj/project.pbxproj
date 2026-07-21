@@ -137,6 +137,16 @@
 		FD164E6D7D606E2C36B388BC /* IRMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */; };
 		AFBB8FE2E3493755AD4CD030 /* IRMessengerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 732C51E238D7BEF5323B2CA2 /* IRMessengerSpec.m */; };
 		8A344FF3E7EADD11061D727E /* IRPropertySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = ED17990DECFB6EB6182EA194 /* IRPropertySpec.m */; };
+		3A95480060F21D7FF97EE648 /* IRVectorIO.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA91BF04C006BE2CE1B3FB1 /* IRVectorIO.m */; };
+		C335189766D9B8071C4BE00D /* IRVectorWire.m in Sources */ = {isa = PBXBuildFile; fileRef = 35FF1994BCDF88943C04B664 /* IRVectorWire.m */; };
+		F2D7945BC0208C652418D9CA /* IRVectorCorpusSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 6284B29D9DF9058F55C8FCCD /* IRVectorCorpusSpec.m */; };
+		E664842D6893E515D888B430 /* IRVectorPrimitives.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE9442A684C918E8E9E261 /* IRVectorPrimitives.m */; };
+		709DD9C19B167762FBAA4EE2 /* IRVectorX3DH.m in Sources */ = {isa = PBXBuildFile; fileRef = FA323CD412DEC8A124B5AE38 /* IRVectorX3DH.m */; };
+		142ADFDC0160D0712526440F /* IRVectorRatchet.m in Sources */ = {isa = PBXBuildFile; fileRef = FDDAEE2CC2B7623129987ECB /* IRVectorRatchet.m */; };
+		9CB444EA32017EA510B95F28 /* IRVectorState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FEC13557249593BD29C44FA /* IRVectorState.m */; };
+		0587260A4DCA5D5E505FF174 /* IRVectorNegativeCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 61EC50978D90530906EDC404 /* IRVectorNegativeCrypto.m */; };
+		810F2E8A51FAEAC780F7762F /* IRVectorNegativeWire.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE407807B0461DDE8C619C /* IRVectorNegativeWire.m */; };
+		F2473A87DE099D8BAEBF6120 /* IRVectorNegativeStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 91CFDBA54428330E74B70433 /* IRVectorNegativeStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -241,6 +251,18 @@
 		CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessenger.m; sourceTree = "<group>"; };
 		732C51E238D7BEF5323B2CA2 /* IRMessengerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRMessengerSpec.m; sourceTree = "<group>"; };
 		ED17990DECFB6EB6182EA194 /* IRPropertySpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRPropertySpec.m; sourceTree = "<group>"; };
+		C1570F5F4287BA386C364BEC /* IRVectorIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRVectorIO.h; sourceTree = "<group>"; };
+		156E31C0345CE51660B6D1AD /* IRVectorModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRVectorModules.h; sourceTree = "<group>"; };
+		ADA91BF04C006BE2CE1B3FB1 /* IRVectorIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorIO.m; sourceTree = "<group>"; };
+		35FF1994BCDF88943C04B664 /* IRVectorWire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorWire.m; sourceTree = "<group>"; };
+		6284B29D9DF9058F55C8FCCD /* IRVectorCorpusSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorCorpusSpec.m; sourceTree = "<group>"; };
+		3CDE9442A684C918E8E9E261 /* IRVectorPrimitives.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorPrimitives.m; sourceTree = "<group>"; };
+		FA323CD412DEC8A124B5AE38 /* IRVectorX3DH.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorX3DH.m; sourceTree = "<group>"; };
+		FDDAEE2CC2B7623129987ECB /* IRVectorRatchet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorRatchet.m; sourceTree = "<group>"; };
+		6FEC13557249593BD29C44FA /* IRVectorState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorState.m; sourceTree = "<group>"; };
+		61EC50978D90530906EDC404 /* IRVectorNegativeCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorNegativeCrypto.m; sourceTree = "<group>"; };
+		18CE407807B0461DDE8C619C /* IRVectorNegativeWire.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorNegativeWire.m; sourceTree = "<group>"; };
+		91CFDBA54428330E74B70433 /* IRVectorNegativeStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRVectorNegativeStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +327,7 @@
 			children = (
 				2C2746491F2F49F3008D530E /* Info.plist */,
 				0344B02E788AE3DF98414720 /* V4Specs */,
+				A5057F5C927232E915F75454 /* Vectors */,
 			);
 			path = nuntiusTests;
 			sourceTree = "<group>";
@@ -478,6 +501,25 @@
 				CAA0D658597ACFF9057FDEA2 /* IRMessenger.m */,
 			);
 			name = Messenger;
+			sourceTree = "<group>";
+		};
+		A5057F5C927232E915F75454 /* Vectors */ = {
+			isa = PBXGroup;
+			children = (
+				C1570F5F4287BA386C364BEC /* IRVectorIO.h */,
+				156E31C0345CE51660B6D1AD /* IRVectorModules.h */,
+				ADA91BF04C006BE2CE1B3FB1 /* IRVectorIO.m */,
+				35FF1994BCDF88943C04B664 /* IRVectorWire.m */,
+				6284B29D9DF9058F55C8FCCD /* IRVectorCorpusSpec.m */,
+				3CDE9442A684C918E8E9E261 /* IRVectorPrimitives.m */,
+				FA323CD412DEC8A124B5AE38 /* IRVectorX3DH.m */,
+				FDDAEE2CC2B7623129987ECB /* IRVectorRatchet.m */,
+				6FEC13557249593BD29C44FA /* IRVectorState.m */,
+				61EC50978D90530906EDC404 /* IRVectorNegativeCrypto.m */,
+				18CE407807B0461DDE8C619C /* IRVectorNegativeWire.m */,
+				91CFDBA54428330E74B70433 /* IRVectorNegativeStore.m */,
+			);
+			name = Vectors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -757,6 +799,16 @@ python3 \"${SRCROOT}/tools/lint_banned_apis.py\" --root \"${SRCROOT}\"";
 				716DD54712A9EB910D707890 /* IRDecoderFuzzSpec.m in Sources */,
 				AFBB8FE2E3493755AD4CD030 /* IRMessengerSpec.m in Sources */,
 				8A344FF3E7EADD11061D727E /* IRPropertySpec.m in Sources */,
+				3A95480060F21D7FF97EE648 /* IRVectorIO.m in Sources */,
+				C335189766D9B8071C4BE00D /* IRVectorWire.m in Sources */,
+				F2D7945BC0208C652418D9CA /* IRVectorCorpusSpec.m in Sources */,
+				E664842D6893E515D888B430 /* IRVectorPrimitives.m in Sources */,
+				709DD9C19B167762FBAA4EE2 /* IRVectorX3DH.m in Sources */,
+				142ADFDC0160D0712526440F /* IRVectorRatchet.m in Sources */,
+				9CB444EA32017EA510B95F28 /* IRVectorState.m in Sources */,
+				0587260A4DCA5D5E505FF174 /* IRVectorNegativeCrypto.m in Sources */,
+				810F2E8A51FAEAC780F7762F /* IRVectorNegativeWire.m in Sources */,
+				F2473A87DE099D8BAEBF6120 /* IRVectorNegativeStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

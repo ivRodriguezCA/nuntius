@@ -1,0 +1,161 @@
+{
+  "$schema" : "https://nuntius.dev/schema/vectors-v1.json",
+  "file" : "x3dh",
+  "generated_at" : "2026-07-20T00:00:00Z",
+  "generated_by" : "nuntius-objc 0.1.0",
+  "notes" : "Full X3DH handshakes from fixed keys, with and without a one-time prekey. Both handshake vectors run SPEC 5.3 rules 5-6 and therefore carry fixed not_before / not_after literals and an inputs.now_s inside that window.",
+  "spec_version" : "4",
+  "vectors" : [
+    {
+      "description" : "Full X3DH handshake WITH a one-time prekey, run in both directions from one set of fixed keys. IKM is 160 bytes: F32 ‖ DH1 ‖ DH2 ‖ DH3 ‖ DH4. The bundle is ingested through §10.3 and §5.3 rules 1–4, and rules 5–6 run against inputs.now_s, which sits inside the fixed not_before / not_after window. A port that reads only the first 32 bytes of IKM — v3's defect 1 — still agrees with itself and still fails here, because DH2, DH3 and DH4 are frozen alongside SK.",
+      "expect" : "ok",
+      "id" : "X3DH-OPK",
+      "inputs" : {
+        "bundle" : "4e54423404e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507e06254511c5394c42be1e93df7d8fe2cc0e190d689cfe5114c7c99c4560d3dc28777521b32ec32616374262d5a35c5aac356f35bb0d2b4e299896192542fb70900000007ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65000000006955b9000000000069c9bd001bb94b912fe3beb3caa737143a3423393c02e5ec43d654c29081a45d7ed2cf140bb0ac87bd95f7d3551e662ab50942a0b79d2473f3702a875f88e8d71914650100010000002a646a9533e0c75eb3ffae8c667172fb49d755a7bc4357c455b4d1bd3ee37adc7a",
+        "EK_A_priv" : "e0556677889900112233aabbccddeeff4f5e6d7c8b9aa9b8a879695849382a5b",
+        "EK_A_pub" : "0d6a05717e21a00ce8c531e5c68036462d212482d3f101a33db5661a5277177b",
+        "entry_point" : "parse_bundle",
+        "IK_A_d_priv" : "a0112233445566778899aabbccddeeff0f1e2d3c4b5a69788796a5b4c3d2e170",
+        "IK_A_d_pub" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "IK_A_s_priv" : "a01f2e3d4c5b6a798887766554433221100f1e2d3c4b5a69788796a5b4c3d2e1",
+        "IK_A_s_pub" : "c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab",
+        "IK_B_d_priv" : "b0223344556677889900aabbccddeeff1f2e3d4c5b6a798887796a5b4c3d2e5f",
+        "IK_B_d_pub" : "b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507",
+        "IK_B_s_priv" : "b02f3e4d5c6b7a898988776655443322110f1e2d3c4b5a69788796a5b4c3d2e2",
+        "IK_B_s_pub" : "e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756",
+        "IKB_A" : "123bdab3e69f23becfe040060b1248873aac7216223cf94db5315a79098f9f00ccd33b28cfceb33a0edcd483f2f1d4bdb2fd32e0b13106657aeb09e3b1024504",
+        "IKB_B" : "e06254511c5394c42be1e93df7d8fe2cc0e190d689cfe5114c7c99c4560d3dc28777521b32ec32616374262d5a35c5aac356f35bb0d2b4e299896192542fb709",
+        "not_after" : "1774828800",
+        "not_before" : "1767225600",
+        "now_s" : "1767830400",
+        "OPK_B_priv" : "68445566778899001122aabbccddeeff3f4e5d6c7b8a99a8987969584a3b2c5d",
+        "OPK_B_pub" : "646a9533e0c75eb3ffae8c667172fb49d755a7bc4357c455b4d1bd3ee37adc7a",
+        "opk_flag" : 1,
+        "opk_id" : 42,
+        "SPK_B_priv" : "58334455667788990011aabbccddeeff2f3e4d5c6b7a89988879695a4b3c2d5e",
+        "SPK_B_pub" : "ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65",
+        "spk_id" : 7,
+        "SPK_SIG" : "1bb94b912fe3beb3caa737143a3423393c02e5ec43d654c29081a45d7ed2cf140bb0ac87bd95f7d3551e662ab50942a0b79d2473f3702a875f88e8d719146501"
+      },
+      "intermediates" : {
+        "DH1" : "80f990d4d693c0e851438ca4abe0651e7ec4df2cab3301753a53cfbef5d1a948",
+        "DH2" : "ec9514bac95d4a7f919036dc5d84b9196b76d895021ef74c993a9189b6a4db2b",
+        "DH3" : "581519092ba8022ededc428aa843028cbdbcfe8256d3f528fe430211ebfd5e22",
+        "DH4" : "8002cc188172e2b5193af8adf69def3a588a60d4664f67744b00745d06fb6528",
+        "IKM" : "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80f990d4d693c0e851438ca4abe0651e7ec4df2cab3301753a53cfbef5d1a948ec9514bac95d4a7f919036dc5d84b9196b76d895021ef74c993a9189b6a4db2b581519092ba8022ededc428aa843028cbdbcfe8256d3f528fe430211ebfd5e228002cc188172e2b5193af8adf69def3a588a60d4664f67744b00745d06fb6528",
+        "IKM_len" : 160,
+        "TH" : "c0c5964601d100e371eb246b23a49a15cbb4cc09c50f92cd9f9b1e17471e570b",
+        "TRANSCRIPT" : "6e756e746975733a583344483a7472616e7363726970743a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b0d6a05717e21a00ce8c531e5c68036462d212482d3f101a33db5661a5277177be7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea6500000007010000002a646a9533e0c75eb3ffae8c667172fb49d755a7bc4357c455b4d1bd3ee37adc7a",
+        "X3DH_info" : "6e756e746975733a583344483a7634c0c5964601d100e371eb246b23a49a15cbb4cc09c50f92cd9f9b1e17471e570b"
+      },
+      "kind" : "x3dh",
+      "outputs" : {
+        "handshake_id" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b0d6a05717e21a00ce8c531e5c68036462d212482d3f101a33db5661a5277177b",
+        "SESSION_AD" : "6e756e746975733a41443a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800be7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507",
+        "SK" : "b31a30323918860a4a280450cafebd42234a969c32570ead6e0bb4da5f3f9d5c"
+      }
+    },
+    {
+      "description" : "The same handshake with NO one-time prekey — a legitimate, weaker mode (§6.6) with the replay caveat of §17.3, not an error. IKM is 128 bytes and DH4 is OMITTED, not zero-filled, so a port that zero-fills produces 160 bytes in both cases and fails on IKM_len. TRANSCRIPT is still 259 bytes: §6.2 encodes the absent OPK as opk_id 0 and 32 zero bytes, the OPPOSITE convention from §6.3's IKM, and a port that unifies the two breaks interoperation in exactly one of them.",
+      "expect" : "ok",
+      "id" : "X3DH-NOOPK",
+      "inputs" : {
+        "bundle" : "4e54423404e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507e06254511c5394c42be1e93df7d8fe2cc0e190d689cfe5114c7c99c4560d3dc28777521b32ec32616374262d5a35c5aac356f35bb0d2b4e299896192542fb70900000007ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65000000006955b9000000000069c9bd001bb94b912fe3beb3caa737143a3423393c02e5ec43d654c29081a45d7ed2cf140bb0ac87bd95f7d3551e662ab50942a0b79d2473f3702a875f88e8d7191465010000",
+        "EK_A_priv" : "e0667788990011223344aabbccddeeff5f6e7d8c9baab9c8b88979695a4b3c6d",
+        "EK_A_pub" : "c1028438802bd090383793effb82c9a4296d42898334a4a95a788d76bc6b6c2d",
+        "entry_point" : "parse_bundle",
+        "IK_A_d_priv" : "a0112233445566778899aabbccddeeff0f1e2d3c4b5a69788796a5b4c3d2e170",
+        "IK_A_d_pub" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "IK_A_s_priv" : "a01f2e3d4c5b6a798887766554433221100f1e2d3c4b5a69788796a5b4c3d2e1",
+        "IK_A_s_pub" : "c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab",
+        "IK_B_d_priv" : "b0223344556677889900aabbccddeeff1f2e3d4c5b6a798887796a5b4c3d2e5f",
+        "IK_B_d_pub" : "b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507",
+        "IK_B_s_priv" : "b02f3e4d5c6b7a898988776655443322110f1e2d3c4b5a69788796a5b4c3d2e2",
+        "IK_B_s_pub" : "e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756",
+        "IKB_A" : "123bdab3e69f23becfe040060b1248873aac7216223cf94db5315a79098f9f00ccd33b28cfceb33a0edcd483f2f1d4bdb2fd32e0b13106657aeb09e3b1024504",
+        "IKB_B" : "e06254511c5394c42be1e93df7d8fe2cc0e190d689cfe5114c7c99c4560d3dc28777521b32ec32616374262d5a35c5aac356f35bb0d2b4e299896192542fb709",
+        "not_after" : "1774828800",
+        "not_before" : "1767225600",
+        "now_s" : "1767830400",
+        "opk_flag" : 0,
+        "opk_id" : 0,
+        "SPK_B_priv" : "58334455667788990011aabbccddeeff2f3e4d5c6b7a89988879695a4b3c2d5e",
+        "SPK_B_pub" : "ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65",
+        "spk_id" : 7,
+        "SPK_SIG" : "1bb94b912fe3beb3caa737143a3423393c02e5ec43d654c29081a45d7ed2cf140bb0ac87bd95f7d3551e662ab50942a0b79d2473f3702a875f88e8d719146501"
+      },
+      "intermediates" : {
+        "DH1" : "80f990d4d693c0e851438ca4abe0651e7ec4df2cab3301753a53cfbef5d1a948",
+        "DH2" : "104c108613b2e8c84705c631b5ef28d1dcee55713ee8c0f4c3a6458f27a84b62",
+        "DH3" : "48e3282c159a01d0c1d625a810a5e03235c45c29f5d4a71773baac086687f614",
+        "IKM" : "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff80f990d4d693c0e851438ca4abe0651e7ec4df2cab3301753a53cfbef5d1a948104c108613b2e8c84705c631b5ef28d1dcee55713ee8c0f4c3a6458f27a84b6248e3282c159a01d0c1d625a810a5e03235c45c29f5d4a71773baac086687f614",
+        "IKM_len" : 128,
+        "TH" : "17e182f42aa61faa0908ccd53207953e5a8a9d2bf2068799802f4b533cf2fdc8",
+        "TRANSCRIPT" : "6e756e746975733a583344483a7472616e7363726970743a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800bc1028438802bd090383793effb82c9a4296d42898334a4a95a788d76bc6b6c2de7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea650000000700000000000000000000000000000000000000000000000000000000000000000000000000",
+        "X3DH_info" : "6e756e746975733a583344483a763417e182f42aa61faa0908ccd53207953e5a8a9d2bf2068799802f4b533cf2fdc8"
+      },
+      "kind" : "x3dh",
+      "outputs" : {
+        "handshake_id" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800bc1028438802bd090383793effb82c9a4296d42898334a4a95a788d76bc6b6c2d",
+        "SESSION_AD" : "6e756e746975733a41443a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800be7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507",
+        "SK" : "5dc14c91c440d4d08f3d9707b1a16723dccfa9953dc96fb35c2a0d7775745fac"
+      }
+    },
+    {
+      "description" : "§5.1's IKBIND_MSG — “nuntius:IKBIND:v4” ‖ IK^s ‖ IK^d, 81 bytes — as an OUTPUT, because those bytes are deterministic and byte-normative and this is the only vector that pins their layout. The Ed25519 signature over them is an INPUT, to be verified and never regenerated for comparison (§3.4, §15.5 rule 8): signature generation is not byte-reproducible across platforms, so a runner MUST verify IKB against IK_s_pub and IKBIND_MSG, MUST NOT compare its own signing to it, and SHOULD additionally sign IKBIND_MSG itself and verify that signature. IKB is what makes §5.5's identity PAIR unforgeable: without it an attacker could present a victim's genuine IK^s beside an attacker-controlled IK^d, complete a cryptographically sound session, and be attributed to the victim.",
+      "expect" : "ok",
+      "id" : "X3DH-IKBIND",
+      "inputs" : {
+        "IK_d_priv" : "a0112233445566778899aabbccddeeff0f1e2d3c4b5a69788796a5b4c3d2e170",
+        "IK_d_pub" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "IK_s_priv" : "a01f2e3d4c5b6a798887766554433221100f1e2d3c4b5a69788796a5b4c3d2e1",
+        "IK_s_pub" : "c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab",
+        "IKB" : "123bdab3e69f23becfe040060b1248873aac7216223cf94db5315a79098f9f00ccd33b28cfceb33a0edcd483f2f1d4bdb2fd32e0b13106657aeb09e3b1024504"
+      },
+      "kind" : "x3dh",
+      "outputs" : {
+        "IKB_verified" : true,
+        "IKBIND_MSG" : "6e756e746975733a494b42494e443a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "IKBIND_MSG_len" : 81
+      }
+    },
+    {
+      "description" : "§5.2's SPK_SIGN_MSG — “nuntius:SPK:v4” ‖ IK^s ‖ IK^d ‖ uint32_be(spk_id) ‖ SPK ‖ uint64_be(not_before) ‖ uint64_be(not_after), 130 bytes — as an OUTPUT, because those bytes are deterministic and byte-normative and this is the only vector that pins their layout. The Ed25519 signature over them is an INPUT, verified but never regenerated for comparison (§3.4, §15.5 rule 8): a runner MUST verify SPK_SIG against IK_s_pub and SPK_SIGN_MSG, MUST NOT compare its own signing to it, and SHOULD additionally sign SPK_SIGN_MSG itself and verify that signature. Binding spk_id stops a signature being transplanted onto another prekey slot, and both timestamps sit INSIDE the signature so the validity window cannot be extended by an intermediary. This vector reads no clock: the timestamps are signed content, not a window being evaluated — §15.3 grants the carve-out by name, and §5.3 rules 5–6 are carried by X3DH-OPK and the NEG-SPK* rows.",
+      "expect" : "ok",
+      "id" : "X3DH-SPKSIG",
+      "inputs" : {
+        "IK_d_pub" : "b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a01507",
+        "IK_s_priv" : "b02f3e4d5c6b7a898988776655443322110f1e2d3c4b5a69788796a5b4c3d2e2",
+        "IK_s_pub" : "e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756",
+        "not_after" : "1774828800",
+        "not_before" : "1767225600",
+        "SPK" : "ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65",
+        "spk_id" : 7,
+        "SPK_SIG" : "1bb94b912fe3beb3caa737143a3423393c02e5ec43d654c29081a45d7ed2cf140bb0ac87bd95f7d3551e662ab50942a0b79d2473f3702a875f88e8d719146501"
+      },
+      "kind" : "x3dh",
+      "outputs" : {
+        "SPK_SIG_verified" : true,
+        "SPK_SIGN_MSG" : "6e756e746975733a53504b3a7634e7c5b25706be8fdf7e2d8c58b73777fd08f4c2a49ab018aa918b0c49ed5a8756b9d36c9172005b5dbe3542d3ede1e320794151e1d5d489be9601874cf0a0150700000007ca5f45aebd088adae995781c870653a5ff7cf582f8cba9b36e63d137b64bea65000000006955b9000000000069c9bd00",
+        "SPK_SIGN_MSG_len" : 130
+      }
+    },
+    {
+      "description" : "§5.5's public fingerprint / safety number, FP = SHA256(“nuntius:FP:v4” ‖ IK^s ‖ IK^d) over a 77-byte input. §5.5 requires applications key identity lookup, contact registration, pinning and any displayed identity on the PAIR or equivalently on this value; an application that keys on IK^s alone is not conformant.",
+      "expect" : "ok",
+      "id" : "X3DH-FP",
+      "inputs" : {
+        "IK_d_pub" : "5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "IK_s_pub" : "c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab"
+      },
+      "intermediates" : {
+        "FP_input" : "6e756e746975733a46503a7634c352a7fd7ac738002fc21fedb121aa87f6bbf1dc4504813a9278af9fca21d1ab5507dac0de69a83a8157730bbed3377a073c3bdb6673ae643452de65dc79800b",
+        "FP_input_len" : 77
+      },
+      "kind" : "x3dh",
+      "outputs" : {
+        "FP" : "a509d65a3c957c54b9eefc34170df77a26977be642fcfce6bdee390c7845c268"
+      }
+    }
+  ]
+}

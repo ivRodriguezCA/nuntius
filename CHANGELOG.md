@@ -82,12 +82,22 @@ exists so that a v4 receiver can detect and reject v3 traffic cleanly rather tha
   list (SPEC §3.3) and the `IRSetError` failure convention. A banned call stops the build.
 - **`tools/pbxproj_tool.py`** for project-file mutation, so `project.pbxproj` is never hand-edited
   and a source file can never be silently omitted from the Sources build phase.
-- **A language-agnostic conformance vector plan** (SPEC §15) — the required positive and negative
-  vector set, its JSON schema, the normative runner rules, and the freezing procedure. Once
-  generated into `spec/vectors/*.json` this is what verifies interoperability across the four
-  implementations instead of asserting it in prose. **The vector files themselves are not in this
-  release**; today the coverage §15 specifies lives in the XCTest suite, which proves the
-  Objective-C implementation and nothing about the ports.
+- **A frozen, language-agnostic conformance corpus** — `spec/vectors/*.json`, 88 vectors across six
+  files, covering every id SPEC §15.3 and §15.4 require: primitives, full X3DH handshakes, full
+  conversations with out-of-order delivery and cross-chain skipped-key recovery, byte-exact
+  encodings of every structure, state blob round-trips, and every rejection path. This is what
+  verifies interoperability across the four implementations instead of asserting it in prose, and
+  §15.6 step 4 makes a change to any frozen vector a spec version bump.
+  - The RFC-anchored vectors are **transcribed from the RFC text**, not generated here. A corpus
+    produced entirely by the implementation under test proves only self-consistency.
+  - The suite rebuilds the corpus in memory on every run and compares byte-for-byte, so drift
+    fails a test instead of quietly rewriting the contract.
+  - Every clock read routes through one injectable source, and CI runs the whole suite with the
+    clock ten years forward. Without that, a suite green on the day it is frozen goes red 7 days
+    later on the skipped-key TTL and 90 days later on the prekey validity window.
+  - Ed25519 signatures are asserted **verify-side only** (§15.5 rule 8): signature generation is
+    not byte-reproducible across platforms, so requiring a port to reproduce signature bytes would
+    fail a conformant implementation.
 - **Mandatory fuzzing** of all four hand-written decoders — state blob, bundle, type `0x01`, type
   `0x02` (SPEC §12.4).
 - **Test suite rebuilt** as one `*Spec.m` per layer, with negative cases named for the `NEG-*`
@@ -218,6 +228,14 @@ remainder:
 message ever sent under it as unprotected. The four defects below are each individually fatal, and
 each one passed v3's entire test suite, because in every case *both parties agreed* — agreement was
 never the property in question.
+
+Two of them were reported by users, years before this release, and neither report was acted on at
+the time. **Yuri Buyanov ([@digal](https://github.com/digal), [#13](https://github.com/ivRodriguezCA/nuntius/issues/13))**
+identified the single-DH collapse in May 2019 from the `crypto_kdf_derive_from_key` signature
+alone. **Burhan ([@NoVoLuMe](https://github.com/NoVoLuMe)) and [@raojunbo](https://github.com/raojunbo)
+([#12](https://github.com/ivRodriguezCA/nuntius/issues/12))** reported that the library could not
+agree a key with standard X25519 implementations, which was true and had two independent causes.
+Thank you both — this release exists because of those issues.
 
 - **X3DH collapsed to a single Diffie-Hellman.** v3 assembled a 96–128 byte X3DH input
   (`DH1 ‖ DH2 ‖ DH3 [‖ DH4]`) and passed it to `crypto_kdf_derive_from_key`, whose key parameter is

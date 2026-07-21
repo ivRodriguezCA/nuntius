@@ -224,9 +224,45 @@ in this document is the **32-byte seed** (§4.2). Passing a 32-byte seed directl
 `crypto_sign_detached` is therefore an **out-of-bounds read of 32 bytes** — undefined behaviour, not
 merely a wrong-key bug — and yields a signature that fails verification against the real `IK^s`.
 libsodium-based ports MUST expand the seed with `crypto_sign_seed_keypair(pk, sk, seed)`
-immediately before signing and MUST zeroize the 64-byte `sk` afterwards. There are not two
-legitimate signature encodings here: RFC 8032 signing is fully determined by the seed, so a
-correctly expanded `sk` produces byte-identical output to the JDK and CryptoKit seed-based APIs.
+immediately before signing and MUST zeroize the 64-byte `sk` afterwards.
+
+**Signature bytes are NOT reproducible across platforms, and no rule in this document may assume
+they are.** An earlier revision of this section claimed that a correctly expanded `sk` "produces
+byte-identical output to the JDK and CryptoKit seed-based APIs". That is false, and it was measured
+rather than reasoned about. RFC 8032 §5.1.6 derives the per-signature nonce deterministically from
+the private key and the message, but §8.2 explicitly permits additional randomness, and Apple's
+CryptoKit / swift-crypto `Curve25519.Signing` takes that option. Signing RFC 8032 §7.1 TEST 1's
+empty message three times under its published seed:
+
+```
+pub  matches RFC 8032 TEST 1 : true
+sig1 == sig2                 : false
+sig1 == RFC 8032 expected    : false
+sig1 verifies                : true
+RFC 8032's own sig verifies  : true
+```
+
+Three distinct signatures, none equal to the published one, all valid. What IS universal, and what
+this specification is therefore allowed to depend on:
+
+1. **Seed → public key is deterministic and identical everywhere.** `IK^s_pub` derived from a seed
+   is the same 32 bytes on libsodium, the JDK and CryptoKit. `ED25519-SEED-EXPAND` (§15.3) pins
+   exactly this.
+2. **Verification is deterministic and total.** Every conformant verifier accepts every valid
+   signature over the same `(A, M)`, whoever produced it.
+
+**Normative consequence for signatures on the wire and in vectors.** `IKB`, `SPK_SIG` and every
+§15 signature value MUST be asserted **verify-side**: a runner MUST verify the published signature
+against the published public key and message, and MUST NOT require that its own signing
+reproduces the published bytes. A vector MUST carry a signature it needs as an **input**, never as
+an expected **output**. An implementation MAY additionally assert byte-equality of its own
+signatures **only** against itself, and MUST NOT make that a conformance condition for any other
+port. See §15.3 and §15.5 rule 8.
+
+This costs nothing cryptographically: nothing in this protocol depends on two parties producing the
+same signature bytes, only on each verifying the other's. It matters because the opposite reading
+makes the Swift port fail a mandatory vector for no defect at all — and §15.6 step 4 would freeze
+that failure into the contract.
 
 Implementers MUST NOT "fix" a cross-port verification failure by reaching for a prehashed mode on
 the other platform. libsodium's prehashed construction is not guaranteed to match RFC 8032
@@ -385,10 +421,21 @@ After **every** DH operation:
 Check 3 is the normative small-order defence and is equivalent to rejecting the twelve small-order
 points. Implementations MUST NOT use a hard-coded blacklist of those points as their only check —
 mistyping one of twelve 32-byte constants is a silent failure. Implementations MUST perform check 3
-themselves even on platforms whose library already fails closed (libsodium `crypto_scalarmult`
-returns `-1`; BouncyCastle `X25519Agreement` throws; JDK `XDHKeyAgreement` throws
-`InvalidKeyException`), so that behaviour is uniform across all four ports. **CryptoKit performs no
-such check**, so on Swift the accumulator is the only defence.
+themselves even on platforms whose library already fails closed, so that behaviour is uniform
+across all four ports. Every backend targeted here does in fact fail closed — libsodium
+`crypto_scalarmult` returns `-1`; BouncyCastle `X25519Agreement` throws; JDK `XDHKeyAgreement`
+throws `InvalidKeyException`; and CryptoKit / swift-crypto
+`sharedSecretFromKeyAgreement` throws (measured: `underlyingCoreCryptoError(-7)` on an all-zero
+public key). An earlier revision of this paragraph asserted that CryptoKit performs no such check
+and that the accumulator was Swift's only defence; that was wrong.
+
+The rule is unchanged by the correction, and this is the point of stating check 3 as a MUST rather
+than as a fallback: an implementation may not skip its own check because it believes the library
+underneath it already fails closed. That belief is exactly what was wrong here, it was wrong in the
+direction that *sounds* safe, and a port written against the corrected text still performs the
+check. Library behaviour is also not a stable property — it can change under a dependency bump with
+no code change here — so the accumulator is what makes the `ERR_SMALL_ORDER_KEY` result uniform and
+peer-indistinguishable regardless.
 
 ---
 
@@ -2183,6 +2230,18 @@ partition cleanly along the reference/content line, and that line is why clause 
 The thirteen confirmed defects, each mapped to the section that fixes it. Line references are to the
 v3 sources verified while writing this document.
 
+Defect 1 was not found here. It was reported against the published library in May 2019 by
+**Yuri Buyanov** (`@digal`), who read the `crypto_kdf_derive_from_key` signature and worked out the
+consequence — that the library was a single-DH implementation — from the parameter type alone. It
+sat unfixed for seven years. Defect 4's Ed25519→X25519 half surfaced as a separate interoperability
+report from **Burhan** (`@NoVoLuMe`) and **`@raojunbo`**, who could not agree a key with standard
+X25519 libraries and were correct about why: the API silently ran `_pk_to_curve25519` over whatever
+public key it was handed, and hashed the scalar multiplication output with BLAKE2b, so it was never
+speaking X25519 on the wire at all.
+
+Both reports describe conditions no test in the v3 suite could have detected, and both are the
+reason §15.1 says what it says.
+
 | # | Defect | v3 location | Fixed by | Mechanism |
 |---|---|---|---|---|
 | 1 | **X3DH collapses to a single DH.** `crypto_kdf_derive_from_key` reads exactly 32 bytes of the 96–128 byte `kdfInput`; DH2/DH3/DH4 discarded | `IREncryptionService.m:180-183`; `IRTripleDHService.m:112-122` | §3.2, §3.3, §6.3, §6.4 | HKDF-Extract's `(ikm, ikm_len)` makes truncation inexpressible; `crypto_kdf_derive_from_key` banned outright; `len(IKM) ∈ {128,160}` asserted |
@@ -2273,8 +2332,8 @@ byte-normative.
 | `HKDF-EXPAND-64` | A 64-byte expansion, exercising the two-block `T(i)` loop that `KDF_RK` needs. |
 | `RFC7748-X25519` | RFC 7748 §5.2 scalar multiplication vectors. |
 | `X25519-ZERO` | A small-order input; MUST produce the all-zero output and be **rejected**. |
-| `RFC8032-ED25519` | RFC 8032 §7.1 pure-Ed25519 sign/verify vectors. **A port using the prehashed API fails here** (§3.4). Private-key inputs are 32-byte **seeds** (§4.2); a libsodium port MUST expand via `crypto_sign_seed_keypair` first, so this vector also exercises the expansion step. |
-| `ED25519-SEED-EXPAND` | The same seed, asserting `crypto_sign_seed_keypair(seed)` reproduces the published `IK^s` public key and that signing through the expanded `sk` matches the seed-based JDK/CryptoKit output byte for byte. |
+| `RFC8032-ED25519` | RFC 8032 §7.1 pure-Ed25519 vectors, asserted **verify-side** per §3.4 and §15.5 rule 8: the runner MUST verify the RFC's published signature against the RFC's public key and message, and MUST additionally sign the message itself and verify *that* signature. It MUST NOT compare its own signature bytes to the RFC's. **A port using the prehashed API fails here** (§3.4) — on the verify of the published signature, which is where the failure belongs. Private-key inputs are 32-byte **seeds** (§4.2); a libsodium port MUST expand via `crypto_sign_seed_keypair` first. |
+| `ED25519-SEED-EXPAND` | The same seed, asserting `crypto_sign_seed_keypair(seed)` reproduces the published `IK^s` public key byte for byte. This is the only Ed25519 quantity that IS byte-reproducible across libsodium, the JDK and CryptoKit, and it is what makes an identity key portable at all. It does **not** assert anything about signature bytes. |
 | `RFC8439-AEAD` | RFC 8439 §2.8.2 ChaCha20-Poly1305 vector, tag appended. |
 | `KDF-CK-1` | `KDF_CK` over a fixed chain key: both `MK` and `CK'`. |
 | `KDF-RK-1` | `KDF_RK` over a fixed `(RK, DH_out)`. **The salt/IKM argument-order checkpoint** (§7.2). |
@@ -2286,8 +2345,8 @@ byte-normative.
 |---|---|
 | `X3DH-OPK` | Full handshake with an OPK. Exposes `TRANSCRIPT`, `TH`, `IKM`, `SK`, `SESSION_AD`. |
 | `X3DH-NOOPK` | Same without an OPK. `IKM` is 128 bytes; DH4 omitted, not zero-filled. |
-| `X3DH-IKBIND` | `IKBIND_MSG` bytes and its signature. |
-| `X3DH-SPKSIG` | `SPK_SIGN_MSG` bytes and its signature. |
+| `X3DH-IKBIND` | `IKBIND_MSG` bytes as an **output** (they are deterministic and byte-normative); the signature over them as an **input**, verified but never regenerated for comparison (§3.4, §15.5 rule 8). |
+| `X3DH-SPKSIG` | `SPK_SIGN_MSG` bytes as an **output**; the signature over them as an **input**, verified but never regenerated for comparison (§3.4, §15.5 rule 8). |
 | `X3DH-FP` | Identity fingerprint (§5.5). |
 
 `X3DH-OPK` and `X3DH-NOOPK` ingest a bundle and so run §5.3 rules 5–6. Each MUST carry fixed
@@ -2319,6 +2378,13 @@ They therefore read no clock and supply no `now_s`. Their `not_before` / `not_af
 fixed literals chosen by the generator and are part of the frozen bytes. Signature and
 validity-window verification is carried by `X3DH-OPK` / `X3DH-NOOPK` and by the `NEG-SPK*` vectors,
 each of which supplies an explicit `inputs.now_s`.
+
+**The same reads-no-clock carve-out extends to `X3DH-SPKSIG`**, and it is granted here in writing so
+that no runner reports it malformed under §15.5 rule 6. That vector's `not_before` / `not_after` are
+signed **content**, not a window being evaluated: §5.2 binds both timestamps into `SPK_SIGN_MSG`
+precisely so an intermediary cannot widen them, and nothing on the vector's path calls §5.3 rules
+5–6, which live on the initiator's bundle-ingest path. `X3DH-SPKSIG` therefore carries the two
+timestamps as fixed literals, reads no clock, and supplies no `now_s`.
 
 **`state.json`** — a state blob with `skipped_count` 0, one with `skipped_count` 3, initiator and
 responder roles, and `prologue_present` both set and clear.
@@ -2470,6 +2536,14 @@ makes any *other* unrecognised key an error.
 | `sessions` | object | for multi-session vectors | A map of fixture names (`S1`, `S2`, …) to `{ handshake_id, peer_identity, state_blob }`. Session fixtures are supplied as literal §12.1 blobs, never as "replay these handshakes", for the same reproducibility reason `state.json` gives. |
 | `selected_session` | string | when `sessions` is present and an entry point takes a handle | Which fixture the handle names. |
 
+**Within `negative.json`, `inputs.entry_point` is authoritative for selecting the API under test,
+and `kind` is a classification.** A runner MUST choose which parser or entry point to invoke from
+`entry_point`, and MUST NOT infer it from `kind`. The two answer different questions — `kind` says
+which family of construction a vector belongs to, `entry_point` says which call was made against it
+— so they are not redundant and a runner that treats them as synonyms will eventually hand a §5.4
+prekey bundle to its §12.1 state-blob parser. Where the two appear to disagree, `entry_point`
+governs, and the vector is not malformed for it.
+
 **Reserved `outputs` keys.** `sessions.<name>.state_blob_after`, a §12.1 blob a runner compares
 byte-for-byte against `inputs.sessions.<name>.state_blob`. This is the only expressible form of the
 "no state mutated" assertion that §7.7, `NEG-ATOMIC`, `NEG-SKIP-RETAIN`, `NEG-DEMUX-WRONG-SESSION` and
@@ -2477,8 +2551,20 @@ byte-for-byte against `inputs.sessions.<name>.state_blob`. This is the only expr
 REQUIRED on any vector whose description asserts that a session did not change — including on an
 `expect: "error"` vector, which is the one place `outputs` is otherwise absent.
 
-**JSON booleans are permitted in `outputs`**, for `established_new_session` and any other flag §11.6
-defines. They are not uint64-typed and rule 7 does not apply to them.
+**JSON booleans are permitted in `outputs`** for **any boolean assertion flag** — not only
+`established_new_session` and the other flags §11.6 defines, but equally the verification,
+rejection and absence flags a vector needs in order to state its assertion at all: a signature
+verified against a published key (`verified_N`, `IKB_verified`, `SPK_SIG_verified`), a malformed
+encoding refused at a type boundary (`u_2_high_bit_rejected`), a torn-down session's identifier
+gone from the store (`torn_down_handshake_id_absent`, `survivor_torn_down`). They are not
+uint64-typed and rule 7 does not apply to them.
+
+The same permission extends to **`intermediates`**, on the same terms — `incoming_wins`,
+`receiver_is_B` and `tombstone_present` are boolean assertion flags that happen to describe an
+intermediate state rather than a final one. Granting this for `outputs` alone would invite the
+reading that `intermediates` excludes booleans by contrast, which nothing in this document intends:
+the difference between the two objects is rule 1 versus rule 2 — whether checking is unconditional
+or conditional on the implementation being able to expose the value — and never the JSON type.
 
 **Normative runner rules.**
 
@@ -2502,6 +2588,13 @@ defines. They are not uint64-typed and rule 7 does not apply to them.
    §10.7 step 4 / §11.4. A vector that reads a clock and supplies no `now_*` is **malformed**, and a
    runner MUST report it as a suite error rather than passing or skipping it.
 7. A runner MUST reject any uint64-typed field (§15.2) that is not a JSON string.
+8. **Ed25519 signatures are verify-side only.** A signature always appears in `inputs`, never in
+   `outputs` or `intermediates`. A runner MUST verify it against the corresponding public key and
+   message, and MUST NOT sign the message and compare its own bytes against the vector — Ed25519
+   signature generation is not byte-reproducible across platforms (§3.4), so such a comparison
+   fails on a conformant implementation. A runner SHOULD additionally produce its own signature and
+   verify that, which exercises the signing path without depending on its output being canonical.
+   This rule is the reason no `outputs` field anywhere in §15.3 holds a signature.
 
 Worked example, abbreviated:
 

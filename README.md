@@ -503,11 +503,24 @@ Any change to the wire format, the header layout or a KDF info string is a cross
 change, not a local one.
 
 **Test vectors are the interop contract**, not per-language unit tests. `SPEC.md` §15 specifies six
-JSON files to live under `spec/vectors/` — `primitives.json`, `x3dh.json`, `ratchet.json`,
-`wire.json`, `state.json`, `negative.json` — holding raw key material and expected bytes, frozen
-once generated, with every clock read routed through one injectable source so the corpus has no
-shelf life. **That corpus has not been generated yet**; today the coverage it specifies lives in the
-XCTest suite, whose negative cases are named for the `NEG-*` vector ids of §15.4.
+JSON files under `spec/vectors/` — `primitives.json`, `x3dh.json`, `ratchet.json`, `wire.json`,
+`state.json`, `negative.json` — holding raw key material and expected bytes, with every clock read
+routed through one injectable source so the corpus has no shelf life.
+
+**The corpus is generated and frozen: 88 vectors, covering every id §15.3 and §15.4 require.** It is
+the artifact each port is graded against, and a port is conformant only when all 88 pass and none is
+skipped without a reviewed reason. §15.6 step 4 makes a change to any frozen vector a spec version
+bump — a failing port is never fixed by regenerating a vector.
+
+The suite regenerates the corpus in memory on every run and compares it byte-for-byte against the
+frozen files, so implementation drift fails a test rather than silently rewriting the contract.
+Rewriting requires the explicit `spec/vectors/.regenerate` sentinel, which then fails the run on
+purpose so the diff gets reviewed. CI additionally runs everything with the clock ten years forward
+(§15.6), which is what proves no vector depends on the host wall clock.
+
+The RFC-anchored vectors are transcribed from the RFC text, never produced by this implementation —
+that is the only external check in the corpus, and generating them here would quietly turn the whole
+suite into a proof of self-consistency.
 
 §16 is a per-platform trap catalogue: the same hostile bundle that Objective-C reads past silently
 will *trap* in Swift `Data` subscripting and throw an unchecked `IndexOutOfBoundsException` on the
