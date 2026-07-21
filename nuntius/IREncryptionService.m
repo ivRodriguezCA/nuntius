@@ -24,7 +24,7 @@
 #import "IRConstants.h"
 #import "IRAEADInfo.h"
 
-#include <sodium.h>
+#include <Clibsodium/sodium.h>
 #import <CommonCrypto/CommonCrypto.h>
 
 static char * const KDF_RootKey_Label = "KDF_RootKey_Label";
