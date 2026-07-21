@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main, v4-protocol]
+    tags: ['*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build, test, lint
+    runs-on: macos-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          python3 --version
+
+      # SPEC §3.3's banned-API list, §3.4's single crypto_sign_detached call site and §13.2's
+      # per-file -Werror=unused-result. This also runs as a build phase before Sources, so the
+      # build below would fail on a violation too; running it first turns that into a fast,
+      # unambiguous signal instead of a compile-phase error.
+      - name: Banned-API lint
+        run: python3 tools/lint_banned_apis.py
+
+      # The destination is resolved at run time rather than pinned: a hard-coded simulator name is
+      # exactly what rotted the Travis configuration this workflow replaces. Runner images change
+      # their installed devices and runtimes without notice, so pick the newest available iPhone.
+      - name: Select a simulator
+        id: sim
+        run: |
+          set -euo pipefail
+          cat > "${RUNNER_TEMP}/pick_simulator.py" <<'PY'
+          import json
+          import sys
+
+          devices = json.load(sys.stdin)["devices"]
+          best = None
+          for runtime, entries in devices.items():
+              leaf = runtime.rsplit(".", 1)[-1]          # e.g. iOS-18-2
+              if not leaf.startswith("iOS-"):
+                  continue
+              try:
+                  version = tuple(int(part) for part in leaf[4:].split("-"))
+              except ValueError:
+                  continue
+              for device in entries:
+                  if not device.get("isAvailable"):
+                      continue
+                  if not device.get("name", "").startswith("iPhone"):
+                      continue
+                  if best is None or version > best[0]:
+                      best = (version, device["udid"], device["name"], leaf)
+                  break
+          if best is None:
+              sys.exit("no available iOS iPhone simulator on this runner")
+          sys.stderr.write("selected %s on %s\n" % (best[2], best[3]))
+          print(best[1])
+          PY
+          udid=$(xcrun simctl list devices available --json | python3 "${RUNNER_TEMP}/pick_simulator.py")
+          echo "udid=${udid}" >> "$GITHUB_OUTPUT"
+
+      # Simulator builds are signed to run locally, so signing is disabled outright: the runner has
+      # no account for the DEVELOPMENT_TEAM the project carries.
+      - name: Test
+        run: |
+          xcodebuild -project nuntius.xcodeproj -scheme nuntius -sdk iphonesimulator \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            CODE_SIGNING_ALLOWED=NO \
+            test
+
+      # The suite regenerates the conformance corpus in memory and compares it byte-for-byte
+      # against spec/vectors/, so a run that rewrote a frozen file would mean the compare path did
+      # not execute. SPEC §15.6 step 4 makes any such change a spec version bump across four repos;
+      # CI is the place to notice it, not the release.
+      - name: Frozen corpus is unmodified
+        run: git diff --exit-code -- spec/vectors

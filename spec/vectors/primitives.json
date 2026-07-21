@@ -1,0 +1,276 @@
+{
+  "$schema" : "https://nuntius.dev/schema/vectors-v1.json",
+  "file" : "primitives",
+  "generated_at" : "2026-07-20T00:00:00Z",
+  "generated_by" : "nuntius-objc 0.1.0",
+  "notes" : "HKDF, HMAC, X25519, Ed25519 and ChaCha20-Poly1305 known-answer tests. The RFC rows carry expected outputs transcribed from the RFC text and are NOT generated: they are the only external check in the corpus.",
+  "spec_version" : "4",
+  "vectors" : [
+    {
+      "description" : "RFC 5869 Appendix A.1, HKDF-SHA256 basic case: 22-byte IKM, 13-byte salt, 10-byte info, 42-byte OKM. Expected values transcribed from the RFC text, never generated. Run this first: nothing else in the corpus is trustworthy until it passes.",
+      "expect" : "ok",
+      "id" : "RFC5869-A1",
+      "inputs" : {
+        "ikm" : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "info" : "f0f1f2f3f4f5f6f7f8f9",
+        "L" : 42,
+        "salt" : "000102030405060708090a0b0c"
+      },
+      "intermediates" : {
+        "PRK" : "077709362c2e32df0ddc3f0dc47bba6390b6c73bb50f9c3122ec844ad7c2b3e5"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "OKM" : "3cb25f25faacd57a90434f64d0362f2a2d2d0a90cf1a5a4c5db02d56ecc4c5bf34007208d5b887185865",
+        "OKM_len" : 42
+      }
+    },
+    {
+      "description" : "RFC 5869 Appendix A.2: 80-byte IKM, 80-byte salt, 80-byte info and an 82-byte OKM, which spans three Expand blocks. The multi-block case that §7.2 needs at L = 64, exercised past the boundary where a hand-rolled T(i) loop that emits only T(1) still looks correct.",
+      "expect" : "ok",
+      "id" : "RFC5869-A2",
+      "inputs" : {
+        "ikm" : "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f",
+        "info" : "b0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+        "L" : 82,
+        "salt" : "606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeaf"
+      },
+      "intermediates" : {
+        "PRK" : "06a6b88c5853361a06104c9ceb35b45cef760014904671014a193f40c15fc244"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "OKM" : "b11e398dc80327a1c8e7f78c596a49344f012eda2d4efad8a050cc4c19afa97c59045a99cac7827271cb41c65e590e09da3275600c2f09b8367793a9aca3db71cc30c58179ec3e87c14c01d5c1f3434f1d87",
+        "OKM_len" : 82
+      }
+    },
+    {
+      "description" : "RFC 5869 Appendix A.3: zero-length salt and zero-length info. Both are written as the empty hex string rather than as absent keys, so a runner reads them through the same accessor as every other byte string. Its PRK is the value HKDF-SALT-EQUIV proves a 32-zero-byte salt reproduces.",
+      "expect" : "ok",
+      "id" : "RFC5869-A3",
+      "inputs" : {
+        "ikm" : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "info" : "",
+        "L" : 42,
+        "salt" : ""
+      },
+      "intermediates" : {
+        "PRK" : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "OKM" : "8da4e775a563c18f715f802a063c5a31b8a11f5c5ee1879ec3454e5f3c738d2d9d201395faa4b61a96c8",
+        "OKM_len" : 42
+      }
+    },
+    {
+      "description" : "HKDF-Extract(Z32, ikm) equals HKDF-Extract(empty, ikm), because HMAC pads any key shorter than its 64-byte block with zeros. Wherever this specification writes salt = Z32 an implementation MAY pass a zero-length salt; §3.2 says so, and this vector exists so that no reviewer in another port ever corrects one spelling into the other. Not a divergence point.",
+      "expect" : "ok",
+      "id" : "HKDF-SALT-EQUIV",
+      "inputs" : {
+        "ikm" : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b"
+      },
+      "intermediates" : {
+        "PRK_with_empty_salt" : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04",
+        "PRK_with_Z32_salt" : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04",
+        "salt_Z32" : "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "PRK" : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04",
+        "PRK_len" : 32
+      }
+    },
+    {
+      "description" : "A 64-byte HKDF-Expand under the nuntius:RK:v4 label, exercising the two-block T(i) counter loop §7.2's KDF_RK requires. §3.2 names omitting the second block the most common hand-rolled-HKDF bug. T(1) MUST equal a 32-byte expansion under the same PRK and info, and T(2) MUST differ from T(1) rather than repeat it.",
+      "expect" : "ok",
+      "id" : "HKDF-EXPAND-64",
+      "inputs" : {
+        "ikm" : "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+        "info" : "6e756e746975733a524b3a7634",
+        "L" : 64,
+        "salt" : "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "intermediates" : {
+        "OKM_32" : "4345607b8bc1e4186ad3fafd6eab20fddf0ee38680b9c692d6a8c47aca2099b9",
+        "PRK" : "19ef24a32c717b167f33a91d6f648bdf96596776afdb6377ac434c1c293ccb04",
+        "T1" : "4345607b8bc1e4186ad3fafd6eab20fddf0ee38680b9c692d6a8c47aca2099b9",
+        "T2" : "2e6e525cc85df99cbb8d550e122843cc1697549cd0a9136fa3501bc7ed85e3df"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "OKM" : "4345607b8bc1e4186ad3fafd6eab20fddf0ee38680b9c692d6a8c47aca2099b92e6e525cc85df99cbb8d550e122843cc1697549cd0a9136fa3501bc7ed85e3df",
+        "OKM_len" : 64
+      }
+    },
+    {
+      "description" : "Both RFC 7748 §5.2 scalar multiplications, with expected outputs transcribed from the RFC text. Also pins §4.2's clamp, which is a representation rule and changes no cryptographic output, and §4.4 check 2: the second vector's published u-coordinate ends 0x93, so bit 255 is SET, and that encoding MUST be refused at the type boundary. Masking the bit yields a different 32-byte encoding of the SAME key that reproduces the RFC output, which is the injectivity break check 2 closes.",
+      "expect" : "ok",
+      "id" : "RFC7748-X25519",
+      "inputs" : {
+        "scalar_1" : "a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4",
+        "scalar_2" : "4b66e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba0d",
+        "u_1" : "e6db6867583030db3594c1a424b15f7c726624ec26b3353b10a903a6d0ab1c4c",
+        "u_2" : "e5210f12786811d3f4b7959d0538ae2c31dbe7106fc03c3efc4cd549c715a493"
+      },
+      "intermediates" : {
+        "scalar_1_clamped" : "a046e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449a44",
+        "scalar_2_clamped" : "4866e9d4d1b4673c5ad22691957d6af5c11b6421e0ea01d42ca4169e7918ba4d",
+        "u_2_masked" : "e5210f12786811d3f4b7959d0538ae2c31dbe7106fc03c3efc4cd549c715a413"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "shared_1" : "c3da55379de9c6908e94ea4df28d084f32eccf03491c71f754b4075577a28552",
+        "shared_2" : "95cbde9476e8907d7aade45cb4b873f88b595a68799fa152e6f8f7647aac7957",
+        "u_2_high_bit_rejected" : true
+      }
+    },
+    {
+      "description" : "Seven small-order u-coordinates, each of which drives the X25519 output to all zero. Every one MUST be REJECTED with ERR_SMALL_ORDER_KEY rather than returning that output. §4.4 requires the implementation itself to run the OR-accumulator check, not to delegate it: libsodium returns -1, BouncyCastle and the JDK throw, and CryptoKit does nothing at all, so on one of the four ports the accumulator is the only defence there is. A hard-coded blacklist of the twelve small-order points is forbidden as the sole check. Only encodings with bit 255 clear appear here, because the rest are unreachable past §4.4 check 2 — a different rejection with a different code — and SEVEN is the complete count of those, not six: F_p holds five u-coordinates of order dividing 8 (0, 1, the two order-8 roots e0eb…b800 and 5f9c…5157, and p-1), and the non-canonical spellings p and p+1 reduce to 0 and 1 under RFC 7748's bit-255 mask. A port that transcribed a partial blacklist loses 5f9c…5157 first, since it is the only bit-255-clear entry whose high byte is neither 00 nor 7f.",
+      "error" : "ERR_SMALL_ORDER_KEY",
+      "expect" : "error",
+      "id" : "X25519-ZERO",
+      "inputs" : {
+        "scalar" : "a546e36bf0527c9d3b16154b82465edd62144c0ac1fc5a18506a2244ba449ac4",
+        "u_points" : [
+          "0000000000000000000000000000000000000000000000000000000000000000",
+          "0100000000000000000000000000000000000000000000000000000000000000",
+          "e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800",
+          "5f9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f1157",
+          "ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f",
+          "edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f",
+          "eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f"
+        ]
+      },
+      "intermediates" : {
+        "dh_output_unchecked" : "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "kind" : "primitive"
+    },
+    {
+      "description" : "All four RFC 8032 §7.1 pure-Ed25519 vectors, with public keys and signatures transcribed from the RFC text. THE SIGNATURES ARE INPUTS, NEVER OUTPUTS (§3.4, §15.5 rule 8): a runner MUST verify each published signature against the published public key and message, and MUST NOT sign and compare its own bytes, because Ed25519 signing is not byte-reproducible across platforms — RFC 8032 §8.2 permits a randomized nonce and CryptoKit takes that option, so the same seed and message yield a different valid signature every time. A runner SHOULD also sign the message itself and verify THAT signature, which exercises the signing path without depending on its output being canonical. A port using the PREHASHED multi-part API fails here, on the verify of the published signature, which is where the failure belongs: libsodium's crypto_sign_init / _update / _final_create is Ed25519ph, a different signature scheme neither the JDK nor CryptoKit can verify, and v3 signed with it. The private key inputs are 32-byte SEEDS (§4.2), so this also exercises the seed expansion §3.4 requires. Case 4 is the RFC SHA(abc) case, whose public key ends 0xbf with bit 255 SET: for Ed25519 that bit is the sign of x and is ordinary, and applying §4.4 checks 1 and 2 to an Ed25519 key would reject about half of all valid identities.",
+      "expect" : "ok",
+      "id" : "RFC8032-ED25519",
+      "inputs" : {
+        "message_1" : "",
+        "message_2" : "72",
+        "message_3" : "af82",
+        "message_4" : "ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f",
+        "seed_1" : "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+        "seed_2" : "4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb",
+        "seed_3" : "c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7",
+        "seed_4" : "833fe62409237b9d62ec77587520911e9a759cec1d19755b7da901b96dca3d42",
+        "signature_1" : "e5564300c360ac729086e2cc806e828a84877f1eb8e5d974d873e065224901555fb8821590a33bacc61e39701cf9b46bd25bf5f0595bbe24655141438e7a100b",
+        "signature_2" : "92a009a9f0d4cab8720e820b5f642540a2b27b5416503f8fb3762223ebdb69da085ac1e43e15996e458f3613d0f11d8c387b2eaeb4302aeeb00d291612bb0c00",
+        "signature_3" : "6291d657deec24024827e69c3abe01a30ce548a284743a445e3680d7db5ac3ac18ff9b538d16f290ae67f760984dc6594a7c15e9716ed28dc027beceea1ec40a",
+        "signature_4" : "dc2a4459e7369633a52b1bf277839a00201009a3efbf3ecb69bea2186c26b58909351fc9ac90b3ecfdfbc7c66431e0303dca179c138ac17ad9bef1177331a704"
+      },
+      "intermediates" : {
+        "public_key_1" : "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "public_key_2" : "3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c",
+        "public_key_3" : "fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025",
+        "public_key_4" : "ec172b93ad5e563bf4932c70e1245034c35467ef2efd4d64ebf819683467e2bf"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "verified_1" : true,
+        "verified_2" : true,
+        "verified_3" : true,
+        "verified_4" : true
+      }
+    },
+    {
+      "description" : "RFC 8032 TEST 1's seed, asserting that expanding it reproduces the published identity public key BYTE FOR BYTE. That single assertion is this vector's remaining purpose and it is the only Ed25519 quantity this specification is allowed to depend on: seed → public key is deterministic and identical on libsodium, the JDK and CryptoKit, and it is what makes an identity key portable at all. It asserts NOTHING about signature bytes. The signature here is an INPUT (§3.4, §15.5 rule 8), to be verified against the public key and message and never regenerated for comparison — RFC 8032 §8.2 permits a randomized nonce, CryptoKit takes that option, and three signings of one message under one seed there give three different valid signatures, none of them the RFC's. A runner SHOULD additionally sign the message itself and verify that signature. seed_len is 32 because §4.2 makes the nominal private key the seed and forbids the 64-byte expanded sk from appearing at any API boundary, in any serialized structure, or in any vector file.",
+      "expect" : "ok",
+      "id" : "ED25519-SEED-EXPAND",
+      "inputs" : {
+        "message" : "6e756e74697573",
+        "seed" : "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60",
+        "signature" : "9b1fe40513e375b594048cdcfde749d068bd775f45c4b8bb53e074b1df6b4c10bc6741626dfffb8153cc29142944f7dac04e98aa9cb988b9af7a8499a9823b05"
+      },
+      "intermediates" : {
+        "seed_len" : 32
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "public_key" : "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a",
+        "verified" : true
+      }
+    },
+    {
+      "description" : "RFC 8439 §2.8.2's published ChaCha20-Poly1305 AEAD example, with the 16-byte Poly1305 tag APPENDED to the 114-byte ciphertext, giving 130 bytes: ChaCha20 is a stream cipher, so there is no padding and len(sealed) is exactly len(plaintext) + 16. The 12-byte nonce pins the IETF construction; the non-IETF libsodium spelling takes 8 bytes and is a silent incompatibility. The vector also runs the inverse direction, because a port whose seal is right and whose open is wrong passes every encoding assertion in the file.",
+      "expect" : "ok",
+      "id" : "RFC8439-AEAD",
+      "inputs" : {
+        "aad" : "50515253c0c1c2c3c4c5c6c7",
+        "key" : "808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9f",
+        "nonce" : "070000004041424344454647",
+        "plaintext" : "4c616469657320616e642047656e746c656d656e206f662074686520636c617373206f66202739393a204966204920636f756c64206f6666657220796f75206f6e6c79206f6e652074697020666f7220746865206675747572652c2073756e73637265656e20776f756c642062652069742e"
+      },
+      "intermediates" : {
+        "ciphertext" : "d31a8d34648e60db7b86afbc53ef7ec2a4aded51296e08fea9e2b5a736ee62d63dbea45e8ca9671282fafb69da92728b1a71de0a9e060b2905d6a5b67ecd3b3692ddbd7f2d778b8c9803aee328091b58fab324e4fad675945585808b4831d7bc3ff4def08e4b7a9de576d26586cec64b6116",
+        "tag" : "1ae10b594f09e26a7e902ecbd0600691"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "ciphertext_and_tag" : "d31a8d34648e60db7b86afbc53ef7ec2a4aded51296e08fea9e2b5a736ee62d63dbea45e8ca9671282fafb69da92728b1a71de0a9e060b2905d6a5b67ecd3b3692ddbd7f2d778b8c9803aee328091b58fab324e4fad675945585808b4831d7bc3ff4def08e4b7a9de576d26586cec64b61161ae10b594f09e26a7e902ecbd0600691",
+        "ciphertext_and_tag_len" : 130,
+        "opened_plaintext" : "4c616469657320616e642047656e746c656d656e206f662074686520636c617373206f66202739393a204966204920636f756c64206f6666657220796f75206f6e6c79206f6e652074697020666f7220746865206675747572652c2073756e73637265656e20776f756c642062652069742e"
+      }
+    },
+    {
+      "description" : "§7.3 KDF_CK over a fixed chain key: MK = HMAC(key = CK, message = 0x01) and CK-next = HMAC(key = CK, message = 0x02), both 32 bytes. HKDF is deliberately NOT used here — two raw HMACs need no salt, no info, no length and no truncation, so there is nothing for four ports to agree on. The two message bytes MUST NOT be renumbered: v3 used salt 0 for the message key and salt 1 for the chain key, and a port that carried those numbers over is self-consistent and incompatible.",
+      "expect" : "ok",
+      "id" : "KDF-CK-1",
+      "inputs" : {
+        "CK" : "c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0"
+      },
+      "intermediates" : {
+        "ck_input_byte" : "02",
+        "mk_input_byte" : "01"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "CK_next" : "b1be7522d1e50618214f8cbaac84ec69830a300936bfeb969bc6dfea1ea7b257",
+        "MK" : "bfc10ec452b73f81183244404af93b60920ed07bc94ffe2c36f84d53018bcff7"
+      }
+    },
+    {
+      "description" : "§7.2 KDF_RK over a fixed (RK, DH_out): HKDF with salt = RK, ikm = DH_out, info = nuntius:RK:v4 and L = 64, split RK-next = okm[0..32) and CK = okm[32..64). THE SALT/IKM ARGUMENT-ORDER CHECKPOINT, and §7.2 calls that the single highest-risk divergence point in this protocol: libsodium takes the salt first, BouncyCastle and CryptoKit take the IKM first, and swapping them produces a working, self-consistent, completely incompatible implementation. A port whose 64-byte output matches OKM_if_salt_and_ikm_swapped has the two the wrong way round. The previous root key is the salt and is MANDATORY: HKDF-Extract cannot be invoked without one, which is what makes forgetting to chain it inexpressible rather than merely forbidden.",
+      "expect" : "ok",
+      "id" : "KDF-RK-1",
+      "inputs" : {
+        "DH_out" : "c0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedf",
+        "RK" : "a0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
+      },
+      "intermediates" : {
+        "info" : "6e756e746975733a524b3a7634",
+        "OKM" : "e3bfed11b06535131502a7de02295a8b8c300b70ae9dce6b4d06d28822db78e843fe9058a2332884ac432ddc6b4273e7e1686a3128513d8d47ebe76211f0f9b2",
+        "OKM_if_salt_and_ikm_swapped" : "1941d47025407340438ad2692752e9871f6bf15f45b6a053cb3849c026e3cc9ed608d242576243068c93808d0302d26b8aa251b2a4f17f8bd13ada5effa6162f",
+        "OKM_len" : 64
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "CK" : "43fe9058a2332884ac432ddc6b4273e7e1686a3128513d8d47ebe76211f0f9b2",
+        "RK_next" : "e3bfed11b06535131502a7de02295a8b8c300b70ae9dce6b4d06d28822db78e8"
+      }
+    },
+    {
+      "description" : "§8.1 KDF_MK over a fixed message key: enc_key = HKDF(salt = Z32, ikm = MK, info = nuntius:MK:v4, L = 32). ONE derived value and no others — there is no HMAC key and no derived IV, because under an AEAD there is nothing left to MAC separately and the nonce is random and travels on the wire (§8.3). v3 derived three values from one message key by re-invoking a single label at three salts, with the 16-byte IV request silently widened by a library minimum; all of that is gone.",
+      "expect" : "ok",
+      "id" : "KDF-MK-1",
+      "inputs" : {
+        "MK" : "e0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff"
+      },
+      "intermediates" : {
+        "info" : "6e756e746975733a4d4b3a7634",
+        "salt" : "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "kind" : "primitive",
+      "outputs" : {
+        "enc_key" : "6a693ebb3ac66e31fa660a16640187ab15b477bb4916d301778445a1f0a9a4e9",
+        "enc_key_len" : 32
+      }
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "$schema" : "https://nuntius.dev/schema/vectors-v1.json",
+  "file" : "wire",
+  "generated_at" : "2026-07-20T00:00:00Z",
+  "generated_by" : "nuntius-objc 0.1.0",
+  "notes" : "Byte-exact encodings of a type 0x01 message, a type 0x02 message, a bundle with opk_count 0, a bundle with opk_count 1, and the AD byte strings for both message types. Encoding-only: these vectors read no clock and supply no now_s, and the bundle not_before / not_after values are fixed literals that are part of the frozen bytes.",
+  "spec_version" : "4",
+  "vectors" : [
+    {
+      "description" : "Byte-exact type 0x01 normal ratchet message: 56-byte header, 5-byte ciphertext, 16-byte Poly1305 tag. N and PN differ, so a port that writes state.Ns into both slots diverges at offset 40.",
+      "expect" : "ok",
+      "id" : "WIRE-MSG-01",
+      "inputs" : {
+        "ciphertext_and_tag" : "c0c1c2c3c4a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+        "DHs_pub" : "2632752323d1a16927ccdc746eaf63c325e5a8a4437e7241529ec91fc688457d",
+        "entry_point" : "encrypt",
+        "N" : 3,
+        "nonce" : "000102030405060708090a0b",
+        "PN" : 2
+      },
+      "intermediates" : {
+        "header" : "040100002632752323d1a16927ccdc746eaf63c325e5a8a4437e7241529ec91fc688457d0000000300000002000102030405060708090a0b",
+        "header_len" : 56
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "message" : "040100002632752323d1a16927ccdc746eaf63c325e5a8a4437e7241529ec91fc688457d0000000300000002000102030405060708090a0bc0c1c2c3c4a0a1a2a3a4a5a6a7a8a9aaabacadaeaf",
+        "message_len" : 77
+      }
+    },
+    {
+      "description" : "Byte-exact type 0x02 prekey message: 225-byte header and an empty plaintext, giving the 241-byte minimum of §9.2. N is 1, pinning §9.2's rule that N MAY be non-zero; PN is not a parameter and is written as a literal zero at offset 209.",
+      "expect" : "ok",
+      "id" : "WIRE-MSG-02",
+      "inputs" : {
+        "ciphertext_and_tag" : "b0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+        "DHs_pub" : "cd0f1d406c436abb551930baf1ac97b79ad46e92f856e1626d7d01e3eb5ba46f",
+        "EK_A_pub" : "ac888cff0325567a043e61bc9748285be962039ad3f20ea8f657f0910da05c52",
+        "entry_point" : "encrypt",
+        "IK_A_d_pub" : "4f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a",
+        "IK_A_s_pub" : "bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b182619627953496",
+        "IKB_A" : "86d7a280197963611f51606925304f7b5b3fa7ebf3f254557f0b4c9b4f682ca80d6a03e599ddb26b3e54eb883af962acf952458292d78e21d71abc72d8da9b0d",
+        "N" : 1,
+        "nonce" : "101112131415161718191a1b",
+        "opk_flag" : 1,
+        "opk_id" : 42,
+        "spk_id" : 7
+      },
+      "intermediates" : {
+        "header" : "04020000bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a86d7a280197963611f51606925304f7b5b3fa7ebf3f254557f0b4c9b4f682ca80d6a03e599ddb26b3e54eb883af962acf952458292d78e21d71abc72d8da9b0dac888cff0325567a043e61bc9748285be962039ad3f20ea8f657f0910da05c5200000007010000002acd0f1d406c436abb551930baf1ac97b79ad46e92f856e1626d7d01e3eb5ba46f0000000100000000101112131415161718191a1b",
+        "header_len" : 225
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "message" : "04020000bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a86d7a280197963611f51606925304f7b5b3fa7ebf3f254557f0b4c9b4f682ca80d6a03e599ddb26b3e54eb883af962acf952458292d78e21d71abc72d8da9b0dac888cff0325567a043e61bc9748285be962039ad3f20ea8f657f0910da05c5200000007010000002acd0f1d406c436abb551930baf1ac97b79ad46e92f856e1626d7d01e3eb5ba46f0000000100000000101112131415161718191a1bb0b1b2b3b4b5b6b7b8b9babbbcbdbebf",
+        "message_len" : 241
+      }
+    },
+    {
+      "description" : "Byte-exact prekey bundle with opk_count 0 — the 251-byte fixed prefix of §5.4 and nothing after it. Encoding-only: §10.3's structural gate and §5.3 rules 2–4 run, rules 5–6 do not, and no clock is read.",
+      "expect" : "ok",
+      "id" : "WIRE-BUNDLE-OPK0",
+      "inputs" : {
+        "entry_point" : "parse_bundle",
+        "IK_d" : "6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "IK_s" : "3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c",
+        "IKB" : "72a411251e38eac1ee8418508aa643cc1e99e833d2025fb8d6b9750e2fa6f2a48b849033b25255ddfb269470a1adba4d5f11cd74024d8f226088bca769f10c04",
+        "not_after" : "1774828800",
+        "not_before" : "1767225600",
+        "opk_entries" : [
+
+        ],
+        "SPK" : "772c903f6fefab2639ae9c330468c589f30c0738118866db1fec67b45378b217",
+        "spk_id" : 7,
+        "SPK_SIG" : "82616739ec4387f969cccd22bda04e1e3d0354ab43a799bc9f3d80f7e3997ca1097a91c90b4ff34fb6a49a944ff8235160c25e87b8358aef6b1215971e6e3a09"
+      },
+      "intermediates" : {
+        "opk_count" : 0
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "bundle" : "4e544234043f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e3241172a411251e38eac1ee8418508aa643cc1e99e833d2025fb8d6b9750e2fa6f2a48b849033b25255ddfb269470a1adba4d5f11cd74024d8f226088bca769f10c0400000007772c903f6fefab2639ae9c330468c589f30c0738118866db1fec67b45378b217000000006955b9000000000069c9bd0082616739ec4387f969cccd22bda04e1e3d0354ab43a799bc9f3d80f7e3997ca1097a91c90b4ff34fb6a49a944ff8235160c25e87b8358aef6b1215971e6e3a090000",
+        "bundle_len" : 251
+      }
+    },
+    {
+      "description" : "Byte-exact prekey bundle with opk_count 1 — 251 + 36 * 1 = 287 bytes, pinning the 36-byte OPK entry layout that the total-length identity depends on. Encoding-only, as WIRE-BUNDLE-OPK0.",
+      "expect" : "ok",
+      "id" : "WIRE-BUNDLE-OPK1",
+      "inputs" : {
+        "entry_point" : "parse_bundle",
+        "IK_d" : "6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "IK_s" : "3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c",
+        "IKB" : "72a411251e38eac1ee8418508aa643cc1e99e833d2025fb8d6b9750e2fa6f2a48b849033b25255ddfb269470a1adba4d5f11cd74024d8f226088bca769f10c04",
+        "not_after" : "1774828800",
+        "not_before" : "1767225600",
+        "opk_entries" : [
+          {
+            "opk_id" : 42,
+            "opk_pub" : "113603945fd9e5b5854e1a016de096666aa02dde52b1d7673fc3028d00c3e824"
+          }
+        ],
+        "SPK" : "772c903f6fefab2639ae9c330468c589f30c0738118866db1fec67b45378b217",
+        "spk_id" : 7,
+        "SPK_SIG" : "82616739ec4387f969cccd22bda04e1e3d0354ab43a799bc9f3d80f7e3997ca1097a91c90b4ff34fb6a49a944ff8235160c25e87b8358aef6b1215971e6e3a09"
+      },
+      "intermediates" : {
+        "opk_count" : 1
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "bundle" : "4e544234043f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e3241172a411251e38eac1ee8418508aa643cc1e99e833d2025fb8d6b9750e2fa6f2a48b849033b25255ddfb269470a1adba4d5f11cd74024d8f226088bca769f10c0400000007772c903f6fefab2639ae9c330468c589f30c0738118866db1fec67b45378b217000000006955b9000000000069c9bd0082616739ec4387f969cccd22bda04e1e3d0354ab43a799bc9f3d80f7e3997ca1097a91c90b4ff34fb6a49a944ff8235160c25e87b8358aef6b1215971e6e3a0900010000002a113603945fd9e5b5854e1a016de096666aa02dde52b1d7673fc3028d00c3e824",
+        "bundle_len" : 287
+      }
+    },
+    {
+      "description" : "AD = SESSION_AD (141) ‖ the complete 56-byte type 0x01 header = 197 bytes (§8.5). The identities are in ROLE order — A is the initiator, B the responder — so a port that recomputes SESSION_AD as (self, peer) produces different bytes here.",
+      "expect" : "ok",
+      "id" : "WIRE-AD-01",
+      "inputs" : {
+        "header" : "040100002632752323d1a16927ccdc746eaf63c325e5a8a4437e7241529ec91fc688457d0000000300000002000102030405060708090a0b",
+        "IK_A_d_pub" : "4f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a",
+        "IK_A_s_pub" : "bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b182619627953496",
+        "IK_B_d_pub" : "6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "IK_B_s_pub" : "3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c"
+      },
+      "intermediates" : {
+        "SESSION_AD" : "6e756e746975733a41443a7634bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "SESSION_AD_len" : 141
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "AD" : "6e756e746975733a41443a7634bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411040100002632752323d1a16927ccdc746eaf63c325e5a8a4437e7241529ec91fc688457d0000000300000002000102030405060708090a0b",
+        "AD_len" : 197
+      }
+    },
+    {
+      "description" : "AD = SESSION_AD (141) ‖ the complete 225-byte type 0x02 header = 366 bytes (§8.5). The nonce at header offset 213 is inside the AD as well as being the AEAD nonce; §8.5 makes that redundancy deliberate.",
+      "expect" : "ok",
+      "id" : "WIRE-AD-02",
+      "inputs" : {
+        "header" : "04020000bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a86d7a280197963611f51606925304f7b5b3fa7ebf3f254557f0b4c9b4f682ca80d6a03e599ddb26b3e54eb883af962acf952458292d78e21d71abc72d8da9b0dac888cff0325567a043e61bc9748285be962039ad3f20ea8f657f0910da05c5200000007010000002acd0f1d406c436abb551930baf1ac97b79ad46e92f856e1626d7d01e3eb5ba46f0000000100000000101112131415161718191a1b",
+        "IK_A_d_pub" : "4f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a",
+        "IK_A_s_pub" : "bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b182619627953496",
+        "IK_B_d_pub" : "6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "IK_B_s_pub" : "3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c"
+      },
+      "intermediates" : {
+        "SESSION_AD" : "6e756e746975733a41443a7634bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e32411",
+        "SESSION_AD_len" : 141
+      },
+      "kind" : "wire",
+      "outputs" : {
+        "AD" : "6e756e746975733a41443a7634bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a3f749ead17fef84ba29bc7008dd257c1bcf1d6960f834595ce47340ce621c81c6c924769b1347fd5f56ddfe289a9450a33877cabd2ae51d2f44e366073e3241104020000bb21ad8b1100ed1102578e293fcd85e6e9a5d3a56a1b5633b1826196279534964f3f984aabbe5208d7cc74bb5c8550b764210bae291ec1a0c0e6050b8ad02a2a86d7a280197963611f51606925304f7b5b3fa7ebf3f254557f0b4c9b4f682ca80d6a03e599ddb26b3e54eb883af962acf952458292d78e21d71abc72d8da9b0dac888cff0325567a043e61bc9748285be962039ad3f20ea8f657f0910da05c5200000007010000002acd0f1d406c436abb551930baf1ac97b79ad46e92f856e1626d7d01e3eb5ba46f0000000100000000101112131415161718191a1b",
+        "AD_len" : 366
+      }
+    }
+  ]
+}
