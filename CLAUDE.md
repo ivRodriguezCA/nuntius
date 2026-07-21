@@ -9,6 +9,14 @@ the reference implementation for the Java/Kotlin/Swift ports in sibling director
 `SPEC.md` wins and this file is the thing that is wrong. Every port is written against `SPEC.md`, not
 against this code, and all four must interoperate byte-for-byte.
 
+**The library is experimental, published for research and study, and not recommended for production
+environments.** v4 is complete and unaudited — no external security review of the code or of the
+specification — and `SPEC.md` §17 enumerates open risks and deliberate non-goals that are stated
+rather than solved. That posture is not a reason to hold work to a lower standard; it is the reason
+the standard is what it is, and it constrains how the project describes itself. Do not write
+documentation, comments or commit messages that read as an endorsement for deployment. The README's
+*Read this first* section is the canonical statement; keep new prose consistent with it.
+
 ## Protocol version
 
 The tree implements **v4 only**. The v3 protocol was deleted, not deprecated — sources, tests,
@@ -36,8 +44,13 @@ xcodebuild ... test -only-testing:nuntiusTests/IRRatchetSpec
 xcodebuild ... test -only-testing:nuntiusTests/IRRatchetSpec/testMethodName
 ```
 
-`.travis.yml` pins `iPhone 7 / iOS 10.3.1` on `xcode8.3`; that simulator no longer exists, so
-substitute a current `-destination` locally. Deployment target is iOS 13.0.
+Deployment target is iOS 13.0; substitute whichever `-destination` you have installed.
+
+CI is `.github/workflows/ci.yml` (macOS runner): `tools/lint_banned_apis.py`, then the same
+`xcodebuild test` against the newest available iPhone simulator — chosen at run time via
+`xcrun simctl list devices available --json`, because the pinned `iPhone 7 / iOS 10.3.1 / xcode8.3`
+destination in the deleted `.travis.yml` is exactly how that configuration stopped being runnable —
+then `git diff --exit-code -- spec/vectors`, which fails if a run rewrote a frozen vector file.
 
 libsodium ships **vendored as an XCFramework** at `nuntius/libsodium/Clibsodium.xcframework`
 (1.0.22, iOS device + simulator). Include it as `#include <Clibsodium/sodium.h>`. Do not add a

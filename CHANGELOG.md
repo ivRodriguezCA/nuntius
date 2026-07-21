@@ -1,5 +1,10 @@
 # Changelog
 
+> **nuntius is an experimental library. It is published for research and study, and it is not
+> recommended for production environments.** No entry below changes that. The defects listed here
+> were real and are fixed; neither the code nor the specification it implements has had an external
+> security review. Read [Read this first](README.md#read-this-first) before this file.
+
 All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
@@ -7,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2026-07-20
+## [1.0.0] - 2026-07-21
 
 ### ⚠ BREAKING — this release is not interoperable with any 0.0.x release
 
@@ -102,6 +107,10 @@ exists so that a v4 receiver can detect and reject v3 traffic cleanly rather tha
   `0x02` (SPEC §12.4).
 - **Test suite rebuilt** as one `*Spec.m` per layer, with negative cases named for the `NEG-*`
   vector ids in SPEC §15.4.
+- **CI that runs** — `.github/workflows/ci.yml`, replacing the Travis configuration that had been
+  pinned to a simulator Apple no longer ships. It runs the banned-API lint, the full suite on a
+  simulator resolved at run time rather than hard-coded, and a check that the run did not modify
+  a frozen vector file.
 
 ### Changed
 
@@ -159,6 +168,8 @@ exists so that a v4 receiver can detect and reject v3 traffic cleanly rather tha
 ### Removed
 
 - **`nuntius.podspec`** and CocoaPods support.
+- **`.travis.yml`** — `xcode8.3` against an `iPhone 7 / iOS 10.3.1` simulator that no longer
+  exists. Replaced by the GitHub Actions workflow above rather than repaired in place.
 - **`aeEncryptSimpleData:` / `aeDecryptSimpleData:`** — the "simple" AEAD format, with no
   replacement. It was a second copy of the broken MAC comparison, outside the ratchet, with no
   structural guarantee of key single-use. There is no type `0x03`.

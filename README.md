@@ -8,20 +8,58 @@ from the published specification documents — on top of a vendored
 The current protocol is **v4**. Its normative definition is [`SPEC.md`](SPEC.md); this README is
 orientation. Where the two disagree, `SPEC.md` is right and this file is wrong.
 
-> **Status.** v4 is implemented and unit-tested, and it has **not** been externally reviewed or
-> audited. See [Security posture](#security-posture) before you ship anything on it.
+---
+
+## Read this first
+
+> **nuntius is an experimental library. It is published for research and study, and it is not
+> recommended for production environments.**
+
+That is not a way of saying "unfinished, check back later". v4 is complete: specified to the byte,
+implemented, and passing a frozen conformance corpus. It is complete **and** unaudited, and those
+are two different claims.
+
+It was built for learning purposes, and for the fun of it. Carrying something of this scope as far
+as it has gone — a normative specification, a reference implementation complete against it, a frozen
+test corpus, and three ports still being written against the document — is work that LLM-assisted
+development made tractable for one person, and that is part of what the project is about. It is
+worth stating plainly rather than leaving to be noticed. The engineering is real; so is every reason
+below not to deploy it.
+
+- **No external security review or audit has been performed** — not of this code, and not of the
+  specification it implements. `SPEC.md` §17.7 singles out the transcript-hash binding, the
+  construction that ties a derived session key to the exact identities and prekeys that produced
+  it, as an *informal* claim that has deliberately not been reviewed by anyone who did not write it.
+- **The specification carries known open risks and deliberate non-goals.** They are enumerated in
+  `SPEC.md` §17 and summarised under [Security posture](#security-posture): no header encryption,
+  no post-quantum component, state rollback mitigated rather than solved, best-effort zeroization
+  on the JVM. They are stated, not solved, and several cannot be closed without a version bump.
+- **Cross-implementation interoperability is established only as far as the ports actually exist.**
+  The corpus is frozen and this implementation is graded against all 88 vectors, but the Java,
+  Kotlin and Swift ports are still being written, and each is verified only to the extent it is
+  implemented. See [The specification, and the ports](#the-specification-and-the-ports).
+- **The predecessor is the argument.** v3 shipped for years while its X3DH silently collapsed to a
+  single Diffie-Hellman. Its test suite was green the entire time: it asserted that both parties
+  derived the same 32 bytes, which is exactly what the collapse also produces. The defect was found
+  in 2019 by a reader of a function signature, not by a test, and it sat unfixed for seven years
+  (`SPEC.md` §14, §15.1).
+
+So do not read the testing here as standing in for review. "The suite passes, therefore the
+cryptography is sound" is the inference that kept v3 in production, and no amount of care in this
+release makes it a safe one to repeat.
 
 ---
 
 ## Table of contents
 
+- [Read this first](#read-this-first)
 - [What it does](#what-it-does)
 - [The protocol in two stages](#the-protocol-in-two-stages)
 - [v4 is a hard break from v3](#v4-is-a-hard-break-from-v3)
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Production wiring](#production-wiring)
+- [Wiring for a real deployment](#wiring-for-a-real-deployment)
 - [The specification, and the ports](#the-specification-and-the-ports)
 - [Security posture](#security-posture)
 - [Build, test, lint](#build-test-lint)
@@ -267,7 +305,7 @@ IRMessenger *bob = [[IRMessenger alloc] initWithIdentity:bobIdentity
 
 This convenience initializer builds a libsodium provider over the production environment. The
 in-memory stores shown here are the reference implementations the conformance vectors run against —
-**they are not production stores.** See [Production wiring](#production-wiring).
+**they are not production stores.** See [Wiring for a real deployment](#wiring-for-a-real-deployment).
 
 ### 3. Alice publishes a prekey bundle
 
@@ -433,7 +471,7 @@ state, and whichever commits second silently discards the first.
 plausibly publish a bundle on one queue while a message arrives on another and one-time prekey
 consumption is a read-modify-write. That does not make the messenger above it safe to share.)
 
-## Production wiring
+## Wiring for a real deployment
 
 The in-memory stores are the reference implementations that the conformance vectors run against.
 Neither is sufficient on its own for shipping, and both reasons are worth naming rather than
@@ -617,8 +655,13 @@ xcodebuild ... test -only-testing:nuntiusTests/IRRatchetSpec
 xcodebuild ... test -only-testing:nuntiusTests/IRRatchetSpec/testMethodName
 ```
 
-`.travis.yml` still pins `iPhone 7 / iOS 10.3.1` on `xcode8.3`; that simulator no longer exists, so
-substitute a current `-destination` locally. Deployment target is iOS 13.0.
+Deployment target is iOS 13.0, so any current simulator works; substitute whichever
+`-destination` you have installed.
+
+CI is `.github/workflows/ci.yml`: the banned-API lint, then the same `xcodebuild test` against the
+newest iPhone simulator the runner has — resolved at run time, because a pinned simulator name is
+what left the previous configuration unable to run at all — then a check that the run did not
+modify a frozen vector file.
 
 `tools/lint_banned_apis.py` runs as a build phase **before** Sources, so a violation stops the build
 rather than shipping. It enforces `SPEC.md` §3.3's banned-API list — `crypto_kdf_derive_from_key`,
@@ -664,6 +707,7 @@ nuntius/
   libsodium/                vendored Clibsodium.xcframework, 1.0.22
 nuntiusTests/               XCTest, one *Spec.m per layer
 tools/                      lint_banned_apis.py, pbxproj_tool.py
+.github/workflows/ci.yml    lint, full suite on a simulator resolved at run time, frozen-corpus check
 ```
 
 The layering is load-bearing, not cosmetic. Every protocol layer holds an `id<IRCryptoProvider>` and
